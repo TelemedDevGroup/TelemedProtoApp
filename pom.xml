@@ -16,6 +16,9 @@
 
 	<properties>
 		<java.version>8</java.version>
+		<twilio.version>7.48.0</twilio.version>
+		<jjwt.version>0.5.1</jjwt.version>
+		<liquibase.version>3.8.8</liquibase.version>
 	</properties>
 
 	<dependencies>
@@ -40,6 +43,17 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>${liquibase.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
@@ -48,13 +62,13 @@
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
-			<version>0.5.1</version>
+			<version>${jjwt.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.twilio.sdk</groupId>
 			<artifactId>twilio</artifactId>
-			<version>7.48.0</version>
+			<version>${twilio.version}</version>
 		</dependency>
 
 		<dependency>
