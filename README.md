@@ -13,4 +13,5 @@ define personal application properties for example twilio API keys.
 
 As you defined any local properties please run backend service with ```local``` profile. 
 
-This file must not be pushed to the repository (preferably it should be added to ```.gitignore```).
+This file must not be pushed to the repository (preferably it should be added to ```.gitignore``` 
+or moved another changelist).
