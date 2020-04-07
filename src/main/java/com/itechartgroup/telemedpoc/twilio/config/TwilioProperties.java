@@ -1,4 +1,4 @@
-package com.itechartgroup.telemedpoc.twilio;
+package com.itechartgroup.telemedpoc.twilio.config;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

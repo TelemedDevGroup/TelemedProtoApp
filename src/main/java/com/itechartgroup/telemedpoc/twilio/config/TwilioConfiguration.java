@@ -1,6 +1,5 @@
-package com.itechartgroup.telemedpoc.config;
+package com.itechartgroup.telemedpoc.twilio.config;
 
-import com.itechartgroup.telemedpoc.twilio.TwilioProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
