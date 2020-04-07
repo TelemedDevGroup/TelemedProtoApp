@@ -1,6 +1,7 @@
 package com.itechartgroup.telemedpoc.twilio.controller;
 
 import com.itechartgroup.telemedpoc.twilio.config.TwilioProperties;
+import com.itechartgroup.telemedpoc.twilio.dto.RoomConnection;
 import com.twilio.jwt.accesstoken.AccessToken;
 import com.twilio.jwt.accesstoken.VideoGrant;
 import lombok.RequiredArgsConstructor;
@@ -16,17 +17,20 @@ public class VideoController {
     private final TwilioProperties twilioProperties;
 
     @GetMapping("token")
-    public String token() {
+    public RoomConnection token() {
+        String identity = "patient Nick";
+        String roomName = "demo_room";
+
         VideoGrant grant = new VideoGrant();
-        grant.setRoom("demo_room");
+        grant.setRoom(roomName);
 
         AccessToken token = new AccessToken.Builder(
                 twilioProperties.getApiAccountSid(),
                 twilioProperties.getApiKeySid(),
                 twilioProperties.getApiKeySecret()
-        ).identity("user_name").ttl(twilioProperties.getTokenTimeToLive()).grant(grant).build();
+        ).identity(identity).ttl(twilioProperties.getTokenTimeToLive()).grant(grant).build();
 
-        return token.toJwt();
+        return new RoomConnection(token.toJwt(), identity);
     }
 
 }

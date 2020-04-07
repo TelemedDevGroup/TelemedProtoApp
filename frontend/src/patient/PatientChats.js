@@ -1,3 +1,5 @@
+import './patient.css';
+
 import React, {Component} from 'react';
 import Video from 'twilio-video';
 
@@ -9,22 +11,22 @@ class PatientChats extends Component {
     }
 
     render() {
-        var divStyle = {
-            display: 'none'
-        }
         return (
             <div>
                 <div> Placeholder for Messenger component</div>
                 <br/>
                 <div>
                     Doctor Jonh Doe
+                    &nbsp;
                     <button id="button-join">Video call</button>
-                    <button id="button-leave" style={divStyle}>Finish call</button>
+                    &nbsp;
+                    <button id="button-leave" style={{display: 'none'}}>Finish call</button>
                 </div>
                 <br/>
-                <div id="local-media"></div>
-                <div id="remote-media"></div>
-                <div id="log"></div>
+                <div style={{textAlign: 'center', width: '100%'}} class = 'twilio-participants'>
+                    <div id="local-media" style={{display: 'inline-block', width: '45%'}}></div>
+                    <div id="remote-media" style={{display: 'inline-block', marginLeft: '50px', width: '45%'}}></div>
+                </div>
             </div>
         );
     }
@@ -34,32 +36,72 @@ class PatientChats extends Component {
 
         document.getElementById('button-join').onclick = function () {
             fetch("/twilio/token")
-                .then(response => response.text())
-                .then(token => chat.roomConnect(token))
+                .then(response => response.json())
+                .then(roomConnection => chat.roomConnect(roomConnection))
         }
 
-        document.getElementById('button-leave').onclick = function() {
-            chat.log('Leaving room...');
+        document.getElementById('button-leave').onclick = function () {
+            console.log('Leaving room...');
             chat.state.activeRoom.disconnect();
         };
+
+        window.addEventListener('beforeunload', this.leaveRoomIfJoined);
     }
 
-    roomConnect = (token) => {
-        let chat = this;
-        Video.connect(token, {video: true, audio: true, _useTwilioConnection: true})
+    roomConnect = (roomConnection) => {
+        this.state.identity = roomConnection.identity
+
+        Video.connect(roomConnection.token, {video: true, audio: true, _useTwilioConnection: true})
             .then(this.roomJoined, function (error) {
-                chat.log('Could not connect to Twilio: ' + error.message);
+                console.error('Could not connect to Twilio: ' + error.message);
             })
     }
 
-    attachTrack = (track, container) => {
-        container.appendChild(track.attach());
-    }
+    roomJoined = (room) => {
+        const chat = this;
 
-    attachTracks = (tracks, container) => {
-        let chat = this;
-        tracks.forEach(function (track) {
-            chat.attachTrack(track, container);
+        this.state.activeRoom = room;
+
+        console.info("Joined as '" + this.state.identity + "'");
+
+        document.getElementById('button-join').style.display = 'none';
+        document.getElementById('button-leave').style.display = 'inline';
+
+        const previewContainer = document.getElementById('local-media');
+        if (!previewContainer.querySelector('video')) {
+            this.attachLocalTracks(this.getTracks(room.localParticipant), previewContainer);
+        }
+
+        const remoteMediaContainer = document.getElementById('remote-media');
+        room.participants.forEach(function (participant) {
+            console.info("Already in Room: '" + participant.identity + "'");
+            chat.participantConnected(participant, remoteMediaContainer);
+        });
+
+        room.on('participantConnected', function (participant) {
+            console.info("Joining: '" + participant.identity + "'");
+            chat.participantConnected(participant, remoteMediaContainer);
+        });
+
+        room.on('participantDisconnected', function (participant) {
+            console.info("RemoteParticipant '" + participant.identity + "' left the room");
+            chat.detachParticipantTracks(participant);
+            chat.removeName(participant);
+        });
+
+        room.on('disconnected', function () {
+            console.log('Left');
+
+            chat.detachParticipantTracks(room.localParticipant);
+            chat.removeName(room.localParticipant);
+
+            room.participants.forEach(chat.detachParticipantTracks);
+            room.participants.forEach(chat.removeName);
+
+            chat.state.activeRoom = null;
+
+            document.getElementById('button-join').style.display = 'inline';
+            document.getElementById('button-leave').style.display = 'none';
         });
     }
 
@@ -69,6 +111,42 @@ class PatientChats extends Component {
         }).map(function (publication) {
             return publication.track;
         });
+    }
+
+    attachLocalTracks = (tracks, container) => {
+        const chat = this;
+
+        const selfContainer = document.createElement('div');
+        selfContainer.id = `participantContainer-${this.state.identity}`;
+
+        container.appendChild(selfContainer);
+        this.appendName(this.state.identity, selfContainer);
+
+        tracks.forEach(function (track) {
+            chat.attachTrack(track, selfContainer);
+        });
+    }
+
+    attachTrack = (track, container) => {
+        container.appendChild(track.attach());
+    }
+
+    participantConnected = (participant, container) => {
+        const chat = this;
+
+        const selfContainer = document.createElement('div');
+        selfContainer.id = `participantContainer-${participant.identity}`;
+
+        container.appendChild(selfContainer);
+        this.appendName(participant.identity, selfContainer);
+
+        participant.tracks.forEach(function (publication) {
+            chat.trackPublished(publication, selfContainer);
+        });
+        participant.on('trackPublished', function (publication) {
+            chat.trackPublished(publication, selfContainer);
+        });
+        participant.on('trackUnpublished', this.trackUnpublished);
     }
 
     detachTrack = (track) => {
@@ -94,95 +172,24 @@ class PatientChats extends Component {
     }
 
     trackPublished = (publication, container) => {
-        let chat = this;
+        const chat = this;
         if (publication.isSubscribed) {
             this.attachTrack(publication.track, container);
         }
         publication.on('subscribed', function (track) {
-            chat.log('Subscribed to ' + publication.kind + ' track');
+            console.log('Subscribed to ' + publication.kind + ' track');
             chat.attachTrack(track, container);
         });
         publication.on('unsubscribed', chat.detachTrack);
     }
 
     trackUnpublished = (publication) => {
-        this.log(publication.kind + ' track was unpublished.');
-    }
-
-    participantConnected = (participant, container) => {
-        let chat = this;
-        let selfContainer = document.createElement('div');
-        selfContainer.id = `participantContainer-${participant.identity}`;
-
-        container.appendChild(selfContainer);
-        this.appendName(participant.identity, selfContainer);
-
-        participant.tracks.forEach(function (publication) {
-            chat.trackPublished(publication, selfContainer);
-        });
-        participant.on('trackPublished', function (publication) {
-            chat.trackPublished(publication, selfContainer);
-        });
-        participant.on('trackUnpublished', this.trackUnpublished);
+        console.log(publication.kind + ' track was unpublished.');
     }
 
     detachParticipantTracks = (participant) => {
-        var tracks = this.getTracks(participant);
+        const tracks = this.getTracks(participant);
         tracks.forEach(this.detachTrack);
-    }
-
-    roomJoined = (room) => {
-        let chat = this;
-
-        this.state.activeRoom = room;
-
-        this.log("Joined as '" + this.state.identity + "'");
-        document.getElementById('button-join').style.display = 'none';
-        document.getElementById('button-leave').style.display = 'block';
-
-        // Attach LocalParticipant's Tracks, if not already attached.
-        var previewContainer = document.getElementById('local-media');
-        if (!previewContainer.querySelector('video')) {
-            this.attachTracks(this.getTracks(room.localParticipant), previewContainer);
-        }
-
-        // Attach the Tracks of the Room's Participants.
-        var remoteMediaContainer = document.getElementById('remote-media');
-        room.participants.forEach(function (participant) {
-            chat.log("Already in Room: '" + participant.identity + "'");
-            chat.participantConnected(participant, remoteMediaContainer);
-        });
-
-        // When a Participant joins the Room, log the event.
-        room.on('participantConnected', function (participant) {
-            chat.log("Joining: '" + participant.identity + "'");
-            chat.participantConnected(participant, remoteMediaContainer);
-        });
-
-        // When a Participant leaves the Room, detach its Tracks.
-        room.on('participantDisconnected', function (participant) {
-            chat.log("RemoteParticipant '" + participant.identity + "' left the room");
-            chat.detachParticipantTracks(participant);
-            chat.removeName(participant);
-        });
-
-        // Once the LocalParticipant leaves the room, detach the Tracks
-        // of all Participants, including that of the LocalParticipant.
-        room.on('disconnected', function () {
-            chat.log('Left');
-            chat.detachParticipantTracks(room.localParticipant);
-            room.participants.forEach(chat.detachParticipantTracks);
-            room.participants.forEach(chat.removeName);
-            chat.state.activeRoom = null;
-            document.getElementById('button-join').style.display = 'block';
-            document.getElementById('button-leave').style.display = 'none';
-        });
-    }
-
-    log = (message) => {
-        var logDiv = document.getElementById('log');
-        logDiv.innerHTML += '<p>&gt;&nbsp;' + message + '</p>';
-        logDiv.scrollTop = logDiv.scrollHeight;
     }
 
     leaveRoomIfJoined = () => {
