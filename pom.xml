@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>8</java.version>
+		<twilio.version>7.48.0</twilio.version>
 	</properties>
 
 	<dependencies>
@@ -27,7 +28,7 @@
 		<dependency>
 			<groupId>com.twilio.sdk</groupId>
 			<artifactId>twilio</artifactId>
-			<version>7.48.0</version>
+			<version>${twilio.version}</version>
 		</dependency>
 
 		<dependency>

@@ -1,6 +1,6 @@
 package com.itechartgroup.telemedpoc.twilio.controller;
 
-import com.itechartgroup.telemedpoc.twilio.TwilioProperties;
+import com.itechartgroup.telemedpoc.twilio.config.TwilioProperties;
 import com.twilio.jwt.accesstoken.AccessToken;
 import com.twilio.jwt.accesstoken.VideoGrant;
 import lombok.RequiredArgsConstructor;
