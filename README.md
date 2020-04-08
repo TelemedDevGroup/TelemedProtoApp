@@ -8,7 +8,8 @@ Development Board can be found here https://github.com/users/ro-jar/projects/1
 
 ## Demo Site (CI/CD)
 
-Running Demo can be found here ??? (@ykorobistin to update)
+Running Demo can be found here:
+http://telemed-poc-back-dev.us-west-2.elasticbeanstalk.com/
 
 ---
 ## Backend
