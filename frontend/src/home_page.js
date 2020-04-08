@@ -82,7 +82,7 @@ const HomePage = () => {
       </Grid>
       <Grid container justify="center" spacing={10}>
         <Grid item xs={6}>
-          <Typography variant="h6" className={classes.secondHeader}>Sign In: </Typography>
+          <Typography variant="h6" className={classes.secondHeader}>Sign In</Typography>
           <form>
             <TextField
               variant="outlined"
