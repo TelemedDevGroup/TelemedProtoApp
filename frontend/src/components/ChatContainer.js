@@ -1,13 +1,16 @@
 import React, { useState } from "react";
+import { Message, Input, Image } from "semantic-ui-react";
 import {
-  List,
-  Message,
-  Input,
-  Grid,
-  Header,
   Button,
-  Image,
-} from "semantic-ui-react";
+  Grid,
+  Typography,
+  List,
+  Card,
+  ListItem,
+  ListItemText,
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import VideoCallIcon from "@material-ui/icons/VideoCall";
 
 const ChatContainer = ({ chatsData, partner, onClick }) => {
   let [inputData, setInputData] = useState("");
@@ -16,51 +19,46 @@ const ChatContainer = ({ chatsData, partner, onClick }) => {
       {!chatsData ? (
         <p>Select conversation</p>
       ) : (
-        <Grid.Row
+        <Grid
+          container
           style={{
             position: "relative",
             height: "700px",
           }}
         >
-          <Grid
-            columns={2}
-            verticalAlign="middle"
-            relaxed="very"
-            padded="vertically"
-          >
-            <Grid.Column>
-              <Header as="h3">{partner}</Header>
-            </Grid.Column>
-            <Grid.Column>
-              <Button
-                floated="right"
-                content="Video Call"
-                icon="video"
-                labelPosition="left"
-                color="teal"
-              ></Button>
-            </Grid.Column>
+          <Grid container justify="space-between" alignContent="center">
+            <Typography variant="h5">{partner}</Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<VideoCallIcon>send</VideoCallIcon>}
+            >
+              Video Call
+            </Button>
           </Grid>
-          <List
-            style={{
-              height: "80%",
-              overflowY: "auto",
-            }}
-          >
-            {chatsData.map((message, index) => (
-              <Message info={message.partner} size="small" key={index}>
-                <Message.Header>{message.sender}</Message.Header>
-                {message.attachment && (
-                  <Image
-                    size="medium"
-                    style={{ padding: "1.5em" }}
-                    src={message.attachment}
-                  ></Image>
-                )}
-                {message.message && <p>{message.message}</p>}
-              </Message>
-            ))}
-          </List>
+          <Grid item xs={12}>
+            <List
+              style={{
+                height: "80%",
+                overflowY: "auto",
+              }}
+            >
+              {chatsData.map((message, index) => (
+                <Message info={message.partner} size="small" key={index}>
+                  <Message.Header>{message.sender}</Message.Header>
+                  {message.attachment && (
+                    <Image
+                      size="medium"
+                      style={{ padding: "1.5em" }}
+                      src={message.attachment}
+                    ></Image>
+                  )}
+                  {message.message && <p>{message.message}</p>}
+                </Message>
+              ))}
+            </List>
+          </Grid>
+
           <Input
             value={inputData}
             onChange={(event) => setInputData(event.target.value)}
@@ -81,7 +79,7 @@ const ChatContainer = ({ chatsData, partner, onClick }) => {
             }}
             placeholder="Input your message..."
           />
-        </Grid.Row>
+        </Grid>
       )}
     </>
   );

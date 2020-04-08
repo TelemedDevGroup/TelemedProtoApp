@@ -12,6 +12,10 @@ import AccountAPI from "../test_data/test_conversations.js";
 import ChatContainer from "./ChatContainer.js";
 
 const useStyles = makeStyles({
+  chatsList: {   
+      height: "700px",
+      background: "#F2FBFB",
+  },
   selected: {
     background: "#00B5AD",
     '&:hover': {
@@ -55,19 +59,15 @@ const ChatsGroup = () => {
       ...selectedDialog.dialog.push(newMessage),
     });
   };
-
+  const classes = useStyles();
   return (
     <Container>
       <Typography variant="h5">Your conversations</Typography>
       <Grid container>
         <Grid
+        className={classes.chatsList}
           item
           xs={4}
-          style={{
-            marginTop: "2rem",
-            height: "700px",
-            background: "#F2FBFB",
-          }}
         >
           {!userDialogs.length ? (
             <p>No conversations found</p>
