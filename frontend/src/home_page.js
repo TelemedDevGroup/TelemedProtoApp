@@ -1,69 +1,143 @@
-import React, {Component} from 'react';
-import './home_page.css';
-import { Button, Form, Grid, Header, Image, Segment, Divider, List } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
-import AccountAPI from './test_data/test_users.js'
+import React from "react";
+import "./home_page.css";
+import {
+  Button,
+  TextField,
+  Container,
+  Grid,
+  Typography,
+  Avatar,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from "@material-ui/core";
+import { makeStyles } from '@material-ui/core/styles';
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import LocalHospitalIcon from "@material-ui/icons/LocalHospital";
+import { Link as RouterLink } from "react-router-dom";
+import AccountAPI from "./test_data/test_users.js";
 
-class HomePage extends Component {
-  constructor() {
-    super();
-    this.state = {
-      default_login: "Aibolit",
-    };
+
+const useStyles = makeStyles({
+  button: {
+    background: '#00B5AD',
+    border: 0,
+    color: 'white',
+    height: 48,
+    marginTop: '1rem',
+    '&:hover': {
+      background: '#00B5AD',
+    }
+  },
+
+  mainHeader: {
+    marginTop: "10rem",
+    color: "#00B5AD"
+  },
+
+  secondHeader : {
+    margin: "5rem 0 1rem 0"
+  },
+
+  version: {
+    marginTop: '2rem',
+    fontSize: "16px",
+    color: "#00B5AD"
   }
-  render() {
-    return (
-      <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
-          <Grid.Column style={{ maxWidth: 650 }}>
-            <Header as='h2' color='teal' textAlign='center'>Welcome to Telemedicine Demo &nbsp;&nbsp;
-              <Image src='./telemed-logo.png' />
-            </Header>
-            <Segment placeholder>
-              <Grid columns={2} relaxed='very' stackable>
-                <Grid.Column>
-                  <Form>
-                    <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' />
-                    <Form.Input
-                      fluid
-                      icon='lock'
-                      iconPosition='left'
-                      placeholder='Password'
-                      type='password'
-                    />
+});
 
-                    <Button color='teal' fluid size='large'>
-                      Login
-                  </Button>
-                  </Form>
-                </Grid.Column>
+function ListItemLink(props) {
+  const { icon, primary, to } = props;
 
-                <Grid.Column verticalAlign='middle' textAlign='center'>
-                  <Header as='h4' color='teal' textAlign='center'>Use Demo account</Header>
-                  <List floated='left'>
-                  { AccountAPI.all().map( (user, index) => (
-                        <List.Item
-                          icon={user.user_type === "Doctor" ? "doctor" : "user"}
-                          key={user.id}
-                          content={ <Link to={calcPasth2Board(user)}> {user.user_type}: {user.name}  </Link> }
-                        />
-                    ))
-                  }
-                  </List>
-                </Grid.Column>
-              </Grid>
+  const renderLink = React.useMemo(
+    () =>
+      React.forwardRef((itemProps, ref) => (
+        <RouterLink to={to} ref={ref} {...itemProps} />
+      )),
+    [to]
+  );
 
-              <Divider vertical> Or </Divider>
-            </Segment>
-            <Header as='h4' color='teal' textAlign='center'>v{process.env.REACT_APP_DEMO_VERSION}  </Header>
-          </Grid.Column>
-        </Grid>
-
-
-    );
-  }
+  return (
+    <li>
+      <ListItem button component={renderLink}>
+        <ListItemIcon>
+          {props.icon === "Doctor" ? <LocalHospitalIcon /> : <AccountBoxIcon />}
+        </ListItemIcon>
+        <ListItemText primary={primary} />
+      </ListItem>
+    </li>
+  );
 }
 
-function calcPasth2Board(user) {
+const HomePage = () => {
+  const classes = useStyles();
+  return (
+    <Container component="main" maxWidth="sm">
+      <Grid container className={classes.mainHeader}>
+        <Typography variant="h4"  align="center">
+          Welcome to Telemedicine Demo &nbsp;&nbsp;
+        </Typography>
+        <Avatar src="./telemed-logo.png" />
+      </Grid>
+      <Grid container justify="center" spacing={10}>
+        <Grid item xs={6}>
+          <Typography variant="h6" className={classes.secondHeader}>Sign In</Typography>
+          <form>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+            />
+
+            <Button
+            className={classes.button}
+              type="submit"
+              fullWidth
+              size="large"
+              variant="contained"
+              color="primary"
+            >
+              Login
+            </Button>
+          </form>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography variant="h6"  className={classes.secondHeader}>Or use demo account</Typography>
+          <List>
+            {AccountAPI.all().map((user) => (
+              <ListItemLink
+                to={calcPath2Board(user)}
+                primary={user.user_type + " " + user.name}
+                icon={user.user_type}
+              />
+            ))}
+          </List>
+        </Grid>
+      </Grid>
+
+      <Typography variant="body1" className={classes.version} align="center">
+        v{process.env.REACT_APP_DEMO_VERSION}
+      </Typography>
+    </Container>
+  );
+};
+
+function calcPath2Board(user) {
   let path = user.user_type === "Doctor" ? "/doctor/" : "/user/";
   path += user.id + "/board";
   console.log("test user:", user, ";  PATH= ", path);
