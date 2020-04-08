@@ -119,12 +119,17 @@ const HomePage = () => {
         <Grid item xs={6}>
           <Typography variant="h6"  className={classes.secondHeader}>Or use demo account</Typography>
           <List>
+
+
             {AccountAPI.all().map((user) => (
+              /**  @TODO use test accounts from back app **/
+              // store into dom element a login and pswd of the test user to use for log in
               <ListItemLink
                 to={calcPath2Board(user)}
                 primary={user.user_type + " " + user.name}
                 icon={user.user_type}
               />
+              //set OnClick funtion as submission of login form with creds of test user
             ))}
           </List>
         </Grid>

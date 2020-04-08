@@ -1,6 +1,6 @@
 {
-  "name": "telemed-poc",
-  "version": "0.2.11",
+  "name": "telemed-proto",
+  "version": "0.3.1",
   "private": true,
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"

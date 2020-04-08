@@ -37,8 +37,8 @@ class HeaderMenu extends Component {
           <Menu fixed='top' >
             <Container>
               <Menu.Item header>
-                <Image size='mini' src='/logo_small.png' style={{ marginRight: '1.5em' }} />
-                Telemedicine Demo
+                <Image size='mini' src='/telemed-logo.png' style={{ marginRight: '1.5em' }} />
+                Telemedicine App
               </Menu.Item>
               <Menu.Item > <Link to='/'>Home</Link> </Menu.Item>
 
