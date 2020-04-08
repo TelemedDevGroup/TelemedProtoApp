@@ -30,7 +30,7 @@ spring:
             - profile
           facebook:
             clientId: ${oauth2_client_facebook_client_id}
-              clientSecret: ${oauth2_client_facebook_client_secret}
+            clientSecret: ${oauth2_client_facebook_client_secret}
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
             - email
