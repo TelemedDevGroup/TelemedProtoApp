@@ -26,6 +26,9 @@ const useStyles = makeStyles({
     color: 'white',
     height: 48,
     marginTop: '1rem',
+    '&:hover': {
+      background: '#00B5AD',
+    }
   },
 
   mainHeader: {
