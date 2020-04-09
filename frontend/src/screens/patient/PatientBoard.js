@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Header, Menu, Container, Label, Tab, Icon } from "semantic-ui-react";
-import DemoCalendar from "./../components/DemoCalendar.js";
+import Calendar from "../../components/Calendar/Calendar.js";
 import PatientToDo from "./PatientToDo.js";
 import PatientChats from "./PatientChats";
-import ChatsGroup from "../components/ChatsGroup.js";
+import ChatsGroup from "../../components/Chat/ChatsGroup.js";
 
 const BoardPanes = [
   {
@@ -38,7 +38,7 @@ const BoardPanes = [
     ),
     render: () => (
       <Tab.Pane>
-        <DemoCalendar />
+        <Calendar />
       </Tab.Pane>
     ),
   },

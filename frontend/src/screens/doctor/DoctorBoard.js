@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Header, Menu, Container, Label, Tab, Icon } from 'semantic-ui-react'
-import DemoCalendar from './../components/DemoCalendar.js'
+import Calendar from '../../components/Calendar/Calendar.js'
 import DoctorToDo from './DoctorToDo.js'
 
 const BoardPanes = [
@@ -36,7 +36,7 @@ const BoardPanes = [
     ),
     render: () => (
       <Tab.Pane>
-        <DemoCalendar />
+        <Calendar />
       </Tab.Pane>
     ),
   },

@@ -1,39 +1,12 @@
 import React, {Component} from 'react';
-import { Switch, Route } from "react-router-dom";
-import { Header, Segment, Menu, Dropdown, Container, Image } from 'semantic-ui-react'
+import { Header as HeaderText, Segment, Menu, Dropdown, Container, Image } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import DoctorBoard from './../doctor/DoctorBoard.js'
-import PatientBoard from './../patient/PatientBoard.js'
-import PageNotFound from './PageNotFound.js'
-import AccountAPI from './../test_data/test_users.js'
 
-
-class DemoMainLayout extends Component {
-  render() {
-    const user = AccountAPI.get( this.props.match.params.userID );
-    if (!user) {
-      return <PageNotFound/>
-    }
-    return (
-      <React.Fragment>
-        <HeaderMenu authorisedUser={user} />
-        <br/>
-        <Switch>
-          <Route path="/user/:userID/board" component={PatientBoard} />
-          <Route path="/doctor/:userID/board" component={DoctorBoard} />
-          <Route path="/" component={PageNotFound} />
-        </Switch>
-      </React.Fragment>
-    );
-  }
-
-}
-
-class HeaderMenu extends Component {
+class Header extends Component {
     render() {
 
       return (
-        <div width='100%'>
+        <div>
           <Menu fixed='top' >
             <Container>
               <Menu.Item header>
@@ -59,10 +32,10 @@ class HeaderMenu extends Component {
               </Dropdown>
             </Container>
             <Segment vertical floated='left'>
-              <Header as='h3' >
+              <HeaderText as='h3' >
                 <Image size='small' circular src='https://img.icons8.com/plasticine/100/000000/user.png' />
                 {this.props.authorisedUser.name}
-              </Header>
+              </HeaderText>
             </Segment>
           </Menu>
         </div>
@@ -71,4 +44,4 @@ class HeaderMenu extends Component {
 
 }
 
-export default DemoMainLayout;
+export default Header
