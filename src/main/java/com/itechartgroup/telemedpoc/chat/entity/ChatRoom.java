@@ -1,18 +1,14 @@
 package com.itechartgroup.telemedpoc.chat.entity;
 
+import com.itechartgroup.telemedpoc.chat.entity.converter.UUIDConverter;
 import lombok.Data;
-import lombok.Generated;
-import org.hibernate.annotations.CollectionId;
-import org.hibernate.annotations.GeneratorType;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.id.UUIDGenerator;
-import org.hibernate.tuple.ValueGenerator;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,23 +27,15 @@ import java.util.UUID;
 @Entity
 public class ChatRoom {
     @Id
+    @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy =
             "org.hibernate.id.UUIDGenerator")
-    @GeneratedValue(generator = "uuid")
+    @Convert(converter = UUIDConverter.class)
     private UUID id;
-    /*@ElementCollection(targetClass = Long.class)
-    @CollectionTable(joinColumns = @JoinColumn(name = "chat_room_id"))
-    @Column(name = "user_id")*/
     @ElementCollection
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy =
-            "org.hibernate.id.UUIDGenerator")
-    @CollectionId(columns = @Column(name = "chat_room_id", updatable = false,
-            nullable = false, columnDefinition = "BINARY(16)"), type = @Type(type =
-            "java.util.UUID"), generator = "uuid")
-    //@CollectionTable(joinColumns = @JoinColumn(name = "chat_room_id", referencedColumnName = "id"))
-    @JoinColumn(name = "chat_room_id")
-    private List<Long> participants;
+    @CollectionTable(joinColumns = @JoinColumn(name = "chat_room_id"))
+    @Column(name = "user_id")
+    private Set<Long> participants;
     private Long messageCount = 0L;
     @CreatedDate
     private LocalDateTime created;

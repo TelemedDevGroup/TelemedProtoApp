@@ -4,7 +4,7 @@ import com.itechartgroup.telemedpoc.chat.dto.ChatRoomDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -19,15 +19,16 @@ public interface ChatRoomService {
      * @param participants one of participants
      * @return just save entity
      */
-    ChatRoomDto create(List<Long> participants);
+    ChatRoomDto create(Set<Long> participants);
 
     /**
      * Load page of dialogs for user.
      *
-     * @param page pagination info
+     * @param page   pagination info
+     * @param userId current user's id
      * @return sorted by date set of dialogs
      */
-    Page<ChatRoomDto> load(Pageable page);
+    Page<ChatRoomDto> load(Pageable page, final Long userId);
 
     /**
      * Method for updating of date when latest actions occurred in the dialog.

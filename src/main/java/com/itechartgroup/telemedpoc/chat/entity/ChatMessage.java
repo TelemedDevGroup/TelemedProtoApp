@@ -3,6 +3,7 @@ package com.itechartgroup.telemedpoc.chat.entity;
 import com.itechartgroup.telemedpoc.chat.dto.ChatMessageSource;
 import com.itechartgroup.telemedpoc.chat.dto.ChatMessageType;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -10,6 +11,7 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
@@ -24,7 +26,9 @@ import java.util.UUID;
 @Entity
 public class ChatMessage {
     @Id
-    @NotNull
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy =
+            "org.hibernate.id.UUIDGenerator")
     private UUID id;
     @NotNull
     private UUID room;

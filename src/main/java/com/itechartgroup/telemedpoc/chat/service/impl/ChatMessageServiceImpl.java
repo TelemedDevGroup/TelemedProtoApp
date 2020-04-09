@@ -9,7 +9,6 @@ import com.itechartgroup.telemedpoc.chat.repository.ChatMessageRepository;
 import com.itechartgroup.telemedpoc.chat.service.ChatMessageService;
 import com.itechartgroup.telemedpoc.chat.service.ChatRoomService;
 import com.itechartgroup.telemedpoc.chat.service.mapper.ChatMessageMapper;
-import com.itechartgroup.telemedpoc.chat.utils.UserDetailsUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.Objects;
 import java.util.SortedSet;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -54,16 +52,15 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     }
 
     @Override
-    public Page<ChatMessageDto> load(final UUID dialogId, final Pageable page) {
-        return repository.findAllByRoomOrderByCreatedDesc(dialogId, page).map(mapper::map);
+    public Page<ChatMessageDto> load(final UUID roomId, final Pageable page) {
+        // todo: secure this endpoint (for now its possible to provide any room id and get data from it)
+        //  best way to do this its aspects, but it will add some limitations, so need to discuss when development
+        //  will be confirmed
+        return repository.findAllByRoomOrderByCreatedDesc(roomId, page).map(mapper::map);
     }
 
     @Override
-    public SortedSet<ChatMessageDto> poll(final long timestamp) {
-        final Long userId = UserDetailsUtils.currentUserId();
-        if (Objects.isNull(userId)) {
-            return null;
-        }
+    public SortedSet<ChatMessageDto> poll(final long timestamp, final long userId) {
         final ChatThreadHolder container = SUBSCRIBERS.computeIfAbsent(userId, id -> new ChatThreadHolder(userId));
 
         final LocalDateTime lastUpdate = convertToDateTime(timestamp);
@@ -88,7 +85,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     /**
      * Special method, which prevent removing of result and holds for cases when its can be removed between requests and some other delays
      */
-    private void holdResultForShortTerm(final ChatMessageDto msg, final ChatRoomDto room) {
+    private void holdResultForShortTerm(final ChatMessageDto message, final ChatRoomDto room) {
         new Thread(() -> {
             log.debug("Holder start: {}", System.currentTimeMillis());
 
@@ -96,16 +93,16 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
             final Stream<ChatThreadHolder> holders = room.getParticipants().parallelStream()
                     .map(uid -> SUBSCRIBERS.computeIfAbsent(uid, id -> new ChatThreadHolder(uid)));
-            holders.forEach(holder -> holder.add(Thread.currentThread(), msg));
+            holders.forEach(holder -> holder.add(Thread.currentThread(), message));
 
             do {
                 try {
-                    Thread.sleep(HOLD_TIMEOUT);
+                    Thread.sleep(HOLD_TIMEOUT / 10);
                 } catch (final InterruptedException ignore) {
                 }
             } while (System.currentTimeMillis() < end);
 
-            holders.forEach(holder -> holder.removeThread(Thread.currentThread(),
+            holders.forEach(holder -> holder.removeThread(message, Thread.currentThread(),
                     () -> SUBSCRIBERS.remove(holder.getUserId())));
 
             log.debug("Holder end: {}", System.currentTimeMillis());

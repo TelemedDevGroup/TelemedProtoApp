@@ -4,6 +4,7 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -54,7 +55,12 @@ public class ChatThreadHolder {
     }
 
     public synchronized void removeThread(final Thread thread, final Runnable whenEmpty) {
+        removeThread(null, thread, whenEmpty);
+    }
+
+    public synchronized void removeThread(final ChatMessageDto message, final Thread thread, final Runnable whenEmpty) {
         this.threads.remove(thread);
+        Optional.ofNullable(message).ifPresent(messages::remove);
         if (this.threads.isEmpty()) {
             whenEmpty.run();
         }

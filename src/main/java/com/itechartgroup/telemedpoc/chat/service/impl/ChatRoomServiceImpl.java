@@ -6,14 +6,12 @@ import com.itechartgroup.telemedpoc.chat.exception.ChatRoomNotFoundException;
 import com.itechartgroup.telemedpoc.chat.repository.ChatRoomRepository;
 import com.itechartgroup.telemedpoc.chat.service.ChatRoomService;
 import com.itechartgroup.telemedpoc.chat.service.mapper.ChatDialogMapper;
-import com.itechartgroup.telemedpoc.chat.utils.UserDetailsUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -30,7 +28,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     private final ChatDialogMapper mapper;
 
     @Override
-    public ChatRoomDto create(final List<Long> participants) {
+    public ChatRoomDto create(final Set<Long> participants) {
         final ChatRoom room = new ChatRoom();
         room.setId(UUID.randomUUID());
         room.setParticipants(participants);
@@ -41,8 +39,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     }
 
     @Override
-    public Page<ChatRoomDto> load(final Pageable page) {
-        final Long userId = UserDetailsUtils.currentUserId();
+    public Page<ChatRoomDto> load(final Pageable page, final Long userId) {
         return repository.findAllByParticipantsContainsOrderByUpdatedDesc(userId, page).map(mapper::map);
     }
 

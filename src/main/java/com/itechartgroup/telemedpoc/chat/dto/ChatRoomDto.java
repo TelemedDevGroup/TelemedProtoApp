@@ -19,7 +19,7 @@ public class ChatRoomDto implements Comparable<ChatRoomDto> {
             .thenComparing(ChatRoomDto::getId);
 
     private UUID id;
-    private List<Long> participants;
+    private Set<Long> participants;
     private Long messageCount;
     private LocalDateTime created;
     private LocalDateTime updated;

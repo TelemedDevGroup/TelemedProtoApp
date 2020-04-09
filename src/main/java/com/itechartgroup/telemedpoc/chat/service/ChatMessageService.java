@@ -4,7 +4,6 @@ import com.itechartgroup.telemedpoc.chat.dto.ChatMessageDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Map;
 import java.util.SortedSet;
 import java.util.UUID;
 
@@ -39,5 +38,5 @@ public interface ChatMessageService {
      * @param timestamp for defining moment from which should be loaded messages
      * @return sorted set of new messages
      */
-    SortedSet<ChatMessageDto> poll(long timestamp);
+    SortedSet<ChatMessageDto> poll(long timestamp, long userId);
 }
