@@ -7,5 +7,7 @@
 
     <include file="db/changelog/v0.1/04.07.2020-Auth_Schema.sql"/>
     <include file="db/changelog/v0.1/04.07.2020-Auth_Test_Data.sql"/>
+    <include file="db/changelog/v0.1/04.08.2020-Chat_Room_Schema.sql"/>
+    <include file="db/changelog/v0.1/04.08.2020-Chat_Message_Schema.sql"/>
 
 </databaseChangeLog>

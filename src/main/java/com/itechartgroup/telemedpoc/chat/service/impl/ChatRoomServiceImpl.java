@@ -1,0 +1,62 @@
+package com.itechartgroup.telemedpoc.chat.service.impl;
+
+import com.itechartgroup.telemedpoc.chat.dto.ChatRoomDto;
+import com.itechartgroup.telemedpoc.chat.entity.ChatRoom;
+import com.itechartgroup.telemedpoc.chat.exception.ChatRoomNotFoundException;
+import com.itechartgroup.telemedpoc.chat.repository.ChatRoomRepository;
+import com.itechartgroup.telemedpoc.chat.service.ChatRoomService;
+import com.itechartgroup.telemedpoc.chat.service.mapper.ChatDialogMapper;
+import com.itechartgroup.telemedpoc.chat.utils.UserDetailsUtils;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+/**
+ * @author s.vareyko
+ * @since 08.04.2020
+ */
+@Service
+@AllArgsConstructor
+public class ChatRoomServiceImpl implements ChatRoomService {
+
+    private final ChatRoomRepository repository;
+    private final ChatDialogMapper mapper;
+
+    @Override
+    public ChatRoomDto create(final List<Long> participants) {
+        final ChatRoom dialog = new ChatRoom();
+        dialog.setId(UUID.randomUUID());
+        dialog.setParticipantFirst(participants.get(0));
+        dialog.setParticipantSecond(participants.get(1));
+        final LocalDateTime now = LocalDateTime.now();
+        dialog.setCreated(now);
+        dialog.setUpdated(now);
+        return mapper.map(repository.save(dialog));
+    }
+
+    @Override
+    public Page<ChatRoomDto> load(final Pageable page) {
+        final Long userId = UserDetailsUtils.currentUserId();
+        return repository.findAllByParticipantFirstOrParticipantSecondOrderByUpdatedDesc(userId, userId, page).map(mapper::map);
+    }
+
+    @Override
+    public ChatRoomDto updateRoomAndGet(final UUID id, final boolean increment) {
+        synchronized (this) {
+            final Optional<ChatRoom> optional = repository.findById(id);
+            if (optional.isPresent()) {
+                final ChatRoom room = optional.get();
+                room.setUpdated(LocalDateTime.now());
+                room.setMessageCount(room.getMessageCount() + 1);
+                return mapper.map(repository.save(room));
+            }
+        }
+        throw new ChatRoomNotFoundException();
+    }
+}
