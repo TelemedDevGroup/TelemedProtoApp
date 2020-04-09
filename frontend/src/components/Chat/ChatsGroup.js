@@ -8,7 +8,7 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import AccountAPI from "../test_data/test_conversations.js";
+import AccountAPI from "../../mocks/test_conversations.js";
 import ChatContainer from "./ChatContainer.js";
 
 const useStyles = makeStyles({

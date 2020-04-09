@@ -9,7 +9,7 @@ import {
   Inject
 } from '@syncfusion/ej2-react-schedule'
 
-class DemoCalendar extends Component {
+class Calendar extends Component {
   render() {
     return (
       <ScheduleComponent>
@@ -20,4 +20,4 @@ class DemoCalendar extends Component {
 }
 
 
-export default DemoCalendar
+export default Calendar

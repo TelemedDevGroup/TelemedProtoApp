@@ -1,5 +1,4 @@
 import React from "react";
-import "./home_page.css";
 import {
   Button,
   TextField,
@@ -16,7 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import LocalHospitalIcon from "@material-ui/icons/LocalHospital";
 import { Link as RouterLink } from "react-router-dom";
-import AccountAPI from "./test_data/test_users.js";
+import AccountAPI from "../../mocks/test_users.js";
 
 
 const useStyles = makeStyles({
@@ -48,7 +47,7 @@ const useStyles = makeStyles({
 });
 
 function ListItemLink(props) {
-  const { icon, primary, to } = props;
+  const { primary, to } = props;
 
   const renderLink = React.useMemo(
     () =>
@@ -70,7 +69,7 @@ function ListItemLink(props) {
   );
 }
 
-const HomePage = () => {
+const Login = () => {
   const classes = useStyles();
   return (
     <Container component="main" maxWidth="sm">
@@ -149,4 +148,4 @@ function calcPath2Board(user) {
   return path;
 }
 
-export default HomePage;
+export default Login;
