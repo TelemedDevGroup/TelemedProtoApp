@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
@@ -31,8 +32,9 @@ import static com.itechartgroup.telemedpoc.chat.constant.ChatConstants.SESSION_A
  * @author s.vareyko
  * @since 07.04.2020
  */
+@RestController
 @AllArgsConstructor
-@RestController("/api/chat")
+@RequestMapping("/api/chat")
 public class ChatRestController {
 
     private final ChatRoomService chatRoomService;
@@ -57,7 +59,7 @@ public class ChatRestController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ChatRoomDto> createRoom(final List<Long> participants) {
+    public ResponseEntity<ChatRoomDto> createRoom(@RequestBody final List<Long> participants) {
         return new ResponseEntity<>(chatRoomService.create(participants), HttpStatus.OK);
     }
 

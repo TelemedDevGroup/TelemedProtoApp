@@ -26,8 +26,7 @@ public class ChatDialogMapper {
         if (Objects.isNull(to.getId())) {
             to.setId(UUID.randomUUID());
             to.setCreated(now);
-            to.setParticipantFirst(from.getParticipantFirst());
-            to.setParticipantSecond(from.getParticipantSecond());
+            to.setParticipants(from.getParticipants());
         }
         to.setId(from.getId());
         to.setUpdated(from.getUpdated());
@@ -45,7 +44,6 @@ public class ChatDialogMapper {
         to.setCreated(now);
         to.setUpdated(from.getUpdated());
         to.setId(from.getId());
-        to.setParticipantFirst(from.getParticipantFirst());
-        to.setParticipantSecond(from.getParticipantSecond());
+        to.setParticipants(from.getParticipants());
     }
 }

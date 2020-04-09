@@ -17,8 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.SortedSet;
@@ -96,8 +94,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
             final long end = System.currentTimeMillis() + HOLD_TIMEOUT;
 
-            final List<Long> participants = Arrays.asList(room.getParticipantFirst(), room.getParticipantSecond());
-            final Stream<ChatThreadHolder> holders = participants.parallelStream()
+            final Stream<ChatThreadHolder> holders = room.getParticipants().parallelStream()
                     .map(uid -> SUBSCRIBERS.computeIfAbsent(uid, id -> new ChatThreadHolder(uid)));
             holders.forEach(holder -> holder.add(Thread.currentThread(), msg));
 

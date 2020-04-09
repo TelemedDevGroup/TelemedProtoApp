@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -30,20 +31,19 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
     @Override
     public ChatRoomDto create(final List<Long> participants) {
-        final ChatRoom dialog = new ChatRoom();
-        dialog.setId(UUID.randomUUID());
-        dialog.setParticipantFirst(participants.get(0));
-        dialog.setParticipantSecond(participants.get(1));
+        final ChatRoom room = new ChatRoom();
+        room.setId(UUID.randomUUID());
+        room.setParticipants(participants);
         final LocalDateTime now = LocalDateTime.now();
-        dialog.setCreated(now);
-        dialog.setUpdated(now);
-        return mapper.map(repository.save(dialog));
+        room.setCreated(now);
+        room.setUpdated(now);
+        return mapper.map(repository.save(room));
     }
 
     @Override
     public Page<ChatRoomDto> load(final Pageable page) {
         final Long userId = UserDetailsUtils.currentUserId();
-        return repository.findAllByParticipantFirstOrParticipantSecondOrderByUpdatedDesc(userId, userId, page).map(mapper::map);
+        return repository.findAllByParticipantsContainsOrderByUpdatedDesc(userId, page).map(mapper::map);
     }
 
     @Override

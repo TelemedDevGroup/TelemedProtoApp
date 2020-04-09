@@ -4,6 +4,8 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -17,8 +19,7 @@ public class ChatRoomDto implements Comparable<ChatRoomDto> {
             .thenComparing(ChatRoomDto::getId);
 
     private UUID id;
-    private Long participantFirst;
-    private Long participantSecond;
+    private List<Long> participants;
     private Long messageCount;
     private LocalDateTime created;
     private LocalDateTime updated;
