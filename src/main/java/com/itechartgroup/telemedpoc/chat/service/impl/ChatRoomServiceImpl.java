@@ -7,6 +7,7 @@ import com.itechartgroup.telemedpoc.chat.repository.ChatRoomRepository;
 import com.itechartgroup.telemedpoc.chat.service.ChatRoomService;
 import com.itechartgroup.telemedpoc.chat.service.mapper.ChatRoomMapper;
 import lombok.AllArgsConstructor;
+import lombok.Synchronized;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -43,15 +44,14 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     }
 
     @Override
+    @Synchronized
     public ChatRoomDto updateRoomAndGet(final UUID id, final boolean increment) {
-        synchronized (this) {
-            final Optional<ChatRoom> optional = repository.findById(id);
-            if (optional.isPresent()) {
-                final ChatRoom room = optional.get();
-                room.setUpdated(LocalDateTime.now());
-                room.setMessageCount(room.getMessageCount() + 1);
-                return mapper.map(repository.save(room));
-            }
+        final Optional<ChatRoom> optional = repository.findById(id);
+        if (optional.isPresent()) {
+            final ChatRoom room = optional.get();
+            room.setUpdated(LocalDateTime.now());
+            room.setMessageCount(room.getMessageCount() + 1);
+            return mapper.map(repository.save(room));
         }
         throw new ChatRoomNotFoundException();
     }

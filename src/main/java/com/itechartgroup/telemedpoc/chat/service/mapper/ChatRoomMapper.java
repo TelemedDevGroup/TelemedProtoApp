@@ -30,6 +30,7 @@ public class ChatRoomMapper {
         }
         to.setId(from.getId());
         to.setUpdated(from.getUpdated());
+        to.setMessageCount(from.getMessageCount());
     }
 
     public ChatRoomDto map(final ChatRoom message) {
@@ -44,6 +45,7 @@ public class ChatRoomMapper {
         to.setCreated(now);
         to.setUpdated(from.getUpdated());
         to.setId(from.getId());
+        to.setMessageCount(from.getMessageCount());
         to.setParticipants(from.getParticipants());
     }
 }

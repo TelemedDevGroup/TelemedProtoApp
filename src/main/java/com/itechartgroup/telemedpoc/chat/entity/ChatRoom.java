@@ -3,8 +3,6 @@ package com.itechartgroup.telemedpoc.chat.entity;
 import com.itechartgroup.telemedpoc.chat.entity.converter.UUIDConverter;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -15,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -37,8 +34,6 @@ public class ChatRoom {
     @Column(name = "user_id")
     private Set<Long> participants;
     private Long messageCount = 0L;
-    @CreatedDate
     private LocalDateTime created;
-    @UpdateTimestamp
     private LocalDateTime updated;
 }

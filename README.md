@@ -37,3 +37,14 @@ You can run:
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
+---
+## Local installation
+
+1. Install MySQL with default values and create schema ```telemedicine_demo```
+1. Update application-local.yml file with all the required keys (e.g. client id and secret for oauth or twilio clients).
+Also, please update credentials for database connection if you set different ones when installed database 
+(```username``` and ```password``` in datasource section) .
+1. Install Maven and Java (mvn and java have to be found on OS path)
+1. Run following command from the root of the project: ```mvn spring-boot:run -Drun.profiles=local``` 
+1. Profit - application is running on localhost:5000
+
