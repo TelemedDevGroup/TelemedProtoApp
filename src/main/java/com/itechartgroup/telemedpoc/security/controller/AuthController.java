@@ -1,6 +1,7 @@
 package com.itechartgroup.telemedpoc.security.controller;
 
 import com.itechartgroup.telemedpoc.exception.BadRequestException;
+import com.itechartgroup.telemedpoc.exception.ResourceNotFoundException;
 import com.itechartgroup.telemedpoc.security.TokenProvider;
 import com.itechartgroup.telemedpoc.security.entity.User;
 import com.itechartgroup.telemedpoc.security.oauth2.AuthProvider;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -43,17 +45,18 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
+        final String email = loginRequest.getEmail();
+
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()
-                )
+                new UsernamePasswordAuthenticationToken(email, loginRequest.getPassword())
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        Optional<User> user = userRepository.findByEmail(email);
         String token = tokenProvider.createToken(authentication);
-        return ResponseEntity.ok(new AuthResponse(token));
+        return ResponseEntity.ok(new AuthResponse(token,
+                user.orElseThrow(() -> new ResourceNotFoundException("User", "email", email))));
     }
 
     @PostMapping("/signup")
