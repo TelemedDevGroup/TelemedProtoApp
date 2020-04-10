@@ -4,7 +4,7 @@ This is a repository for both backend and frontend layers of **Telemedicine App 
 
 ## Development
 
-Development Board can be found here https://github.com/users/ro-jar/projects/1
+Development Board can be found here https://github.com/TelemedDevGroup/TelemedProtoApp/projects/1
 
 ## Demo Site (CI/CD)
 
