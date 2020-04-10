@@ -18,6 +18,6 @@ public class UUIDConverter implements AttributeConverter<UUID, String> {
 
     @Override
     public UUID convertToEntityAttribute(final String dbData) {
-        return UUID.fromString(dbData);
+        return Optional.ofNullable(dbData).map(UUID::fromString).orElse(null);
     }
 }

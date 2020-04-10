@@ -13,7 +13,7 @@ import java.util.UUID;
  * @since 08.04.2020
  */
 @Component
-public class ChatDialogMapper {
+public class ChatRoomMapper {
 
     public ChatRoom map(final ChatRoomDto dto) {
         final ChatRoom message = new ChatRoom();

@@ -5,7 +5,7 @@ import com.itechartgroup.telemedpoc.chat.entity.ChatRoom;
 import com.itechartgroup.telemedpoc.chat.exception.ChatRoomNotFoundException;
 import com.itechartgroup.telemedpoc.chat.repository.ChatRoomRepository;
 import com.itechartgroup.telemedpoc.chat.service.ChatRoomService;
-import com.itechartgroup.telemedpoc.chat.service.mapper.ChatDialogMapper;
+import com.itechartgroup.telemedpoc.chat.service.mapper.ChatRoomMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +25,7 @@ import java.util.UUID;
 public class ChatRoomServiceImpl implements ChatRoomService {
 
     private final ChatRoomRepository repository;
-    private final ChatDialogMapper mapper;
+    private final ChatRoomMapper mapper;
 
     @Override
     public ChatRoomDto create(final Set<Long> participants) {

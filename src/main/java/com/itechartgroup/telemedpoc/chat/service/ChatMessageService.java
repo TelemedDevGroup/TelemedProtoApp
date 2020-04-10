@@ -26,11 +26,11 @@ public interface ChatMessageService {
     /**
      * Load all messages or subscribe for 25 seconds.
      *
-     * @param dialogId UUID of the dialog
-     * @param page     for search
+     * @param roomId UUID of the room
+     * @param page   for search
      * @return page with elements if its exists
      */
-    Page<ChatMessageDto> load(UUID dialogId, Pageable page);
+    Page<ChatMessageDto> load(UUID roomId, Pageable page);
 
     /**
      * Load all newest messages or subscribe for 25 seconds.
