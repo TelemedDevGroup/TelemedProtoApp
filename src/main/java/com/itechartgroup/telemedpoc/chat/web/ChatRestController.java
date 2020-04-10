@@ -70,8 +70,7 @@ public class ChatRestController {
     @GetMapping("/room/{roomId}")
     public ResponseEntity<Page<ChatMessageDto>> loadMessages(@PathVariable final UUID roomId,
                                                              @PageableDefault final Pageable pageable,
-                                                             final HttpSession session,
-                                                             @AuthenticationPrincipal final UserPrincipal principal) {
+                                                             final HttpSession session) {
         setLastFetchAttribute(session);
         return new ResponseEntity<>(chatMessageService.load(roomId, pageable), HttpStatus.OK);
     }

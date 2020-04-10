@@ -1,5 +1,6 @@
 package com.itechartgroup.telemedpoc.chat.service.impl;
 
+import com.itechartgroup.telemedpoc.chat.config.ChatProperties;
 import com.itechartgroup.telemedpoc.chat.dto.ChatMessageDto;
 import com.itechartgroup.telemedpoc.chat.dto.ChatMessageSource;
 import com.itechartgroup.telemedpoc.chat.dto.ChatRoomDto;
@@ -16,14 +17,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
-import static com.itechartgroup.telemedpoc.chat.constant.ChatConstants.HOLD_TIMEOUT;
-import static com.itechartgroup.telemedpoc.chat.constant.ChatConstants.POLLING_TIMEOUT;
 import static com.itechartgroup.telemedpoc.chat.utils.DateTimeUtils.convertToDateTime;
 
 /**
@@ -39,6 +39,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
     private final ChatMessageRepository repository;
     private final ChatMessageMapper mapper;
+    private final ChatProperties properties;
     private final ChatRoomService chatRoomService;
 
     @Override
@@ -72,7 +73,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         container.add(Thread.currentThread());
 
         try {
-            Thread.sleep(POLLING_TIMEOUT);
+            Thread.sleep(properties.getPollingTimeout());
         } catch (InterruptedException ignore) {
             return container.getResult(lastUpdate);
         } finally {
@@ -89,15 +90,16 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         new Thread(() -> {
             log.debug("Holder start: {}", System.currentTimeMillis());
 
-            final long end = System.currentTimeMillis() + HOLD_TIMEOUT;
+            final long end = System.currentTimeMillis() + properties.getHoldTimeout();
 
-            final Stream<ChatThreadHolder> holders = room.getParticipants().parallelStream()
-                    .map(uid -> SUBSCRIBERS.computeIfAbsent(uid, id -> new ChatThreadHolder(uid)));
+            final List<ChatThreadHolder> holders = room.getParticipants().parallelStream()
+                    .map(uid -> SUBSCRIBERS.computeIfAbsent(uid, id -> new ChatThreadHolder(uid)))
+                    .collect(Collectors.toList());
             holders.forEach(holder -> holder.add(Thread.currentThread(), message));
 
             do {
                 try {
-                    Thread.sleep(HOLD_TIMEOUT / 10);
+                    Thread.sleep(properties.getHoldTimeout() / 10);
                 } catch (final InterruptedException ignore) {
                 }
             } while (System.currentTimeMillis() < end);

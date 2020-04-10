@@ -30,7 +30,6 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     @Override
     public ChatRoomDto create(final Set<Long> participants) {
         final ChatRoom room = new ChatRoom();
-        room.setId(UUID.randomUUID());
         room.setParticipants(participants);
         final LocalDateTime now = LocalDateTime.now();
         room.setCreated(now);

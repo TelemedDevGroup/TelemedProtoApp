@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * @author s.vareyko
@@ -24,15 +23,15 @@ public class ChatMessageMapper {
     public void map(final ChatMessageDto from, final ChatMessage to) {
         final LocalDateTime now = LocalDateTime.now();
         if (Objects.isNull(to.getId())) {
-            to.setId(UUID.randomUUID());
             to.setCreated(now);
         }
         to.setId(from.getId());
+        to.setRoom(from.getRoom());
         to.setBody(from.getBody());
         to.setType(from.getType());
         to.setSource(from.getSource());
         to.setAuthor(from.getAuthor());
-        to.setUpdated(from.getUpdated());
+        to.setUpdated(now);
     }
 
     public ChatMessageDto map(final ChatMessage message) {
@@ -42,9 +41,9 @@ public class ChatMessageMapper {
     }
 
     public void map(final ChatMessage from, final ChatMessageDto to) {
-        final LocalDateTime now = LocalDateTime.now();
         to.setId(from.getId());
-        to.setCreated(now);
+        to.setRoom(from.getRoom());
+        to.setCreated(from.getCreated());
         to.setUpdated(from.getUpdated());
         to.setId(from.getId());
         to.setBody(from.getBody());
