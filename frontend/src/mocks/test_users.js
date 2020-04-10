@@ -6,10 +6,10 @@
 
 const TEST_ACCOUNTS = {
   users: [
-    { id: "P001", login: "pavel", pswd: "demo", name: "Pavel I", user_type: "Patient", location: "Minsk" },
-    { id: "P002", login: "john", pswd: "demo", name: "John W", user_type: "Patient", location: "NY" },
-    { id: "D001",  login: "sophy", pswd: "demo", name: "Sophy M", user_type: "Doctor", location: "SA" },
-    { id: "D002",  login: "aibol", pswd: "demo", name: "Aibolit", user_type: "Doctor", location: "Moscow" },
+    { id: 1, login: "patient.john@gmail.com", pswd: "patient", name: "John W", user_type: "Patient", location: "NY" },
+    { id: 2, login: "patient.pavel@gmail.com", pswd: "patient", name: "Pavel I", user_type: "Patient", location: "Minsk" },
+    { id: 3,  login: "doctor.sophy@gmail.com", pswd: "doctor", name: "Sophy M", user_type: "Doctor", location: "SA" },
+    { id: 4,  login: "doctor.aibolit@gmail.com", pswd: "doctor", name: "Aibolit", user_type: "Doctor", location: "Moscow" },
   ],
   all: function() { return this.users},
   get: function(id) {
