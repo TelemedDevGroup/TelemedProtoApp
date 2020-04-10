@@ -6,6 +6,7 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -29,12 +30,7 @@ public class VideoRoom {
     @Convert(converter = UUIDConverter.class)
     private UUID id;
 
-    @ElementCollection
-    @CollectionTable(joinColumns = @JoinColumn(name = "video_room_id"))
-    @Column(name = "user_id")
-    private Set<Long> participants;
-
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "chat_room_id")
     private ChatRoom chatRoom;
 

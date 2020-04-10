@@ -39,4 +39,5 @@ public class ChatRoom {
     private LocalDateTime created;
     @UpdateTimestamp
     private LocalDateTime updated;
+    private boolean isVideoActive = false;
 }

@@ -1,5 +1,7 @@
 package com.itechartgroup.telemed.video.service.impl;
 
+import com.itechartgroup.telemed.chat.entity.ChatRoom;
+import com.itechartgroup.telemed.chat.repository.ChatRoomRepository;
 import com.itechartgroup.telemed.security.UserPrincipal;
 import com.itechartgroup.telemed.video.config.TwilioProperties;
 import com.itechartgroup.telemed.video.entity.VideoRoom;
@@ -25,13 +27,27 @@ public class VideoServiceImpl implements VideoService {
     private final TwilioProperties twilioProperties;
 
     private final VideoRoomRepository videoRoomRepository;
+    private final ChatRoomRepository chatRoomRepository;
 
     @Override
-    public String createRoom(UserPrincipal currentUser, Set<Long> calleeIds) {
-        VideoRoom videoRoom = createRoom(currentUser.getId(), calleeIds);
+    public String createRoom(String currentUserName, UUID roomId, Set<Long> participantIds) {
+        VideoRoom videoRoom = createVideoRoom(roomId);
+
         String roomName = videoRoom.getId().toString();
 
-        return generateToken(currentUser.getName(), roomName).toJwt();
+        return generateToken(currentUserName, roomName).toJwt();
+    }
+
+    private VideoRoom createVideoRoom(UUID roomId) {
+        VideoRoom videoRoom = new VideoRoom();
+
+        ChatRoom chatRoom = chatRoomRepository.getOne(roomId);
+        chatRoom.setVideoActive(true);
+        videoRoom.setChatRoom(chatRoom);
+
+        videoRoom.setCreated(LocalDateTime.now());
+        videoRoomRepository.save(videoRoom);
+        return videoRoom;
     }
 
     private AccessToken generateToken(String userIdentity, String roomName) {
@@ -50,17 +66,6 @@ public class VideoServiceImpl implements VideoService {
                 .build();
     }
 
-    private VideoRoom createRoom(Long callerId, Set<Long> calleeIds) {
-        VideoRoom videoRoom = new VideoRoom();
-        videoRoom.setCreated(LocalDateTime.now());
-
-        HashSet<Long> participants = new HashSet<>(calleeIds);
-        participants.add(callerId);
-        videoRoom.setParticipants(participants);
-
-        return videoRoomRepository.save(videoRoom);
-    }
-
     @Override
     @Transactional(readOnly = true)
     public String joinRoom(UserPrincipal currentUser, String roomId) {
@@ -71,6 +76,13 @@ public class VideoServiceImpl implements VideoService {
         }
 
         return generateToken(currentUser.getName(), roomId).toJwt();
+    }
+
+    @Override
+    public void finishVideoRoom(String roomId) {
+        VideoRoom videoRoom = videoRoomRepository.getOne(UUID.fromString(roomId));
+        videoRoom.getChatRoom().setVideoActive(false);
+        videoRoomRepository.save(videoRoom);
     }
 
 }
