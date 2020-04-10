@@ -1,5 +1,6 @@
 package com.itechartgroup.telemed.video.entity;
 
+import com.itechartgroup.telemed.chat.entity.ChatRoom;
 import com.itechartgroup.telemed.chat.entity.converter.UUIDConverter;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
@@ -13,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
@@ -32,7 +34,13 @@ public class VideoRoom {
     @Column(name = "user_id")
     private Set<Long> participants;
 
+    @ManyToOne
+    @JoinColumn(name = "chat_room_id")
+    private ChatRoom chatRoom;
+
     @CreatedDate
     private LocalDateTime created;
+
+    private LocalDateTime finished;
 
 }
