@@ -50,7 +50,8 @@ const useStyles = makeStyles({
   },
 });
 
-const ChatContainer = ({ chatsData, partner, onClick }) => {
+const ChatContainer = ({ chatsData,  onClick }) => {
+  
   let [inputData, setInputData] = useState("");
   const classes = useStyles();
   return (
@@ -66,7 +67,7 @@ const ChatContainer = ({ chatsData, partner, onClick }) => {
           }}
         >
           <Grid container justify="space-between" alignContent="center">
-            <Typography variant="h5">{partner}</Typography>
+            {/* <Typography variant="h5">{partner}</Typography> */}
             <Button
               variant="contained"
               className={classes.videoButton}
@@ -84,7 +85,7 @@ const ChatContainer = ({ chatsData, partner, onClick }) => {
               overflowY: "auto",
             }}
           >
-            {chatsData.map((message, index) => (
+            {chatsData && chatsData.map((message, index) => (
               <Grid
                 key={index}
                 className={`${classes.message} ${
@@ -92,7 +93,7 @@ const ChatContainer = ({ chatsData, partner, onClick }) => {
                 }`}
               >
                 <Typography className={classes.senderName} variant="h6">
-                  {message.sender}
+                  {message.author}
                 </Typography>
                 {message.attachment && (
                   <img
@@ -102,8 +103,8 @@ const ChatContainer = ({ chatsData, partner, onClick }) => {
                   ></img>
                 )}
 
-                {message.message && (
-                  <Typography variant="body1">{message.message}</Typography>
+                {message.body && (
+                  <Typography variant="body1">{message.body}</Typography>
                 )}
               </Grid>
             ))}
