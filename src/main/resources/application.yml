@@ -7,6 +7,7 @@ server:
   port: 5000
   servlet:
     context-path: /api
+spring:
   datasource:
     url: ${database_url}
     username: ${database_usernmame}
