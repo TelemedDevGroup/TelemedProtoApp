@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -30,18 +28,18 @@ public class VideoServiceImpl implements VideoService {
     private final ChatRoomRepository chatRoomRepository;
 
     @Override
-    public String createRoom(String currentUserName, UUID roomId, Set<Long> participantIds) {
-        VideoRoom videoRoom = createVideoRoom(roomId);
+    public String createVideoRoom(String currentUserName, String roomId) {
+        VideoRoom videoRoom = createRoom(roomId);
 
         String roomName = videoRoom.getId().toString();
 
         return generateToken(currentUserName, roomName).toJwt();
     }
 
-    private VideoRoom createVideoRoom(UUID roomId) {
+    private VideoRoom createRoom(String roomId) {
         VideoRoom videoRoom = new VideoRoom();
 
-        ChatRoom chatRoom = chatRoomRepository.getOne(roomId);
+        ChatRoom chatRoom = chatRoomRepository.getOne(UUID.fromString(roomId));
         chatRoom.setVideoActive(true);
         videoRoom.setChatRoom(chatRoom);
 

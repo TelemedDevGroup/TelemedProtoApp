@@ -1,8 +1,8 @@
 package com.itechartgroup.telemed.video.controller;
 
-import com.itechartgroup.telemed.chat.dto.ChatRoomDto;
 import com.itechartgroup.telemed.security.CurrentUser;
 import com.itechartgroup.telemed.security.UserPrincipal;
+import com.itechartgroup.telemed.video.dto.VideoRoomCreateRequest;
 import com.itechartgroup.telemed.video.dto.VideoRoomUpdateRequest;
 import com.itechartgroup.telemed.video.service.VideoService;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +24,8 @@ public class VideoController {
     private final VideoService videoService;
 
     @PostMapping(value = "room", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String createVideoRoom(@CurrentUser UserPrincipal currentUser, @RequestBody ChatRoomDto chatRoom) {
-        return videoService.createRoom(currentUser.getName(), chatRoom.getId(), chatRoom.getParticipants());
+    public String createVideoRoom(@CurrentUser UserPrincipal currentUser, @RequestBody VideoRoomCreateRequest request) {
+        return videoService.createVideoRoom(currentUser.getName(), request.getRoomId());
     }
 
     @GetMapping("room")

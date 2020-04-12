@@ -35,9 +35,9 @@ public class ChatRoom {
     @Column(name = "user_id")
     private Set<Long> participants;
     private Long messageCount = 0L;
+    private boolean isVideoActive = false;
     @CreatedDate
     private LocalDateTime created;
     @UpdateTimestamp
     private LocalDateTime updated;
-    private boolean isVideoActive = false;
 }
