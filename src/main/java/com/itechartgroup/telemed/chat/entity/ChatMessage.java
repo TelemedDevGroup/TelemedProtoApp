@@ -4,9 +4,6 @@ import com.itechartgroup.telemed.chat.dto.ChatMessageSource;
 import com.itechartgroup.telemed.chat.dto.ChatMessageType;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -38,10 +35,7 @@ public class ChatMessage {
     private ChatMessageSource source;
     @Lob
     private String body;
-    @CreatedBy
     private Long author;
-    @CreatedDate
     private LocalDateTime created;
-    @UpdateTimestamp
     private LocalDateTime updated;
 }

@@ -3,8 +3,6 @@ package com.itechartgroup.telemed.chat.entity;
 import com.itechartgroup.telemed.chat.entity.converter.UUIDConverter;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -36,8 +34,6 @@ public class ChatRoom {
     private Set<Long> participants;
     private Long messageCount = 0L;
     private boolean isVideoActive = false;
-    @CreatedDate
     private LocalDateTime created;
-    @UpdateTimestamp
     private LocalDateTime updated;
 }
