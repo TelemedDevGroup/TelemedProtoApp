@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.itechart-group</groupId>
-	<artifactId>telemed-poc</artifactId>
+	<artifactId>telemed</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Telemed PoC</name>
+	<name>TelemedC</name>
 	<description>Demo project Telemed</description>
 
 	<properties>
