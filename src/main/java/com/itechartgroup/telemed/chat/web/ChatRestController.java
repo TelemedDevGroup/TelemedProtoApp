@@ -35,7 +35,7 @@ import static com.itechartgroup.telemed.chat.constant.ChatConstants.SESSION_ATTR
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/chat")
+@RequestMapping("/api/chat")
 public class ChatRestController {
 
     private final ChatRoomService chatRoomService;

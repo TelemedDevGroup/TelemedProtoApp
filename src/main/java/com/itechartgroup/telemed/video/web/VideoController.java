@@ -1,4 +1,4 @@
-package com.itechartgroup.telemed.video.controller;
+package com.itechartgroup.telemed.video.web;
 
 import com.itechartgroup.telemed.security.CurrentUser;
 import com.itechartgroup.telemed.security.UserPrincipal;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("video")
+@RequestMapping("/api/video")
 @RequiredArgsConstructor
 public class VideoController {
 
