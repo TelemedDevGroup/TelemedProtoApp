@@ -10,6 +10,8 @@
     <include file="db/changelog/v0.1/04.08.2020-Chat_Room_Schema.sql"/>
     <include file="db/changelog/v0.1/04.08.2020-Chat_Message_Schema.sql"/>
     <include file="db/changelog/v0.1/04.09.2020-Chat_Room_Participants_Schema.sql"/>
+    <include file="db/changelog/v0.1/04.10.2020-Video_Schema.sql"/>
     <include file="db/changelog/v0.1/04.10.2020-Chat_Test_Data.sql"/>
+    <include file="db/changelog/v0.1/04.10.2020-Add-Chat-Room-Video-Status.sql"/>
 
 </databaseChangeLog>

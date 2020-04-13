@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.itechart-group</groupId>
-	<artifactId>telemed-poc</artifactId>
+	<artifactId>telemed</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Telemed PoC</name>
+	<name>TelemedC</name>
 	<description>Demo project Telemed</description>
 
 	<properties>
@@ -157,16 +157,6 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>2.2.6.RELEASE</version>
-				<configuration>
-					<profiles>
-						<profile>local</profile>
-					</profiles>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
