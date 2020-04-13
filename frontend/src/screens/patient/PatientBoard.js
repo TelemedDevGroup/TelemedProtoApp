@@ -50,9 +50,9 @@ const BoardPanes = [
         Messenger
       </Menu.Item>
     ),
-    render: () => (
+    render: (props) => (
       <Tab.Pane>
-        <ChatsGroup />
+        <ChatsGroup userData={props}/>
         {/* <PatientChats/> */}
       </Tab.Pane>
     ),
@@ -65,12 +65,14 @@ class PatientBoard extends Component {
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {
+    const userData = this.props.location.state.currentUser;
     //const user = AccountAPI.get( this.props.match.params.userID );
     //const { activeItem } = this.state
     return (
       <Container style={{ marginTop: "5em" }}>
         <Header as="h3">Welcome to Patient's Board</Header>
         <Tab
+         {...userData}
           panes={BoardPanes}
           menu={{
             fluid: true,

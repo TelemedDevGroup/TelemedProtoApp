@@ -42,11 +42,14 @@ const Conversation = ({ doctorName, onClick, selected, lastMessage }) => {
   );
 };
 
-const ChatsGroup = () => {
+
+const ChatsGroup = ({userData}) => {
+  
   let [userDialogs, setUserDialog] = useState([]);
   let [allRooms, setAllRooms] = useState([]);
   let [selectedDialog, setSelDialog] = useState([]);
   let [selRoomId, setSelRoomId] = useState({id: null , participants: ''});
+
 
   useEffect(() => {
     setUserDialog(AccountAPI.get("P001"));
@@ -55,7 +58,7 @@ const ChatsGroup = () => {
 
   const userRooms =
     allRooms.length &&
-    allRooms.filter((room) => room.participants.some((partId) => partId === 1));
+    allRooms.filter((room) => room.participants.some((partId) => partId === userData.id));
 
   const clickHandler = (id, participants) => {
     setSelRoomId({id, participants});
@@ -68,7 +71,7 @@ const ChatsGroup = () => {
       room: selRoomId.id,
       type: "TEXT",
       source: "USER",
-      author: 1,
+      author: userData.id,
       body: message,
     }).then(response => (  setSelDialog([
       ...selectedDialog,
@@ -101,7 +104,7 @@ const ChatsGroup = () => {
         <Grid item xs={8}>
           <ChatContainer
             partner={selRoomId.participants}
-            currentUser={1}
+            currentUser={userData.id}
             chatsData={selectedDialog}
             onClick={sendMessage}
           ></ChatContainer>
