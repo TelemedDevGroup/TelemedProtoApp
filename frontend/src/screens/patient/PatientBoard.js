@@ -8,7 +8,7 @@ import ChatsGroup from "../../components/Chat/ChatsGroup.js";
 const BoardPanes = [
   {
     menuItem: (
-      <Menu.Item key="profile" icon="id card">
+      <Menu.Item key="profile">
         <Icon size="large" name="id card" />
         Profile
       </Menu.Item>
@@ -17,7 +17,7 @@ const BoardPanes = [
   },
   {
     menuItem: (
-      <Menu.Item key="todo" icon="clipboard outline">
+      <Menu.Item key="todo">
         <Icon size="large" name="clipboard outline" />
         <Label color="teal">{Math.round(Math.random() * 10)}</Label>
         Actions
@@ -31,7 +31,7 @@ const BoardPanes = [
   },
   {
     menuItem: (
-      <Menu.Item key="calendar" icon="calendar alternate outline">
+      <Menu.Item key="calendar" >
         <Icon size="large" name="calendar alternate outline" />
         Calendar
       </Menu.Item>
@@ -44,15 +44,15 @@ const BoardPanes = [
   },
   {
     menuItem: (
-      <Menu.Item key="chats" position="right" icon="wechat">
+      <Menu.Item key="chats" position="right">
         <Icon size="large" name="wechat" />
         <Label color="teal">{Math.round(Math.random() * 10)}</Label>
         Messenger
       </Menu.Item>
     ),
-    render: () => (
+    render: (props) => (
       <Tab.Pane>
-        <ChatsGroup />
+        <ChatsGroup userData={props}/>
         {/* <PatientChats/> */}
       </Tab.Pane>
     ),
@@ -65,18 +65,20 @@ class PatientBoard extends Component {
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {
+    const userData = this.props.location.state.currentUser;
     //const user = AccountAPI.get( this.props.match.params.userID );
     //const { activeItem } = this.state
     return (
       <Container style={{ marginTop: "5em" }}>
         <Header as="h3">Welcome to Patient's Board</Header>
         <Tab
+         {...userData}
           panes={BoardPanes}
           menu={{
             fluid: true,
             vertical: true,
             tabular: true,
-            defaultActiveIndex: 2,
+            activeIndex: 2,
           }}
         />
       </Container>

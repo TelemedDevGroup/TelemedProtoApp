@@ -8,87 +8,92 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import AccountAPI from "../../mocks/test_conversations.js";
 import ChatContainer from "./ChatContainer.js";
 
+import {
+  getAllRooms,
+  getRoom,
+  sendMessageRoom,
+} from "../../services/ChatRequests";
+
 const useStyles = makeStyles({
-  chatsList: {   
-      height: "700px",
-      background: "#F2FBFB",
+  chatsList: {
+    height: "700px",
+    background: "#F2FBFB",
   },
   selected: {
     background: "#00B5AD",
-    '&:hover': {
-      background: '#00B5AD',
-    }
+    "&:hover": {
+      background: "#00B5AD",
+    },
   },
 });
 
 const Conversation = ({ doctorName, onClick, selected, lastMessage }) => {
   const classes = useStyles();
   return (
-    <ListItem    
-    button  
+    <ListItem
+      button
       onClick={() => onClick()}
-      className={selected && classes.selected}
+      className={`${selected && classes.selected}`}
     >
-      <ListItemText
-        primary={doctorName}
-        secondary={lastMessage[lastMessage.length - 1].message}
-      />
+      <ListItemText primary={doctorName} secondary={lastMessage} />
     </ListItem>
   );
 };
 
-const ChatsGroup = () => {
-  let [userDialogs, setUserDialog] = useState([]);
-  let [selectedDialog, setSelDialog] = useState({});
+const ChatsGroup = ({ userData }) => {
+  const [allRooms, setAllRooms] = useState([]);
+  const [selectedDialog, setSelDialog] = useState([]);
+  const [selRoomId, setSelRoomId] = useState({ id: null, participants: "" });
 
   useEffect(() => {
-    setUserDialog(AccountAPI.get("P001"));
+    getAllRooms().then((response) => setAllRooms(response.content));
   }, []);
 
-  const clickHandler = (id) => {
-    setSelDialog(id);
+  const clickHandler = (id, participants) => {
+    setSelRoomId({ id, participants });
+    getRoom(id).then((response) => setSelDialog(response.content.reverse()));
   };
 
   const sendMessage = (message) => {
-    const newMessage = { sender: userDialogs[0].userName, message: message };
-    setSelDialog({
-      ...selectedDialog,
-      ...selectedDialog.dialog.push(newMessage),
-    });
+    sendMessageRoom({
+      room: selRoomId.id,
+      type: "TEXT",
+      source: "USER",
+      body: message,
+    }).then((response) => setSelDialog([...selectedDialog, response]));
   };
   const classes = useStyles();
   return (
     <Container>
       <Typography variant="h5">Your conversations</Typography>
       <Grid container>
-        <Grid
-        className={classes.chatsList}
-          item
-          xs={4}
-        >
-          {!userDialogs.length ? (
+        <Grid className={classes.chatsList} item xs={4}>
+          {!allRooms.length ? (
             <p>No conversations found</p>
           ) : (
             <List>
-              {userDialogs.map((dialog) => (
-                <Conversation
-                  onClick={() => clickHandler(dialog)}
-                  selected={dialog.id === selectedDialog.id}
-                  doctorName={dialog.doctorName}
-                  lastMessage={dialog.dialog}
-                  key={dialog.id}
-                ></Conversation>
-              ))}
+              {allRooms &&
+                allRooms.map((room) => (
+                  <Conversation
+                    onClick={() =>
+                      clickHandler(room.id, room.participants.join(","))
+                    }
+                    selected={room.id === selRoomId.id}
+                    doctorName={room.participants.join(",")}
+                    lastMessage="test"
+                    key={room.id}
+                  ></Conversation>
+                ))}
             </List>
           )}
         </Grid>
         <Grid item xs={8}>
           <ChatContainer
-            partner={selectedDialog.doctorName}
-            chatsData={selectedDialog.dialog}
+            partner={selRoomId.participants}
+            currentUser={userData.id}
+            chatsData={selectedDialog}
             onClick={sendMessage}
           ></ChatContainer>
         </Grid>
