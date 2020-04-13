@@ -49,7 +49,6 @@ export function getRoom(roomId) {
 
 
 export function sendMessageRoom(messageData) {
-    console.log(JSON.stringify(messageData));
     
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     return Promise.reject("No access token set.");

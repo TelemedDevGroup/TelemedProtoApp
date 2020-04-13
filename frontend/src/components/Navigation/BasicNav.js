@@ -3,7 +3,6 @@ import { Switch, Route } from "react-router-dom";
 import DoctorBoard from '../../screens/doctor/DoctorBoard.js';
 import PatientBoard from '../../screens/patient/PatientBoard.js';
 import PageNotFound from './PageNotFound.js';
-import AccountAPI from '../../mocks/test_users.js';
 import Header from './Header.js';
 import OAuth2RedirectHandler from '../OAuth2/OAuth2RedirectHandler';
 

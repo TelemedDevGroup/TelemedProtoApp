@@ -8,10 +8,13 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import AccountAPI from "../../mocks/test_conversations.js";
 import ChatContainer from "./ChatContainer.js";
 
-import { getAllRooms, getRoom, sendMessageRoom } from "../../services/ChatRequests";
+import {
+  getAllRooms,
+  getRoom,
+  sendMessageRoom,
+} from "../../services/ChatRequests";
 
 const useStyles = makeStyles({
   chatsList: {
@@ -32,51 +35,34 @@ const Conversation = ({ doctorName, onClick, selected, lastMessage }) => {
     <ListItem
       button
       onClick={() => onClick()}
-      className={`${selected && classes.selected}`}     
+      className={`${selected && classes.selected}`}
     >
-      <ListItemText
-        primary={doctorName}
-        secondary={lastMessage}
-      />
+      <ListItemText primary={doctorName} secondary={lastMessage} />
     </ListItem>
   );
 };
 
-
-const ChatsGroup = ({userData}) => {
-  
-  let [userDialogs, setUserDialog] = useState([]);
-  let [allRooms, setAllRooms] = useState([]);
-  let [selectedDialog, setSelDialog] = useState([]);
-  let [selRoomId, setSelRoomId] = useState({id: null , participants: ''});
-
+const ChatsGroup = ({ userData }) => {
+  const [allRooms, setAllRooms] = useState([]);
+  const [selectedDialog, setSelDialog] = useState([]);
+  const [selRoomId, setSelRoomId] = useState({ id: null, participants: "" });
 
   useEffect(() => {
-    setUserDialog(AccountAPI.get("P001"));
     getAllRooms().then((response) => setAllRooms(response.content));
   }, []);
 
-  const userRooms =
-    allRooms.length &&
-    allRooms.filter((room) => room.participants.some((partId) => partId === userData.id));
-
   const clickHandler = (id, participants) => {
-    setSelRoomId({id, participants});
+    setSelRoomId({ id, participants });
     getRoom(id).then((response) => setSelDialog(response.content.reverse()));
   };
 
   const sendMessage = (message) => {
-   
     sendMessageRoom({
       room: selRoomId.id,
       type: "TEXT",
       source: "USER",
-      author: userData.id,
       body: message,
-    }).then(response => (  setSelDialog([
-      ...selectedDialog,
-      response,
-    ])))
+    }).then((response) => setSelDialog([...selectedDialog, response]));
   };
   const classes = useStyles();
   return (
@@ -84,14 +70,16 @@ const ChatsGroup = ({userData}) => {
       <Typography variant="h5">Your conversations</Typography>
       <Grid container>
         <Grid className={classes.chatsList} item xs={4}>
-          {!userDialogs.length ? (
+          {!allRooms.length ? (
             <p>No conversations found</p>
           ) : (
             <List>
-              {userRooms &&
-                userRooms.map((room) => (
+              {allRooms &&
+                allRooms.map((room) => (
                   <Conversation
-                    onClick={() => clickHandler(room.id, room.participants.join(","))}
+                    onClick={() =>
+                      clickHandler(room.id, room.participants.join(","))
+                    }
                     selected={room.id === selRoomId.id}
                     doctorName={room.participants.join(",")}
                     lastMessage="test"

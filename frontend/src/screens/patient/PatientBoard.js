@@ -8,7 +8,7 @@ import ChatsGroup from "../../components/Chat/ChatsGroup.js";
 const BoardPanes = [
   {
     menuItem: (
-      <Menu.Item key="profile" icon="id card">
+      <Menu.Item key="profile">
         <Icon size="large" name="id card" />
         Profile
       </Menu.Item>
@@ -17,7 +17,7 @@ const BoardPanes = [
   },
   {
     menuItem: (
-      <Menu.Item key="todo" icon="clipboard outline">
+      <Menu.Item key="todo">
         <Icon size="large" name="clipboard outline" />
         <Label color="teal">{Math.round(Math.random() * 10)}</Label>
         Actions
@@ -31,7 +31,7 @@ const BoardPanes = [
   },
   {
     menuItem: (
-      <Menu.Item key="calendar" icon="calendar alternate outline">
+      <Menu.Item key="calendar" >
         <Icon size="large" name="calendar alternate outline" />
         Calendar
       </Menu.Item>
@@ -44,7 +44,7 @@ const BoardPanes = [
   },
   {
     menuItem: (
-      <Menu.Item key="chats" position="right" icon="wechat">
+      <Menu.Item key="chats" position="right">
         <Icon size="large" name="wechat" />
         <Label color="teal">{Math.round(Math.random() * 10)}</Label>
         Messenger
@@ -78,7 +78,7 @@ class PatientBoard extends Component {
             fluid: true,
             vertical: true,
             tabular: true,
-            defaultActiveIndex: 2,
+            activeIndex: 2,
           }}
         />
       </Container>

@@ -51,7 +51,7 @@ const useStyles = makeStyles({
 });
 
 const ChatContainer = ({ chatsData, partner, currentUser, onClick }) => {
-  let [inputData, setInputData] = useState("");
+  const [inputData, setInputData] = useState("");
   const classes = useStyles();
   return (
     <>
