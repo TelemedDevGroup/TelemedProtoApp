@@ -32,11 +32,11 @@ const Conversation = ({ doctorName, onClick, selected, lastMessage }) => {
     <ListItem
       button
       onClick={() => onClick()}
-      className={selected && classes.selected}
+      className={`${selected && classes.selected}`}     
     >
       <ListItemText
         primary={doctorName}
-        secondary={lastMessage[lastMessage.length - 1].message}
+        secondary={lastMessage}
       />
     </ListItem>
   );
@@ -46,6 +46,7 @@ const ChatsGroup = () => {
   let [userDialogs, setUserDialog] = useState([]);
   let [allRooms, setAllRooms] = useState([]);
   let [selectedDialog, setSelDialog] = useState([]);
+  let [selRoomId, setSelRoomId] = useState({id: null , participants: ''});
 
   useEffect(() => {
     setUserDialog(AccountAPI.get("P001"));
@@ -56,24 +57,23 @@ const ChatsGroup = () => {
     allRooms.length &&
     allRooms.filter((room) => room.participants.some((partId) => partId === 1));
 
-  const clickHandler = (id) => {
-    getRoom(id).then((response) => setSelDialog(response.content));
+  const clickHandler = (id, participants) => {
+    setSelRoomId({id, participants});
+    getRoom(id).then((response) => setSelDialog(response.content.reverse()));
   };
 
   const sendMessage = (message) => {
-    const newMessage = { sender: userDialogs[0].userName, message: message };
-    
+   
     sendMessageRoom({
-      room: selectedDialog[0].id,
+      room: selRoomId.id,
       type: "TEXT",
       source: "USER",
       author: 1,
       body: message,
-    });
-    // setSelDialog({
-    //   ...selectedDialog,
-    //   ...selectedDialog.dialog.push(newMessage),
-    // });
+    }).then(response => (  setSelDialog([
+      ...selectedDialog,
+      response,
+    ])))
   };
   const classes = useStyles();
   return (
@@ -88,9 +88,9 @@ const ChatsGroup = () => {
               {userRooms &&
                 userRooms.map((room) => (
                   <Conversation
-                    onClick={() => clickHandler(room.id)}
-                    selected={room.id === selectedDialog.id}
-                    doctorName="test"
+                    onClick={() => clickHandler(room.id, room.participants.join(","))}
+                    selected={room.id === selRoomId.id}
+                    doctorName={room.participants.join(",")}
                     lastMessage="test"
                     key={room.id}
                   ></Conversation>
@@ -100,7 +100,8 @@ const ChatsGroup = () => {
         </Grid>
         <Grid item xs={8}>
           <ChatContainer
-            // partner={selectedDialog.doctorName}
+            partner={selRoomId.participants}
+            currentUser={1}
             chatsData={selectedDialog}
             onClick={sendMessage}
           ></ChatContainer>
