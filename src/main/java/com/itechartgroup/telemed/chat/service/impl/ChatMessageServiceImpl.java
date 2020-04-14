@@ -2,7 +2,6 @@ package com.itechartgroup.telemed.chat.service.impl;
 
 import com.itechartgroup.telemed.chat.config.ChatProperties;
 import com.itechartgroup.telemed.chat.dto.ChatMessageDto;
-import com.itechartgroup.telemed.chat.dto.ChatMessageSource;
 import com.itechartgroup.telemed.chat.dto.ChatRoomDto;
 import com.itechartgroup.telemed.chat.dto.ChatThreadHolder;
 import com.itechartgroup.telemed.chat.entity.ChatMessage;
@@ -47,9 +46,8 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     public ChatMessageDto send(final ChatMessageDto dto) {
         final ChatMessage message = mapper.map(dto);
         final ChatMessageDto saved = mapper.map(repository.save(message));
-        final boolean isIncrement = saved.getSource() == ChatMessageSource.USER;
-        final ChatRoomDto room = chatRoomService.updateRoomAndGet(saved.getRoom(), isIncrement);
-        holdResultForShortTerm(saved, room);
+        final ChatRoomDto room = chatRoomService.updateRoomAndGet(saved);
+        holdResultForShortTerm(room, saved);
         return saved;
     }
 
@@ -62,11 +60,11 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     }
 
     @Override
-    public SortedSet<ChatMessageDto> poll(final long timestamp, final long userId) {
+    public SortedSet<ChatRoomDto> poll(final long timestamp, final long userId) {
         final ChatThreadHolder container = SUBSCRIBERS.computeIfAbsent(userId, id -> new ChatThreadHolder(userId));
 
         final LocalDateTime lastUpdate = convertToDateTime(timestamp);
-        final SortedSet<ChatMessageDto> currentUpdates = container.getResult(lastUpdate);
+        final SortedSet<ChatRoomDto> currentUpdates = container.getResult(lastUpdate);
         if (!currentUpdates.isEmpty()) {
             return currentUpdates;
         }
@@ -85,18 +83,23 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     }
 
     /**
-     * Special method, which prevent removing of result and holds for cases when its can be removed between requests and some other delays
+     * Special method, which prevent removing of result and holds for cases when its can be
+     * removed between requests and some other delays.
+     *
+     * @param room    latest version of the room
+     * @param message that should be stored for a short term
      */
-    private void holdResultForShortTerm(final ChatMessageDto message, final ChatRoomDto room) {
+    private void holdResultForShortTerm(final ChatRoomDto room, final ChatMessageDto message) {
         new Thread(() -> {
             log.debug("Holder start: {}", System.currentTimeMillis());
 
-            final long end = System.currentTimeMillis() + properties.getHoldTimeout();
+            final long end = System.currentTimeMillis() + properties.getHoldTimeout() + 600000;
 
+            room.getMessages().add(message);
             final List<ChatThreadHolder> holders = room.getParticipants().parallelStream()
-                    .map(uid -> SUBSCRIBERS.computeIfAbsent(uid, id -> new ChatThreadHolder(uid)))
+                    .map(part -> SUBSCRIBERS.computeIfAbsent(part.getUserId(), ChatThreadHolder::new))
                     .collect(Collectors.toList());
-            holders.forEach(holder -> holder.add(Thread.currentThread(), message));
+            holders.forEach(holder -> holder.replaceRoom(Thread.currentThread(), room));
 
             do {
                 try {

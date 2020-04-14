@@ -2,6 +2,7 @@ package com.itechartgroup.telemed.chat.service.mapper;
 
 import com.itechartgroup.telemed.chat.dto.ChatRoomDto;
 import com.itechartgroup.telemed.chat.entity.ChatRoom;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -13,7 +14,10 @@ import java.util.UUID;
  * @since 08.04.2020
  */
 @Component
+@AllArgsConstructor
 public class ChatRoomMapper {
+
+    private final ChatRoomParticipantMapper participantMapper;
 
     public ChatRoom map(final ChatRoomDto dto) {
         final ChatRoom message = new ChatRoom();
@@ -26,7 +30,7 @@ public class ChatRoomMapper {
         if (Objects.isNull(to.getId())) {
             to.setId(UUID.randomUUID());
             to.setCreated(now);
-            to.setParticipants(from.getParticipants());
+            to.setParticipants(participantMapper.mapDto(from.getParticipants()));
         }
         to.setId(from.getId());
         to.setUpdated(from.getUpdated());
@@ -46,6 +50,6 @@ public class ChatRoomMapper {
         to.setUpdated(from.getUpdated());
         to.setId(from.getId());
         to.setMessageCount(from.getMessageCount());
-        to.setParticipants(from.getParticipants());
+        to.setParticipants(participantMapper.mapEntity(from.getParticipants()));
     }
 }
