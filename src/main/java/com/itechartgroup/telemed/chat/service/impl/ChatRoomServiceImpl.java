@@ -24,6 +24,9 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import static com.itechartgroup.telemed.chat.constant.ChatConstants.UNREAD_NO_MESSAGES;
+import static com.itechartgroup.telemed.chat.constant.ChatConstants.UNREAD_INC_SIZE;
+
 /**
  * @author s.vareyko
  * @since 08.04.2020
@@ -69,7 +72,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     public ChatRoomDto markAsRead(final Long userId, final UUID roomId) {
         return findAndApply(roomId, room -> room.getParticipants().stream()
                 .filter(part -> part.getUserId().equals(userId)).findAny()
-                .ifPresent(part -> part.setUnreadCount(0L)));
+                .ifPresent(part -> part.setUnreadCount(UNREAD_NO_MESSAGES)));
     }
 
     /**
@@ -93,7 +96,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
      */
     private void incrementMessageCount(final ChatRoom room, final ChatMessageDto message) {
         if (message.getSource() == ChatMessageSource.USER) {
-            room.setMessageCount(room.getMessageCount() + 1);
+            room.setMessageCount(room.getMessageCount() + UNREAD_INC_SIZE);
         }
     }
 
@@ -106,9 +109,9 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     private void incrementUnreadCount(final ChatRoom room, final ChatMessageDto message) {
         room.getParticipants().forEach(participant -> {
             if (Objects.equals(message.getAuthor(), participant.getUserId())) {
-                participant.setUnreadCount(0L);
+                participant.setUnreadCount(UNREAD_NO_MESSAGES);
             } else {
-                participant.setUnreadCount(participant.getUnreadCount() + 1L);
+                participant.setUnreadCount(participant.getUnreadCount() + UNREAD_INC_SIZE);
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.itechartgroup.telemed.chat.config;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * @since 10.04.2020
  */
 @Getter
+@Setter
 @Configuration
 @ConfigurationProperties(prefix = "chat")
 public class ChatProperties {

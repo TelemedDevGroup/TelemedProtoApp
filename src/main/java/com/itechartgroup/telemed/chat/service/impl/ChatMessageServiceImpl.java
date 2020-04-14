@@ -24,6 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import static com.itechartgroup.telemed.chat.constant.ChatConstants.POLLING_SLEEP_STEP;
 import static com.itechartgroup.telemed.utils.DateTimeUtils.convertToDateTime;
 
 /**
@@ -93,7 +94,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         new Thread(() -> {
             log.debug("Holder start: {}", System.currentTimeMillis());
 
-            final long end = System.currentTimeMillis() + properties.getHoldTimeout() + 600000;
+            final long end = System.currentTimeMillis() + properties.getHoldTimeout();
 
             room.getMessages().add(message);
             final List<ChatThreadHolder> holders = room.getParticipants().parallelStream()
@@ -103,7 +104,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
 
             do {
                 try {
-                    TimeUnit.MILLISECONDS.sleep(properties.getHoldTimeout() / 10);
+                    TimeUnit.MILLISECONDS.sleep(properties.getHoldTimeout() / POLLING_SLEEP_STEP);
                 } catch (final InterruptedException ignore) {
                 }
             } while (System.currentTimeMillis() < end);

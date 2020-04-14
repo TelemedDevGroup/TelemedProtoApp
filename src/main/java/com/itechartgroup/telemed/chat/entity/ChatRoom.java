@@ -32,10 +32,4 @@ public class ChatRoom {
     private boolean isVideoActive = false;
     private LocalDateTime created;
     private LocalDateTime updated;
-
-    public static ChatRoom of(final UUID id) {
-        final ChatRoom room = new ChatRoom();
-        room.setId(id);
-        return room;
-    }
 }
