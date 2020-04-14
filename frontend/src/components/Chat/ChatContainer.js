@@ -2,9 +2,9 @@ import React, {useState} from "react";
 import {Button, Grid, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import VideoCallIcon from "@material-ui/icons/VideoCall";
-import {ACCESS_TOKEN, API_BASE_URL} from "../../constants";
 import VideoCallModal from "./VideoCallModal";
 import {createVideoRoom} from "../../services/ChatRequests";
+import TextField from "@material-ui/core";
 
 const useStyles = makeStyles({
   container: {
