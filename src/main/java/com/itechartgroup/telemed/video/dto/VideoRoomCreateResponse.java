@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VideoRoomCreateRequest {
+public class VideoRoomCreateResponse {
 
-    private String roomId;
+    private String token;
 
 }
