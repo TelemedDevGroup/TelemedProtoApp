@@ -11,10 +11,9 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import LocalHospitalIcon from "@material-ui/icons/LocalHospital";
-import { Link as RouterLink, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import AccountAPI from "../../mocks/test_users.js";
 import { ACCESS_TOKEN } from '../../constants';
 import { getCurrentUser, login } from '../../services/Auth';
@@ -52,7 +51,7 @@ function calcPath2Board(user) {
 }
 
 function ListItemLink(props) {
-  const {to, primary, icon, id, parentProps } = props;
+  const { primary, id, parentProps } = props;
 
   function handleDemoAccountLogin(event, userId) {
     const user = AccountAPI.get(userId);

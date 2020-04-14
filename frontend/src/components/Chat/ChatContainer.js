@@ -52,7 +52,7 @@ const useStyles = makeStyles({
   },
 });
 
-const ChatContainer = ({ chatsData, partner, onClick }) => {
+const ChatContainer = ({ chatsData, partner, currentUser, onClick }) => {
   let [activeVideoCall, setActiveVideoCall] = useState(false);
   let [inputData, setInputData] = useState("");
   let [token, setToken] = useState("");
@@ -123,29 +123,30 @@ const ChatContainer = ({ chatsData, partner, onClick }) => {
               overflowY: "auto",
             }}
           >
-            {chatsData.map((message, index) => (
-              <Grid
-                key={index}
-                className={`${classes.message} ${
-                  message.partner || classes.partner
-                }`}
-              >
-                <Typography className={classes.senderName} variant="h6">
-                  {message.sender}
-                </Typography>
-                {message.attachment && (
-                  <img
-                    className={classes.image}
-                    src={message.attachment}
-                    alt="attachment"
-                  ></img>
-                )}
+            {chatsData &&
+              chatsData.map((message, index) => (
+                <Grid
+                  key={index}
+                  className={`${classes.message} ${
+                    currentUser === message.author && classes.partner
+                  }`}
+                >
+                  <Typography className={classes.senderName} variant="h6">
+                    {message.author}
+                  </Typography>
+                  {message.attachment && (
+                    <img
+                      className={classes.image}
+                      src={message.attachment}
+                      alt="attachment"
+                    ></img>
+                  )}
 
-                {message.message && (
-                  <Typography variant="body1">{message.message}</Typography>
-                )}
-              </Grid>
-            ))}
+                  {message.body && (
+                    <Typography variant="body1">{message.body}</Typography>
+                  )}
+                </Grid>
+              ))}
           </Grid>
 
           <Grid container direction="row" alignContent="center" wrap="nowrap">
@@ -155,6 +156,12 @@ const ChatContainer = ({ chatsData, partner, onClick }) => {
               variant="outlined"
               placeholder="Input your message..."
               value={inputData}
+              onKeyPress={(event) => {
+                if (event.key === "Enter") {
+                  inputData && onClick(inputData);
+                  setInputData("");
+                }
+              }}
               onChange={(event) => setInputData(event.target.value)}
             ></TextField>
             <Button
