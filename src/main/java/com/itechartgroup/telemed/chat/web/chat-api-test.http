@@ -1,0 +1,44 @@
+GET localhost:5000/api/chat/room
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTg2ODQ3MDEzLCJleHAiOjE1ODc3MTEwMTN9.uaybx86JdAryJrmWhsOlxnsTHPwf2dG6CHH6zMaj7SLZF5Fd2szfVwumxn8key7RRXhEKTHuSKmGsWQxk0PHyw
+
+###
+
+POST localhost:5000/api/chat/room
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTg2ODQ3MDEzLCJleHAiOjE1ODc3MTEwMTN9.uaybx86JdAryJrmWhsOlxnsTHPwf2dG6CHH6zMaj7SLZF5Fd2szfVwumxn8key7RRXhEKTHuSKmGsWQxk0PHyw
+
+[
+  2
+]
+
+###
+
+POST localhost:5000/api/chat/message
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTg2ODQ3MDEzLCJleHAiOjE1ODc3MTEwMTN9.uaybx86JdAryJrmWhsOlxnsTHPwf2dG6CHH6zMaj7SLZF5Fd2szfVwumxn8key7RRXhEKTHuSKmGsWQxk0PHyw
+
+{
+  "room": "86306af0-acb9-48c5-9f58-f07ff8488f6b",
+  "type": "TEXT",
+  "source": "USER",
+  "author": 3,
+  "body": "fourth message"
+}
+
+###
+
+GET localhost:5000/api/chat/room/86306af0-acb9-48c5-9f58-f07ff8488f6b
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTg2ODQ3MDEzLCJleHAiOjE1ODc3MTEwMTN9.uaybx86JdAryJrmWhsOlxnsTHPwf2dG6CHH6zMaj7SLZF5Fd2szfVwumxn8key7RRXhEKTHuSKmGsWQxk0PHyw
+
+###
+
+GET localhost:5000/api/chat/poll
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTg2ODQ3MDEzLCJleHAiOjE1ODc3MTEwMTN9.uaybx86JdAryJrmWhsOlxnsTHPwf2dG6CHH6zMaj7SLZF5Fd2szfVwumxn8key7RRXhEKTHuSKmGsWQxk0PHyw
+
+###
+
+POST localhost:5000/api/chat/room/86306af0-acb9-48c5-9f58-f07ff8488f6b
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTg2ODQ3MDEzLCJleHAiOjE1ODc3MTEwMTN9.uaybx86JdAryJrmWhsOlxnsTHPwf2dG6CHH6zMaj7SLZF5Fd2szfVwumxn8key7RRXhEKTHuSKmGsWQxk0PHyw
+
+###
+
