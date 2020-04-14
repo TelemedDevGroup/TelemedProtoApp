@@ -1,7 +1,10 @@
-import React, { useState } from "react";
-import { Button, Grid, Typography, TextField } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import React, {useState} from "react";
+import {Button, Grid, Typography} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
 import VideoCallIcon from "@material-ui/icons/VideoCall";
+import VideoCallModal from "./VideoCallModal";
+import {createVideoRoom} from "../../services/ChatRequests";
+import TextField from "@material-ui/core";
 
 const useStyles = makeStyles({
   container: {
@@ -51,8 +54,21 @@ const useStyles = makeStyles({
 });
 
 const ChatContainer = ({ chatsData, partner, currentUser, onClick }) => {
-  const [inputData, setInputData] = useState("");
+  let [activeVideoCall, setActiveVideoCall] = useState(false);
+  let [inputData, setInputData] = useState("");
+  let [token, setToken] = useState("");
   const classes = useStyles();
+
+  const startVideoCall = (token) => {
+    setToken(token);
+    setActiveVideoCall(true);
+  };
+
+  const finishVideoCall = () => {
+    setToken(null);
+    setActiveVideoCall(false);
+  };
+
   return (
     <>
       {!chatsData ? (
@@ -71,9 +87,14 @@ const ChatContainer = ({ chatsData, partner, currentUser, onClick }) => {
               variant="contained"
               className={classes.videoButton}
               startIcon={<VideoCallIcon>send</VideoCallIcon>}
+              onClick={() => {
+                createVideoRoom('0b3a56ce-a7dc-4cff-9588-697db5ff6fe4')
+                    .then(json => startVideoCall(json.token))
+              }}
             >
               Video Call
             </Button>
+            <VideoCallModal handleClose={finishVideoCall} show={activeVideoCall} token={token}/>
           </Grid>
           <Grid
             container

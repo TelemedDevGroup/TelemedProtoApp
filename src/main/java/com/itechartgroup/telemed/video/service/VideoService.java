@@ -4,7 +4,7 @@ import com.itechartgroup.telemed.security.UserPrincipal;
 
 public interface VideoService {
 
-    String createVideoRoom(String currentUserName, String roomId);
+    String createVideoCall(String currentUserName, String roomId);
 
     String joinRoom(UserPrincipal currentUser, String roomId);
 

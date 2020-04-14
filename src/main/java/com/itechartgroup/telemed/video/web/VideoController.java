@@ -3,6 +3,7 @@ package com.itechartgroup.telemed.video.web;
 import com.itechartgroup.telemed.security.CurrentUser;
 import com.itechartgroup.telemed.security.UserPrincipal;
 import com.itechartgroup.telemed.video.dto.VideoRoomCreateRequest;
+import com.itechartgroup.telemed.video.dto.VideoRoomCreateResponse;
 import com.itechartgroup.telemed.video.dto.VideoRoomUpdateRequest;
 import com.itechartgroup.telemed.video.service.VideoService;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +25,8 @@ public class VideoController {
     private final VideoService videoService;
 
     @PostMapping(value = "room", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String createVideoRoom(@CurrentUser UserPrincipal currentUser, @RequestBody VideoRoomCreateRequest request) {
-        return videoService.createVideoRoom(currentUser.getName(), request.getRoomId());
+    public VideoRoomCreateResponse createVideoRoom(@CurrentUser UserPrincipal currentUser, @RequestBody VideoRoomCreateRequest request) {
+        return new VideoRoomCreateResponse(videoService.createVideoCall(currentUser.getName(), request.getRoomId()));
     }
 
     @GetMapping("room")
