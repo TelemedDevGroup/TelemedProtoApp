@@ -18,6 +18,7 @@ http://telemed-poc-back-dev.us-west-2.elasticbeanstalk.com/
 ### Back Configuration
 For local development please create file ```application-local.yaml``` alongside ```application.yaml``` and 
 define personal application properties for example twilio API keys.
+You can use ```application-local.yml.example``` as an example.
 
 As you defined any local properties please run backend service with ```local``` profile. 
 
@@ -41,7 +42,11 @@ Also, please update credentials for database connection if you set different one
 ### Front Configuration
 
 For local development go to **frontend** folder as UI project directory.
-You can run:
+
+Create file ```.env.development``` with links to the backend and redirect URL for OAuth2 auth.
+You can use ```.env.development.example``` as an example environment properties file.
+
+After that you can run:
 
 #### `npm start`
 
