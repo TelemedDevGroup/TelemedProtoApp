@@ -19,4 +19,5 @@ public class ChatRoomParticipantDto {
     private UUID chatRoomId;
     private Long userId;
     private Long unreadCount;
+    private String username;
 }

@@ -53,7 +53,6 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     @Override
     public Page<ChatRoomDto> load(final Pageable page, final Long userId) {
         return repository.findByParticipants_UserIdEquals(userId, page).map(mapper::map);
-        //return repository.findAllByParticipantId(userId, page).map(mapper::map);
     }
 
     @Override

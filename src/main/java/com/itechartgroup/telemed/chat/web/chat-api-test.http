@@ -18,7 +18,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTg2ODQ3MDEzLCJleHAiOjE1ODc3MTEwMTN9.uaybx86JdAryJrmWhsOlxnsTHPwf2dG6CHH6zMaj7SLZF5Fd2szfVwumxn8key7RRXhEKTHuSKmGsWQxk0PHyw
 
 {
-  "room": "86306af0-acb9-48c5-9f58-f07ff8488f6b",
+  "room": "221be42e-5c97-4fc8-b0df-c4f276f44a7e",
   "type": "TEXT",
   "source": "USER",
   "author": 3,
@@ -27,7 +27,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTg2ODQ3MDEzL
 
 ###
 
-GET localhost:5000/api/chat/room/86306af0-acb9-48c5-9f58-f07ff8488f6b
+GET localhost:5000/api/chat/room/221be42e-5c97-4fc8-b0df-c4f276f44a7e
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTg2ODQ3MDEzLCJleHAiOjE1ODc3MTEwMTN9.uaybx86JdAryJrmWhsOlxnsTHPwf2dG6CHH6zMaj7SLZF5Fd2szfVwumxn8key7RRXhEKTHuSKmGsWQxk0PHyw
 
 ###
@@ -37,7 +37,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTg2ODQ3MDEzL
 
 ###
 
-POST localhost:5000/api/chat/room/86306af0-acb9-48c5-9f58-f07ff8488f6b
+POST localhost:5000/api/chat/room/221be42e-5c97-4fc8-b0df-c4f276f44a7e
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTg2ODQ3MDEzLCJleHAiOjE1ODc3MTEwMTN9.uaybx86JdAryJrmWhsOlxnsTHPwf2dG6CHH6zMaj7SLZF5Fd2szfVwumxn8key7RRXhEKTHuSKmGsWQxk0PHyw
 
 ###
