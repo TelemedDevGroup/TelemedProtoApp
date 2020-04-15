@@ -14,7 +14,6 @@ import java.util.UUID;
  */
 @Data
 public class ChatMessageDto implements Comparable<ChatMessageDto> {
-
     private static final Comparator<ChatMessageDto> COMPARATOR = Comparator
             .comparing(ChatMessageDto::getUpdated)
             .thenComparing(ChatMessageDto::getId);
