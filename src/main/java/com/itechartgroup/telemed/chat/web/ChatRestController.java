@@ -76,8 +76,8 @@ public class ChatRestController {
     }
 
     @GetMapping("/poll")
-    public ResponseEntity<SortedSet<ChatMessageDto>> pollMessages(final HttpSession session,
-                                                                  @AuthenticationPrincipal final UserPrincipal principal) {
+    public ResponseEntity<SortedSet<ChatRoomDto>> pollMessages(final HttpSession session,
+                                                               @AuthenticationPrincipal final UserPrincipal principal) {
         try {
             final long lastFetch = getLastFetchAttribute(session);
             final Long userId = principal.getId();
@@ -85,6 +85,12 @@ public class ChatRestController {
         } finally {
             setLastFetchAttribute(session);
         }
+    }
+
+    @PostMapping("/room/{roomId}")
+    public ResponseEntity<ChatRoomDto> markAsRead(@PathVariable final UUID roomId,
+                                                  @AuthenticationPrincipal final UserPrincipal principal) {
+        return new ResponseEntity<>(chatRoomService.markAsRead(principal.getId(), roomId), HttpStatus.OK);
     }
 
     private long getLastFetchAttribute(final HttpSession session) {

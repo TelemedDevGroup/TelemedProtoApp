@@ -4,14 +4,12 @@ import com.itechartgroup.telemed.chat.entity.converter.UUIDConverter;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Convert;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
@@ -28,10 +26,9 @@ public class ChatRoom {
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     @Convert(converter = UUIDConverter.class)
     private UUID id;
-    @ElementCollection
-    @CollectionTable(joinColumns = @JoinColumn(name = "chat_room_id"))
-    @Column(name = "user_id")
-    private Set<Long> participants;
+    // todo: solve n+1 issue
+    @OneToMany(mappedBy = "chatRoomId", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<ChatRoomParticipant> participants;
     private Long messageCount = 0L;
     private boolean isVideoActive = false;
     private LocalDateTime created;

@@ -7,4 +7,7 @@ package com.itechartgroup.telemed.chat.constant;
 public interface ChatConstants {
 
     String SESSION_ATTR_LAST_FETCH = "LAST_MESSAGES_FETCH";
+    long POLLING_SLEEP_STEP = 10L;
+    long UNREAD_INC_SIZE = 1L;
+    long UNREAD_NO_MESSAGES = 0L;
 }

@@ -1,5 +1,6 @@
 package com.itechartgroup.telemed.chat.service;
 
+import com.itechartgroup.telemed.chat.dto.ChatMessageDto;
 import com.itechartgroup.telemed.chat.dto.ChatRoomDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,9 +34,17 @@ public interface ChatRoomService {
     /**
      * Method for updating of date when latest actions occurred in the chat room.
      *
-     * @param id        of chat room to be updated
-     * @param increment should be incremented counter of messages
+     * @param message based on which should be updated room
      * @return updated room
      */
-    ChatRoomDto updateRoomAndGet(UUID id, final boolean increment);
+    ChatRoomDto updateRoomAndGet(ChatMessageDto message);
+
+    /**
+     * Method that marks some specific room read by current user.
+     *
+     * @param userId current user id
+     * @param roomId to be updated
+     * @return updated room dto
+     */
+    ChatRoomDto markAsRead(Long userId, UUID roomId);
 }
