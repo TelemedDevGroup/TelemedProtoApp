@@ -1,85 +1,81 @@
-import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Icon } from "semantic-ui-react";
-import Video from "twilio-video";
-import { Card, Grid } from "@material-ui/core";
+import React, { useEffect, useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { Icon } from 'semantic-ui-react';
+import Video from 'twilio-video';
+import { Card } from '@material-ui/core';
 
 const useStyles = makeStyles({
   modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "fixed",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'fixed',
     top: 0,
     left: 0,
-    width: "100%",
-    height: "100%",
-    background: "rgba(0, 0, 0, 0.6)",
+    width: '100%',
+    height: '100%',
+    background: 'rgba(0, 0, 0, 0.6)',
     zIndex: 99,
   },
 
   modalMain: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    background: "lightgray",
-    width: "720px",
-    height: "600px",
-    padding: "0.5rem",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    background: 'lightgray',
+    width: '720px',
+    height: '600px',
+    padding: '0.5rem',
   },
 
-  "close-icon": {
-    alignSelf: "flex-end",
-    paddingTop: "0.5rem",
+  'close-icon': {
+    alignSelf: 'flex-end',
+    paddingTop: '0.5rem',
   },
 
   media: {
-    margin: "30px 10px 10px",
-    background: "lightgray",
-    position: "relative"
+    margin: '30px 10px 10px',
+    background: 'lightgray',
+    position: 'relative',
   },
 
   localMedia: {
-    maxWidth: "640px",
-    maxHeight: "480px",
-    position: "absolute",
-    right: "40px",
-    zIndex: 99,
+    width: '100%',
   },
 
-  "remote-spinner": {
-    top: "250px",
-    position: "relative",
+  'remote-spinner': {
+    top: '250px',
+    position: 'relative',
   },
 
   controlButtons: {
-    width: "4rem  !important",
-    height: "4rem !important",
-    fontSize: "2.2rem !important",
-    background: "gray",
-    color: "white",
-    borderRadius: "12px",
-    paddingTop: "1rem",
+    width: '4rem  !important',
+    height: '4rem !important',
+    fontSize: '2.2rem !important',
+    background: 'gray',
+    color: 'white',
+    borderRadius: '12px',
+    paddingTop: '1rem',
   },
 
   buttonsContainer: {
-    display: "flex",
-    width: "15rem",
-    justifyContent: "space-between",
-    marginTop: "2rem"
+    display: 'flex',
+    width: '15rem',
+    justifyContent: 'space-between',
+    marginTop: '2rem',
   },
 
   remoteVideoContainer: {
-    display: "flex",
-    justifyContent: "flex-end",
-    flexWrap: "nowrap",
-    position: "absolute",
-    overflowX: "auto",
+    display: 'flex',
+    justifyContent: 'flex-end',
+    flexWrap: 'nowrap',
+    position: 'absolute',
+    overflowX: 'auto',
     top: 0,
   },
 
-  remoteVideo: {     
-    maxWidth: "25%",
+  remoteVideo: {
+    maxWidth: '25%',
   },
 });
 
@@ -91,42 +87,42 @@ const VideoCallModal = ({ handleClose, show, token }) => {
 
   useEffect(() => {
     if (show && !activeRoom) {
-      //   Video.connect(token, {
-      //     video: false,
-      //     audio: false,
-      //     _useTwilioConnection: true,
-      //   }).then(
-      //     (room) => roomJoined(room),
-      //     function (error) {
-      //       console.error("Could not connect to Twilio: " + error.message);
-      //     }
-      //   );
+      Video.connect(token, {
+        video: false,
+        audio: false,
+        _useTwilioConnection: true,
+      }).then(
+        (room) => roomJoined(room),
+        function (error) {
+          console.error('Could not connect to Twilio: ' + error.message);
+        }
+      );
 
-      window.addEventListener("beforeunload", leaveRoomIfJoined);
+      window.addEventListener('beforeunload', leaveRoomIfJoined);
     }
   });
 
   const roomJoined = (room) => {
     setActiveRoom(room);
-    const previewContainer = document.getElementById("local-media");
-    if (!previewContainer.querySelector("video")) {
+    const previewContainer = document.getElementById('local-media');
+    if (!previewContainer.querySelector('video')) {
       attachLocalTracks(getTracks(room.localParticipant), previewContainer);
     }
 
-    const remoteMediaContainer = document.getElementById("remote-media");
+    const remoteMediaContainer = document.getElementById('remote-media');
     room.participants.forEach(function (participant) {
       participantConnected(participant, remoteMediaContainer);
     });
 
-    room.on("participantConnected", function (participant) {
+    room.on('participantConnected', function (participant) {
       participantConnected(participant, remoteMediaContainer);
     });
 
-    room.on("participantDisconnected", function (participant) {
+    room.on('participantDisconnected', function (participant) {
       detachParticipantTracks(participant);
     });
 
-    room.on("disconnected", function () {
+    room.on('disconnected', function () {
       detachParticipantTracks(room.localParticipant);
 
       room.participants.forEach(detachParticipantTracks);
@@ -136,7 +132,7 @@ const VideoCallModal = ({ handleClose, show, token }) => {
   };
 
   const attachLocalTracks = (tracks, container) => {
-    const selfContainer = document.createElement("div");
+    const selfContainer = document.createElement('div');
     container.appendChild(selfContainer);
     tracks.forEach(function (track) {
       attachTrack(track, selfContainer);
@@ -158,31 +154,31 @@ const VideoCallModal = ({ handleClose, show, token }) => {
   };
 
   const participantConnected = (participant, container) => {
-    const selfContainer = document.createElement("div");
+    const selfContainer = document.createElement('div');
     container.appendChild(selfContainer);
 
     participant.tracks.forEach(function (publication) {
       trackPublished(publication, selfContainer);
     });
 
-    participant.on("trackPublished", function (publication) {
+    participant.on('trackPublished', function (publication) {
       trackPublished(publication, selfContainer);
     });
 
     setShowSpinner(false);
 
-    participant.on("trackUnpublished", trackUnpublished);
+    participant.on('trackUnpublished', trackUnpublished);
   };
 
   const trackPublished = (publication, container) => {
     if (publication.isSubscribed) {
       attachTrack(publication.track, container);
     }
-    publication.on("subscribed", function (track) {
-      console.log("Subscribed to " + publication.kind + " track");
+    publication.on('subscribed', function (track) {
+      console.log('Subscribed to ' + publication.kind + ' track');
       attachTrack(track, container);
     });
-    publication.on("unsubscribed", detachTrack);
+    publication.on('unsubscribed', detachTrack);
   };
 
   const detachParticipantTracks = (participant) => {
@@ -198,7 +194,7 @@ const VideoCallModal = ({ handleClose, show, token }) => {
   };
 
   const trackUnpublished = (publication) => {
-    console.log(publication.kind + " track was unpublished.");
+    console.log(publication.kind + ' track was unpublished.');
   };
 
   const finishCall = () => {
@@ -228,18 +224,29 @@ const VideoCallModal = ({ handleClose, show, token }) => {
         <Icon
           name="close"
           size="big"
-          className={classes["close-icon"]}
+          className={classes['close-icon']}
           link
           onClick={finishCall}
         />
         <div className={classes.media}>
-          <div className={classes.localMedia} id="local-media" />
-          <video
-            src="/chatVideo/localVideo.mp4"
-            autoPlay
-            style={{ width: "100%" }}
-          ></video>
-          
+          <div className={classes.localMedia} id="local-media">
+            {/* {showSpinner ? (
+              <Icon
+                name="spinner"
+                size="huge"
+                loading
+                autoPlay
+                className={classes["remote-spinner"]}
+                display="none"
+              />
+            ) : ( */}
+            <video
+              src="/chatVideo/localVideo.mp4"
+              autoPlay
+              style={{ maxWidth: '100%' }}
+            ></video>
+            {/* )} */}
+          </div>
           <div id="remote-media" className={classes.remoteVideoContainer}>
             <video
               className={classes.remoteVideo}
@@ -276,7 +283,7 @@ const VideoCallModal = ({ handleClose, show, token }) => {
           />
           <Icon
             className={classes.controlButtons}
-            style={{ background: "red" }}
+            style={{ background: 'red' }}
             name="phone square"
             size="big"
             link
