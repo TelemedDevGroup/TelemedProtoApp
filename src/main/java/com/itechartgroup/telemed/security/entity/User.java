@@ -1,17 +1,19 @@
 package com.itechartgroup.telemed.security.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.itechartgroup.telemed.utils.UUIDConverter;
 import com.itechartgroup.telemed.security.oauth2.AuthProvider;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -22,6 +24,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "user", uniqueConstraints = {
@@ -31,9 +34,11 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+    @Convert(converter = UUIDConverter.class)
     @Column(name = "user_id")
-    private Long id;
+    private UUID id;
 
     @Column(nullable = false)
     private String name;

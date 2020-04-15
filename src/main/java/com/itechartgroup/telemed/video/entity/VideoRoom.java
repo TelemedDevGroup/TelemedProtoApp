@@ -1,23 +1,19 @@
 package com.itechartgroup.telemed.video.entity;
 
 import com.itechartgroup.telemed.chat.entity.ChatRoom;
-import com.itechartgroup.telemed.chat.entity.converter.UUIDConverter;
+import com.itechartgroup.telemed.utils.UUIDConverter;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
 import javax.persistence.Convert;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
 
 @Data

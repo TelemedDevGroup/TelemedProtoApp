@@ -35,7 +35,7 @@ public class ChatMessage {
     private ChatMessageSource source;
     @Lob
     private String body;
-    private Long author;
+    private UUID author;
     private LocalDateTime created;
     private LocalDateTime updated;
 }

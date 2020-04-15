@@ -43,9 +43,9 @@ public class ChatRoomDto implements Comparable<ChatRoomDto> {
      */
     @SuppressWarnings("unused")
     public long getUnreadCount() {
-        final Long userId = Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
+        final UUID userId = Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
                 .map(Authentication::getPrincipal).map(details -> (UserPrincipal) details).map(UserPrincipal::getId)
-                .orElse(0L);
+                .orElse(new UUID(0,0));
         return participants.stream().filter(participant -> participant.getUserId().equals(userId)).findFirst()
                 .map(ChatRoomParticipantDto::getUnreadCount).orElse(0L);
     }

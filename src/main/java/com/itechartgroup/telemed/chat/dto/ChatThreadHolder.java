@@ -8,6 +8,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 public class ChatThreadHolder {
 
     @Getter
-    private final Long userId;
+    private final UUID userId;
     private final Queue<Thread> threads = new ConcurrentLinkedQueue<>();
     @Getter
     private final Queue<ChatRoomDto> rooms = new ConcurrentLinkedQueue<>();
@@ -30,7 +31,7 @@ public class ChatThreadHolder {
      *
      * @param userId for which created holder
      */
-    public ChatThreadHolder(final Long userId) {
+    public ChatThreadHolder(final UUID userId) {
         this.userId = userId;
     }
 

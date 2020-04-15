@@ -50,7 +50,7 @@ public class ChatRestController {
     }
 
     @PostMapping("/room")
-    public ResponseEntity<ChatRoomDto> createRoom(@RequestBody final Set<Long> participants,
+    public ResponseEntity<ChatRoomDto> createRoom(@RequestBody final Set<UUID> participants,
                                                   @AuthenticationPrincipal final UserPrincipal principal) {
         participants.add(principal.getId());
         return new ResponseEntity<>(chatRoomService.create(participants), HttpStatus.OK);
@@ -80,7 +80,7 @@ public class ChatRestController {
                                                                @AuthenticationPrincipal final UserPrincipal principal) {
         try {
             final long lastFetch = getLastFetchAttribute(session);
-            final Long userId = principal.getId();
+            final UUID userId = principal.getId();
             return new ResponseEntity<>(chatMessageService.poll(lastFetch, userId), HttpStatus.OK);
         } finally {
             setLastFetchAttribute(session);

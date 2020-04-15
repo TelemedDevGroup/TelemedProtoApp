@@ -4,7 +4,7 @@
 CREATE TABLE chat_room_participant
 (
     chat_room_id BINARY(16)                           NOT NULL,
-    user_id      BIGINT(20) DEFAULT 0                 NOT NULL,
+    user_id      BINARY(16)                           NOT NULL,
     unread_count BIGINT(20) DEFAULT 0                 NOT NULL,
     created      DATETIME   DEFAULT CURRENT_TIMESTAMP NOT NULL
 ) ENGINE = InnoDB

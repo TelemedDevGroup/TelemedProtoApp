@@ -24,7 +24,7 @@ public class ChatMessageDto implements Comparable<ChatMessageDto> {
     @NotNull
     private ChatMessageType type;
     private ChatMessageSource source;
-    private Long author;
+    private UUID author;
     @NotEmpty
     private String body; // todo: add multipart for images/docs
     private LocalDateTime created;

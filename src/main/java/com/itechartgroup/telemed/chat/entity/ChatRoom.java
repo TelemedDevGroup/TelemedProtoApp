@@ -1,6 +1,6 @@
 package com.itechartgroup.telemed.chat.entity;
 
-import com.itechartgroup.telemed.chat.entity.converter.UUIDConverter;
+import com.itechartgroup.telemed.utils.UUIDConverter;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
