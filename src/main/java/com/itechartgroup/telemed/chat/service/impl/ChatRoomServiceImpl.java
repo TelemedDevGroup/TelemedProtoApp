@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -29,7 +30,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.itechartgroup.telemed.chat.constant.ChatConstants.UNREAD_INC_SIZE;
 import static com.itechartgroup.telemed.chat.constant.ChatConstants.UNREAD_NO_MESSAGES;
@@ -131,12 +131,14 @@ public class ChatRoomServiceImpl implements ChatRoomService {
      * @return original object with inserted usernames
      */
     private Page<ChatRoomDto> insertParticipantNames(final Page<ChatRoomDto> rooms) {
-        final Stream<ChatRoomParticipantDto> participants = rooms.getContent().stream()
-                .map(ChatRoomDto::getParticipants).flatMap(Collection::stream);
-        final Set<UUID> userIds = participants.map(ChatRoomParticipantDto::getUserId).collect(Collectors.toSet());
+        final List<ChatRoomParticipantDto> entries = rooms.getContent().stream()
+                .map(ChatRoomDto::getParticipants).flatMap(Collection::stream).collect(Collectors.toList());
+
+        final Set<UUID> userIds = entries.stream().map(ChatRoomParticipantDto::getUserId).collect(Collectors.toSet());
         final Map<UUID, String> usernames = userRepository.findAllByIdIn(userIds).stream()
                 .collect(Collectors.toMap(UserNameAndIdProjection::getId, UserNameAndIdProjection::getName));
-        participants.forEach(participant -> participant.setUsername(usernames.get(participant.getUserId())));
+
+        entries.forEach(participant -> participant.setUsername(usernames.get(participant.getUserId())));
         return rooms;
     }
 }
