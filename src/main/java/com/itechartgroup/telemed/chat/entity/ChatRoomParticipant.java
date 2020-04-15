@@ -27,6 +27,7 @@ public class ChatRoomParticipant {
     @Convert(converter = UUIDConverter.class)
     private UUID chatRoomId;
     @Id
+    @Convert(converter = UUIDConverter.class)
     private UUID userId;
     private Long unreadCount;
 }

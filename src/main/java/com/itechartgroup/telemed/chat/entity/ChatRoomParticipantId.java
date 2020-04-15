@@ -15,5 +15,6 @@ import java.util.UUID;
 public class ChatRoomParticipantId implements Serializable {
     @Convert(converter = UUIDConverter.class)
     private UUID chatRoomId;
+    @Convert(converter = UUIDConverter.class)
     private UUID userId;
 }
