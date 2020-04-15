@@ -94,7 +94,7 @@ const ChatContainer = ({ chatsData, partner, currentUser, onClick }) => {
             >
               Video Call
             </Button>
-            <VideoCallModal handleClose={finishVideoCall} show={activeVideoCall} token={token}/>
+            {activeVideoCall && <VideoCallModal handleClose={finishVideoCall} show={activeVideoCall} token={token}/>}
           </Grid>
           <Grid
             container

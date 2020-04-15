@@ -90,12 +90,16 @@ const ChatsGroup = ({ userData }) => {
           )}
         </Grid>
         <Grid item xs={8}>
-          <ChatContainer
-            partner={selRoomId.participants}
-            currentUser={userData.id}
-            chatsData={selectedDialog}
-            onClick={sendMessage}
-          ></ChatContainer>
+          {!selectedDialog.length ? (
+            <p>Select dialog</p>
+          ) : (
+            <ChatContainer
+              partner={selRoomId.participants}
+              currentUser={userData.id}
+              chatsData={selectedDialog}
+              onClick={sendMessage}
+            ></ChatContainer>
+          )}
         </Grid>
       </Grid>
     </Container>
