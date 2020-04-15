@@ -1,7 +1,7 @@
 twilio:
-  api_account_sid: ""
-  api_key_sid: ""
-  api_key_secret: ""
+  api_account_sid: "ACd155ac541850bbc2fd2798629a2fbafd"
+  api_key_sid: "SKc7b70499571ef3c11d693e5a59e9c7e5"
+  api_key_secret: "XxmL2Sl0XDnuPqJh5l1TCFLQYmZbUdbC"
   token_time_to_live: 14400
 server:
   port: 5000
@@ -22,19 +22,19 @@ spring:
       client:
         registration:
           google:
-            clientId: ""
-            clientSecret: ""
+            clientId: 123.apps.googleusercontent.com
+            clientSecret: 123
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
-            - email
-            - profile
+              - email
+              - profile
           facebook:
-            clientId: ""
-            clientSecret: ""
+            clientId: 123
+            clientSecret: 123
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
-            - email
-            - public_profile
+              - email
+              - public_profile
         provider:
           facebook:
             authorizationUri: https://www.facebook.com/v3.0/dialog/oauth
@@ -46,9 +46,8 @@ spring:
 
 security:
   auth:
-    tokenSecret: ""
+    tokenSecret: 123
     tokenExpirationMsec: 864000000
   oauth2:
     authorizedRedirectUris:
-    - http://localhost:3000/oauth2/redirect
-
+      - http://localhost:3000/oauth2/redirect
