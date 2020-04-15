@@ -4,7 +4,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import VideoCallIcon from "@material-ui/icons/VideoCall";
 import VideoCallModal from "./VideoCallModal";
 import {createVideoRoom} from "../../services/ChatRequests";
-import TextField from "@material-ui/core";
+import {TextField} from "@material-ui/core";
 
 const useStyles = makeStyles({
   container: {
