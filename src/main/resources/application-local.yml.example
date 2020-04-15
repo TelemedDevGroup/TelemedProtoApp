@@ -22,15 +22,15 @@ spring:
       client:
         registration:
           google:
-            clientId: 1092159681248-fg7cmt1ile1b4evacbhub8mp5hv08gqe.apps.googleusercontent.com
-            clientSecret: C4q0-WsOvBMruy2Av1D8140i
+            clientId: 123.apps.googleusercontent.com
+            clientSecret: 123
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
               - profile
           facebook:
-            clientId: 611802299549687
-            clientSecret: 4eecc60a948a2d23dd3f33689cba8442
+            clientId: 123
+            clientSecret: 123
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
@@ -46,7 +46,7 @@ spring:
 
 security:
   auth:
-    tokenSecret: 444F96C92242DD58429D2751AC1BQGNQ
+    tokenSecret: 123
     tokenExpirationMsec: 864000000
   oauth2:
     authorizedRedirectUris:
