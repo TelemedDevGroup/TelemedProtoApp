@@ -53,11 +53,12 @@ const useStyles = makeStyles({
   },
 });
 
-const ChatContainer = ({ chatsData, partner, currentUser, onClick }) => {
+const ChatContainer = ({ chatsData, participants, currentUser, onClick }) => {
   let [activeVideoCall, setActiveVideoCall] = useState(false);
   let [inputData, setInputData] = useState("");
   let [token, setToken] = useState("");
   const classes = useStyles();
+  
 
   const startVideoCall = (token) => {
     setToken(token);
@@ -68,6 +69,11 @@ const ChatContainer = ({ chatsData, partner, currentUser, onClick }) => {
     setToken(null);
     setActiveVideoCall(false);
   };
+
+  const getNameById = (userId) => {
+    const getUser = participants && participants.find(partner => partner.userId === userId)        
+    return getUser && getUser.username
+  }
 
   return (
     <>
@@ -82,7 +88,7 @@ const ChatContainer = ({ chatsData, partner, currentUser, onClick }) => {
           }}
         >
           <Grid container justify="space-between" alignContent="center">
-            <Typography variant="h5">{partner}</Typography>
+            <Typography variant="h5">{participants && participants.map(user => user.username).join(", ")}</Typography>
             <Button
               variant="contained"
               className={classes.videoButton}
@@ -114,7 +120,7 @@ const ChatContainer = ({ chatsData, partner, currentUser, onClick }) => {
                   }`}
                 >
                   <Typography className={classes.senderName} variant="h6">
-                    {message.author}
+                    {getNameById(message.author)}
                   </Typography>
                   {message.attachment && (
                     <img
