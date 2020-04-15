@@ -50,4 +50,4 @@ security:
     tokenExpirationMsec: 864000000
   oauth2:
     authorizedRedirectUris:
-    - ${authorized_redirect_uri}
+    - http://localhost:3000/oauth2/redirect
