@@ -14,5 +14,6 @@
     <include file="db/changelog/v0.1/04.13.2020-Add_Appointment_Schema.sql"/>
     <include file="db/changelog/v0.1/04.14.2020-Chat_Room_Participant_Schema.sql"/>
     <include file="db/changelog/v0.1/04.14.2020-Chat_Test_Data.sql"/>
+    <include file="db/changelog/v0.1/04.15.2020-Add_Appointment_Test_Data.sql"/>
 
 </databaseChangeLog>

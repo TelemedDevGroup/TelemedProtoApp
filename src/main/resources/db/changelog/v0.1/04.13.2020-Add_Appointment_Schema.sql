@@ -9,7 +9,7 @@ CREATE TABLE appointment (
   description VARCHAR(1256),
   video_room_id BINARY(16),
   is_all_day BOOLEAN DEFAULT 0,
-  recurence_rule VARCHAR(512),
+  recurrence_rule VARCHAR(512),
   owner_id BINARY(16) NOT NULL,
   creation_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
   last_update_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE availability_slot (
   user_id BINARY(16) NOT NULL,
   start_timestamp DATETIME NOT NULL,
   end_timestamp DATETIME NOT NULL,
-  recurence_rule VARCHAR(512),
+  recurrence_rule VARCHAR(512),
   CONSTRAINT availability_slot_pk
     PRIMARY KEY (availability_slot_id),
   FOREIGN KEY (user_id) REFERENCES `user`(user_id)
