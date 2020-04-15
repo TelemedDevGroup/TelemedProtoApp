@@ -26,6 +26,7 @@ public class ChatRoom {
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     @Convert(converter = UUIDConverter.class)
     private UUID id;
+    // todo: solve n+1 issue
     @OneToMany(mappedBy = "chatRoomId", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<ChatRoomParticipant> participants;
     private Long messageCount = 0L;
