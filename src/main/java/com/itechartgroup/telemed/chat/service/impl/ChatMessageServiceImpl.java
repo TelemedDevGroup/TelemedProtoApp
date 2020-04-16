@@ -36,7 +36,7 @@ import static com.itechartgroup.telemed.utils.DateTimeUtils.convertToDateTime;
 @RequiredArgsConstructor
 public class ChatMessageServiceImpl implements ChatMessageService {
 
-    private final Map<Long, ChatThreadHolder> SUBSCRIBERS = new ConcurrentHashMap<>();
+    private final Map<UUID, ChatThreadHolder> SUBSCRIBERS = new ConcurrentHashMap<>();
 
     private final ChatMessageRepository repository;
     private final ChatMessageMapper mapper;
@@ -61,7 +61,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     }
 
     @Override
-    public SortedSet<ChatRoomDto> poll(final long timestamp, final long userId) {
+    public SortedSet<ChatRoomDto> poll(final long timestamp, final UUID userId) {
         final ChatThreadHolder container = SUBSCRIBERS.computeIfAbsent(userId, id -> new ChatThreadHolder(userId));
 
         final LocalDateTime lastUpdate = convertToDateTime(timestamp);

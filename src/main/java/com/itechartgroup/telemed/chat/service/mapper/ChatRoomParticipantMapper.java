@@ -34,7 +34,7 @@ public class ChatRoomParticipantMapper {
                 .build()).collect(Collectors.toSet());
     }
 
-    public Set<ChatRoomParticipant> createEntities(final Collection<Long> list, final UUID chatRoomId) {
+    public Set<ChatRoomParticipant> createEntities(final Collection<UUID> list, final UUID chatRoomId) {
         return list.stream().map(item -> ChatRoomParticipant.builder()
                 .chatRoomId(chatRoomId)
                 .userId(item)

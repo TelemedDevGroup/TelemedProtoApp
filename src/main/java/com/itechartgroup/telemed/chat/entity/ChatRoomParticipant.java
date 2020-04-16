@@ -1,6 +1,6 @@
 package com.itechartgroup.telemed.chat.entity;
 
-import com.itechartgroup.telemed.chat.entity.converter.UUIDConverter;
+import com.itechartgroup.telemed.utils.UUIDConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +27,7 @@ public class ChatRoomParticipant {
     @Convert(converter = UUIDConverter.class)
     private UUID chatRoomId;
     @Id
-    private Long userId;
+    @Convert(converter = UUIDConverter.class)
+    private UUID userId;
     private Long unreadCount;
 }

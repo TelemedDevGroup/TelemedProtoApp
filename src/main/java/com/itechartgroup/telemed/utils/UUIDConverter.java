@@ -1,4 +1,4 @@
-package com.itechartgroup.telemed.chat.entity.converter;
+package com.itechartgroup.telemed.utils;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

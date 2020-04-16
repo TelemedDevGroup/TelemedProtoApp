@@ -20,7 +20,7 @@ public interface ChatRoomService {
      * @param participants one of participants
      * @return just save entity
      */
-    ChatRoomDto create(Set<Long> participants);
+    ChatRoomDto create(Set<UUID> participants);
 
     /**
      * Load page of chat rooms for user.
@@ -29,7 +29,7 @@ public interface ChatRoomService {
      * @param userId current user's id
      * @return sorted by date set of chat rooms
      */
-    Page<ChatRoomDto> load(Pageable page, final Long userId);
+    Page<ChatRoomDto> load(Pageable page, final UUID userId);
 
     /**
      * Method for updating of date when latest actions occurred in the chat room.
@@ -46,5 +46,5 @@ public interface ChatRoomService {
      * @param roomId to be updated
      * @return updated room dto
      */
-    ChatRoomDto markAsRead(Long userId, UUID roomId);
+    ChatRoomDto markAsRead(UUID userId, UUID roomId);
 }

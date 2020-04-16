@@ -39,5 +39,5 @@ public interface ChatMessageService {
      * @param timestamp for defining moment from which should be loaded messages
      * @return sorted set of new messages
      */
-    SortedSet<ChatRoomDto> poll(long timestamp, long userId);
+    SortedSet<ChatRoomDto> poll(long timestamp, UUID userId);
 }

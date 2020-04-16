@@ -49,7 +49,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     private final UserRepository userRepository;
 
     @Override
-    public ChatRoomDto create(final Set<Long> participants) {
+    public ChatRoomDto create(final Set<UUID> participants) {
         final ChatRoom room = new ChatRoom();
         final LocalDateTime now = LocalDateTime.now();
         room.setCreated(now);
@@ -62,7 +62,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     }
 
     @Override
-    public Page<ChatRoomDto> load(final Pageable pageable, final Long userId) {
+    public Page<ChatRoomDto> load(final Pageable pageable, final UUID userId) {
         return insertParticipantNames(repository.findByParticipants_UserIdEquals(userId, pageable).map(mapper::map));
     }
 
@@ -77,7 +77,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     }
 
     @Override
-    public ChatRoomDto markAsRead(final Long userId, final UUID roomId) {
+    public ChatRoomDto markAsRead(final UUID userId, final UUID roomId) {
         return findAndApply(roomId, room -> room.getParticipants().stream()
                 .filter(part -> part.getUserId().equals(userId)).findAny()
                 .ifPresent(part -> part.setUnreadCount(UNREAD_NO_MESSAGES)));
@@ -133,9 +133,11 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     private Page<ChatRoomDto> insertParticipantNames(final Page<ChatRoomDto> rooms) {
         final List<ChatRoomParticipantDto> entries = rooms.getContent().stream()
                 .map(ChatRoomDto::getParticipants).flatMap(Collection::stream).collect(Collectors.toList());
-        final Set<Long> userIds = entries.stream().map(ChatRoomParticipantDto::getUserId).collect(Collectors.toSet());
-        final Map<Long, String> usernames = userRepository.findAllByIdIn(userIds).stream()
+
+        final Set<UUID> userIds = entries.stream().map(ChatRoomParticipantDto::getUserId).collect(Collectors.toSet());
+        final Map<UUID, String> usernames = userRepository.findAllByIdIn(userIds).stream()
                 .collect(Collectors.toMap(UserNameAndIdProjection::getId, UserNameAndIdProjection::getName));
+
         entries.forEach(participant -> participant.setUsername(usernames.get(participant.getUserId())));
         return rooms;
     }

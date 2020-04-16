@@ -13,21 +13,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTg2ODQ3MDEzL
 
 ###
 
-POST localhost:5000/api/chat/message
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTg2ODQ3MDEzLCJleHAiOjE1ODc3MTEwMTN9.uaybx86JdAryJrmWhsOlxnsTHPwf2dG6CHH6zMaj7SLZF5Fd2szfVwumxn8key7RRXhEKTHuSKmGsWQxk0PHyw
-
-{
-  "room": "221be42e-5c97-4fc8-b0df-c4f276f44a7e",
-  "type": "TEXT",
-  "source": "USER",
-  "author": 3,
-  "body": "fourth message"
-}
-
-###
-
-GET localhost:5000/api/chat/room/221be42e-5c97-4fc8-b0df-c4f276f44a7e
+GET localhost:5000/api/chat/room/493e8242-fd2c-4b62-99bb-86302c8cf289
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTg2ODQ3MDEzLCJleHAiOjE1ODc3MTEwMTN9.uaybx86JdAryJrmWhsOlxnsTHPwf2dG6CHH6zMaj7SLZF5Fd2szfVwumxn8key7RRXhEKTHuSKmGsWQxk0PHyw
 
 ###
@@ -37,8 +23,22 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTg2ODQ3MDEzL
 
 ###
 
-POST localhost:5000/api/chat/room/221be42e-5c97-4fc8-b0df-c4f276f44a7e
+POST localhost:5000/api/chat/room/493e8242-fd2c-4b62-99bb-86302c8cf289
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTg2ODQ3MDEzLCJleHAiOjE1ODc3MTEwMTN9.uaybx86JdAryJrmWhsOlxnsTHPwf2dG6CHH6zMaj7SLZF5Fd2szfVwumxn8key7RRXhEKTHuSKmGsWQxk0PHyw
+
+###
+
+POST localhost:5000/api/chat/message
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTg2ODQ3MDEzLCJleHAiOjE1ODc3MTEwMTN9.uaybx86JdAryJrmWhsOlxnsTHPwf2dG6CHH6zMaj7SLZF5Fd2szfVwumxn8key7RRXhEKTHuSKmGsWQxk0PHyw
+
+{
+  "room": "493e8242-fd2c-4b62-99bb-86302c8cf289",
+  "type": "TEXT",
+  "source": "USER",
+  "author": 3,
+  "body": "fourth message"
+}
 
 ###
 
