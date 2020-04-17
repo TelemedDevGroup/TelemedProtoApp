@@ -31,12 +31,11 @@ CREATE TABLE assign_user_to_appointment (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE availability_slot (
-	availability_slot_id BINARY(16) NOT NULL,
+  id BINARY(16) NOT NULL,
   user_id BINARY(16) NOT NULL,
   start_timestamp DATETIME NOT NULL,
   end_timestamp DATETIME NOT NULL,
   recurrence_rule VARCHAR(512),
-  CONSTRAINT availability_slot_pk
-    PRIMARY KEY (availability_slot_id),
+  CONSTRAINT availability_slot_pk PRIMARY KEY (id),
   FOREIGN KEY (user_id) REFERENCES `user`(user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
