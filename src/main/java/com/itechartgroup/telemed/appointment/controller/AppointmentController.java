@@ -16,7 +16,6 @@ import java.util.Collection;
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
-    private final AvailabilityService availabilityService;
 
     @GetMapping("/appointment/test")
     public ResponseEntity<Collection<Appointment>> getAllAppointments() {
