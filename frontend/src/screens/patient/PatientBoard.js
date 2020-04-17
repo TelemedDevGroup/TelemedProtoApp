@@ -4,6 +4,7 @@ import Calendar from "../../components/Calendar/Calendar.js";
 import PatientToDo from "./PatientToDo.js";
 import PatientChats from "./PatientChats";
 import ChatsGroup from "../../components/Chat/ChatsGroup.js";
+import DoctorsList from "../../components/PlanVisits/DoctorsList.js";
 
 const BoardPanes = [
   {
@@ -26,6 +27,19 @@ const BoardPanes = [
     render: () => (
       <Tab.Pane>
         <PatientToDo />
+      </Tab.Pane>
+    ),
+  },
+  {
+    menuItem: (
+      <Menu.Item key="visits" >
+        <Icon size="large" name="table" />
+        Plan visits
+      </Menu.Item>
+    ),
+    render: () => (
+      <Tab.Pane>
+        <DoctorsList />
       </Tab.Pane>
     ),
   },
