@@ -1,17 +1,18 @@
-package com.itechartgroup.telemed.appointment.controller;
+package com.itechartgroup.telemed.appointment.web;
 
 import com.itechartgroup.telemed.appointment.entity.Appointment;
 import com.itechartgroup.telemed.appointment.service.AppointmentService;
-import com.itechartgroup.telemed.appointment.service.AvailabilityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 
-@RestController("/api")
+@RestController
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class AppointmentController {
 

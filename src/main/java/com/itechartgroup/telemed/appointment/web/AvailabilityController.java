@@ -1,4 +1,4 @@
-package com.itechartgroup.telemed.appointment.controller;
+package com.itechartgroup.telemed.appointment.web;
 
 import com.itechartgroup.telemed.appointment.dto.AvailabilitySlotDTO;
 import com.itechartgroup.telemed.appointment.service.AvailabilityService;
@@ -10,17 +10,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController("/api/availability")
+@RestController
+@RequestMapping("/api/availability")
 @RequiredArgsConstructor
 public class AvailabilityController {
 
     private final AvailabilityService availabilityService;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<AvailabilitySlotDTO> createAvailabilityEvent(
             @CurrentUser UserPrincipal currentUser, @RequestBody AvailabilitySlotDTO slot) {
         AvailabilitySlotDTO dto = availabilityService.createAvailabilitySlot(currentUser.getId(), slot);
