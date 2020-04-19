@@ -29,7 +29,7 @@ public class AvailabilityController {
         return ResponseEntity.ok(dto);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("{userId}")
     public List<AvailabilitySlotDTO> getUsrAvailabilitySlots(@PathVariable String userId) {
         return availabilityService.getAvailabilitySlots(userId);
     }
