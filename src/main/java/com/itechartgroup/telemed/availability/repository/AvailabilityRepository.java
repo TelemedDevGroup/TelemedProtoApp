@@ -1,6 +1,6 @@
-package com.itechartgroup.telemed.appointment.repository;
+package com.itechartgroup.telemed.availability.repository;
 
-import com.itechartgroup.telemed.appointment.entity.AvailabilitySlot;
+import com.itechartgroup.telemed.availability.entity.AvailabilitySlot;
 import com.itechartgroup.telemed.security.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

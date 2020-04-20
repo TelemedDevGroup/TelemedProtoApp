@@ -1,7 +1,7 @@
-package com.itechartgroup.telemed.appointment.web;
+package com.itechartgroup.telemed.availability.web;
 
-import com.itechartgroup.telemed.appointment.dto.AvailabilitySlotDTO;
-import com.itechartgroup.telemed.appointment.service.AvailabilityService;
+import com.itechartgroup.telemed.availability.dto.AvailabilitySlotDTO;
+import com.itechartgroup.telemed.availability.service.AvailabilityService;
 import com.itechartgroup.telemed.security.CurrentUser;
 import com.itechartgroup.telemed.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
-package com.itechartgroup.telemed.appointment.service;
+package com.itechartgroup.telemed.availability.service;
 
-import com.itechartgroup.telemed.appointment.dto.AvailabilitySlotDTO;
+import com.itechartgroup.telemed.availability.dto.AvailabilitySlotDTO;
 
 import java.util.List;
 import java.util.UUID;
