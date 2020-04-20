@@ -25,6 +25,18 @@ const request = (options) => {
   );
 };
 
+export function createRoom(partnerId) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+
+  return request({
+    url: API_BASE_URL + "/api/chat/room",
+    method: 'POST',
+    body: JSON.stringify(partnerId)
+  });
+}
+
 export function createVideoRoom(chatRoomId) {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     return Promise.reject("No access token set.");

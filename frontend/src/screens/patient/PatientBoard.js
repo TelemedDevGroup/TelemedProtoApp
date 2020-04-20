@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { Header, Menu, Container, Label, Tab, Icon } from "semantic-ui-react";
-import Calendar from "../../components/Calendar/Calendar.js";
-import PatientToDo from "./PatientToDo.js";
-import PatientChats from "./PatientChats";
-import ChatsGroup from "../../components/Chat/ChatsGroup.js";
-import DoctorsList from "../../components/PlanVisits/DoctorsList.js";
+import React, { Component } from 'react';
+import { Header, Menu, Container, Label, Tab, Icon } from 'semantic-ui-react';
+import Calendar from '../../components/Calendar/Calendar.js';
+import PatientToDo from './PatientToDo.js';
+import PatientChats from './PatientChats';
+import ChatsGroup from '../../components/Chat/ChatsGroup.js';
+import DoctorsList from '../../components/PlanVisits/DoctorsList.js';
 
 const BoardPanes = [
   {
@@ -32,20 +32,20 @@ const BoardPanes = [
   },
   {
     menuItem: (
-      <Menu.Item key="visits" >
+      <Menu.Item key="visits">
         <Icon size="large" name="table" />
         Plan visits
       </Menu.Item>
     ),
-    render: () => (
+    render: (props) => (
       <Tab.Pane>
-        <DoctorsList />
+        <DoctorsList props={props} />
       </Tab.Pane>
     ),
   },
   {
     menuItem: (
-      <Menu.Item key="calendar" >
+      <Menu.Item key="calendar">
         <Icon size="large" name="calendar alternate outline" />
         Calendar
       </Menu.Item>
@@ -66,15 +66,16 @@ const BoardPanes = [
     ),
     render: (props) => (
       <Tab.Pane>
-        <ChatsGroup userData={props}/>
+        <ChatsGroup userData={props} />
         {/* <PatientChats/> */}
       </Tab.Pane>
     ),
   },
 ];
 
+
 class PatientBoard extends Component {
-  state = { activeItem: "ToDo" };
+  state = { activeItem: 'ToDo' };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
@@ -83,10 +84,10 @@ class PatientBoard extends Component {
     //const user = AccountAPI.get( this.props.match.params.userID );
     //const { activeItem } = this.state
     return (
-      <Container style={{ marginTop: "5em" }}>
+      <Container style={{ marginTop: '5em' }}>
         <Header as="h3">Welcome to Patient's Board</Header>
         <Tab
-         {...userData}
+          {...userData}
           panes={BoardPanes}
           menu={{
             fluid: true,

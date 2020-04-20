@@ -43,11 +43,13 @@ const Conversation = ({ participants, onClick, selected, lastMessage }) => {
   );
 };
 
-const ChatsGroup = ({ userData }) => {
+const ChatsGroup = (props) => {
   const [allRooms, setAllRooms] = useState([]);
   const [selectedDialog, setSelDialog] = useState([]);
   const [selRoomId, setSelRoomId] = useState({ id: null, participants: null });
 
+  console.log(props);
+  
   useEffect(() => {
     getAllRooms().then((response) => setAllRooms(response.content));
   }, []);
@@ -94,7 +96,7 @@ const ChatsGroup = ({ userData }) => {
         <Grid item xs={8}>
           <ChatContainer
             participants={selRoomId.participants}
-            currentUser={userData.id}
+            currentUser={props.userData.id}
             chatsData={selectedDialog}
             onClick={sendMessage}
           ></ChatContainer>
