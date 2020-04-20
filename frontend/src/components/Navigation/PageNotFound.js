@@ -1,24 +1,15 @@
-import React, {Component} from 'react';
-import { Loader, Dimmer, Segment, Image } from 'semantic-ui-react'
+import React from 'react';
+import { Typography, Grid } from '@material-ui/core';
 
-
-
-class PageNotFound extends Component {
-
-  render() {
-    return (
-      <React.Fragment>
-        <Segment>
-          <Dimmer active inverted>
-            <Loader>Not Found</Loader>
-          </Dimmer>
-
-          <Image src='/images/wireframe/short-paragraph.png' />
-        </Segment>
-      </React.Fragment>
-    );
-  }
-
-}
+const PageNotFound = () => (
+  <Grid
+    container
+    justify="center"
+    alignItems="center"
+    style={{ height: '100vh' }}
+  >
+    <Typography variant="h3">Data Not Found :(</Typography>
+  </Grid>
+);
 
 export default PageNotFound;

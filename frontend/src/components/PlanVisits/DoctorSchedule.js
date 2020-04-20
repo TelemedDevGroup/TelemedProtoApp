@@ -4,7 +4,6 @@ import {
   Grid,
   Button,
   makeStyles,
-  Card,
   ListItem,
 } from '@material-ui/core';
 import {
@@ -42,11 +41,9 @@ function DoctorSchedule({ doctorId, returnBack }) {
 
   const [doctorSchedule, setSchedule] = useState();
   useEffect(() => {
-    doctorId = "27e2aa19-76a1-248d-b42a-ed5f7da5a11b";
+    doctorId = "b1d4ca09-1cdf-2481-ba41-f4daa7dc156f";
     getDrAppointments(doctorId).then((result) => setSchedule(result));
   }, []);
-
-  console.log(doctorSchedule);
   
   return (
     <>

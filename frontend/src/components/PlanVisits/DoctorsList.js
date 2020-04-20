@@ -4,7 +4,6 @@ import { createRoom } from '../../services/ChatRequests';
 
 import {
   Grid,
-  Container,
   Typography,
   Paper,
   Link,
@@ -13,7 +12,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import TEST_ACCOUNTS from '../../mocks/test_users';
 import DoctorSchedule from './DoctorSchedule';
-import ChatsGroup from '../Chat/ChatsGroup';
+// import ChatsGroup from '../Chat/ChatsGroup';
 
 const useStyles = makeStyles({
   paper: {
@@ -21,7 +20,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     border: '1px solid lightgray !important',
     wrap: 'nowrap',
-    width: '100%',
+    width: '80%',
     padding: '1rem',
     marginTop: '1.5rem',
   },
@@ -110,7 +109,7 @@ const DoctorsList = ({props}) => {
   const openDialogs = () => null
 
   return (
-    <Container>
+    <div>
       {isScheduleShow.isShow ? (
         <DoctorSchedule
           doctorId={isScheduleShow.doctorId}
@@ -120,7 +119,7 @@ const DoctorsList = ({props}) => {
         <>
           <FilterDoctors />
           <Grid>
-            <Typography variant="h5">Recommended doctors</Typography>
+            <Typography variant="h6">Recommended doctors</Typography>
             <Grid container direction="column" wrap="nowrap">
               {!doctorsList.length ? (
                 <p>No doctors found</p>
@@ -138,7 +137,7 @@ const DoctorsList = ({props}) => {
           </Grid>
         </>
       )}
-    </Container>
+    </div>
   );
 };
 
