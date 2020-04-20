@@ -3,7 +3,7 @@ import { Header, Menu, Container, Label, Tab, Icon } from "semantic-ui-react";
 import Calendar from "../../components/Calendar/Calendar.js";
 import DoctorToDo from "./DoctorToDo.js";
 import ChatsGroup from "../../components/Chat/ChatsGroup.js";
-import DoctorCalendar from "../../components/Calendar/DoctorCalendar";
+import DoctorCalendars from "../../components/Calendar/DoctorCalendars";
 
 const BoardPanes = [
   {
@@ -38,7 +38,7 @@ const BoardPanes = [
     ),
     render: (props) => (
       <Tab.Pane>
-        <DoctorCalendar userData={props}/>
+        <DoctorCalendars userData={props}/>
       </Tab.Pane>
     ),
   },
