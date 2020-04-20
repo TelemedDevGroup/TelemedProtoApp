@@ -1,4 +1,4 @@
-package com.itechartgroup.telemed.appointment.entity;
+package com.itechartgroup.telemed.availability.entity;
 
 import com.itechartgroup.telemed.security.entity.User;
 import lombok.Data;

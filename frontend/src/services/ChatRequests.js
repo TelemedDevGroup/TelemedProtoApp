@@ -25,6 +25,17 @@ const request = (options) => {
   );
 };
 
+export function getAvailabilitySlots(doctorId) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+
+  return request({
+    url: API_BASE_URL + "/api/availability/" + doctorId,
+    method: 'GET'
+  });
+}
+
 export function createVideoRoom(chatRoomId) {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     return Promise.reject("No access token set.");
