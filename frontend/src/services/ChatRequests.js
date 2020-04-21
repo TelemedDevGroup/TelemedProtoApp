@@ -30,7 +30,6 @@ export function getRoom(roomId) {
   });
 }
 
-
 export function sendMessageRoom(messageData) {
   return request({
     url: API_BASE_URL + "/api/chat/message",

@@ -34,7 +34,10 @@ const Conversation = ({ participants, onClick, selected, lastMessage }) => {
 
 const pollingState = {
   pollingActive: false,
-  pollingRunning: false
+  pollingRunning: false,
+  selDialogMessages: [],
+  rooms: [],
+  roomId: null
 };
 
 const ChatsGroup = ({userData}) => {
@@ -45,9 +48,10 @@ const ChatsGroup = ({userData}) => {
   useEffect(() => {
     getAllRooms().then((response) => {
       setAllRooms(response.content);
+      pollingState.rooms = response.content;
       pollingState.pollingActive = true;
       if (!pollingState.pollingRunning) {
-        pollNext(response.content);
+        pollNext();
       }
     });
 
@@ -56,7 +60,7 @@ const ChatsGroup = ({userData}) => {
     };
   }, []);
 
-  const pollNext = (oldRooms) => {
+  const pollNext = () => {
     if (!pollingState.pollingActive) return;
     pollingState.pollingRunning = true;
     poll().then(rooms => {
@@ -66,29 +70,36 @@ const ChatsGroup = ({userData}) => {
       const newRoomState = [];
       rooms.forEach(function (room) {
         // update current room messages if its opened
-        if (room.id === selRoomId.id) {
-          setSelDialog([...selectedDialog, room.messages]); // insert new message
+        if (room.id === pollingState.roomId) {
+          pollingState.selDialogMessages = [...pollingState.selDialogMessages, ...room.messages];
+          setSelDialog([...pollingState.selDialogMessages]); // insert new message
         }
 
         newRoomState.push(room);
       });
 
       // copy old rooms to the new state excluding just updated
-      oldRooms.filter(room => !newRoomState.some(item => item.id === room.id))
+      pollingState.rooms.filter(room => !newRoomState.some(item => item.id === room.id))
           .forEach(room => newRoomState.push(room));
 
       setAllRooms(newRoomState);
+      pollingState.rooms = newRoomState;
 
       // here possible to show notification
       // todo: refactor this to dispatched events, possible call stack exceeded exception?
-      pollNext(newRoomState);
+      pollNext();
     });
   };
 
   const clickHandler = (id, participants) => {
     setSelRoomId({id, participants});
+    pollingState.roomId = id;
 
-    getRoom(id).then((response) => setSelDialog(response.content.reverse()));
+    getRoom(id).then((response) => {
+      const messages = response.content.reverse();
+      pollingState.selDialogMessages = messages;
+      setSelDialog(messages);
+    });
   };
 
   const sendMessage = (message) => {
@@ -97,7 +108,7 @@ const ChatsGroup = ({userData}) => {
       type: 'TEXT',
       source: 'USER',
       body: message
-    })/*.then((response) => setSelDialog([...selectedDialog, response]))*/;
+    }).then((response) => console.log('Message sent:' + response.body) /*setSelDialog([...selectedDialog, response])*/);
   };
 
   const classes = useStyles();
