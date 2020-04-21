@@ -1,10 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Agenda, Day, Inject, Month, ScheduleComponent, Week, WorkWeek} from '@syncfusion/ej2-react-schedule'
 import {request} from "../../services/Request";
 import {API_BASE_URL} from "../../constants";
+import {Internationalization} from "@syncfusion/ej2-base";
+import {vh} from "react-native-expo-viewport-units";
 
 const DoctorAvailabilityCalendar = ({currentUserId}) => {
     let [data, setData] = useState([]);
+    const [instance] = useState(new Internationalization());
+    const scheduleObj = useRef(null);
 
     const eventTypes = {
         eventCreate: {
@@ -38,7 +42,7 @@ const DoctorAvailabilityCalendar = ({currentUserId}) => {
         eventRemove: {
             action: 'DELETE',
             extractRequest: function (requestArgs) {
-                return  requestArgs.deletedRecords;
+                return requestArgs.deletedRecords;
             },
             handleResponse: function (response, requestArgs) {
                 let deletedRecordsIds = response.map(response => response.id);
@@ -77,12 +81,17 @@ const DoctorAvailabilityCalendar = ({currentUserId}) => {
         });
     }
 
+    const onCreated = () => {
+        scheduleObj.current.scrollTo(instance.formatDate(new Date(), {skeleton: 'Hm'}));
+    }
+
     useEffect(() => {
         getAvailabilitySlots(currentUserId).then(response => setData(response));
     }, []);
 
     return (
-        <ScheduleComponent eventSettings={{dataSource: data}} actionBegin={actionBegin}>
+        <ScheduleComponent height={vh(80)} ref={scheduleObj} eventSettings={{dataSource: data}}
+                           actionBegin={actionBegin} created={onCreated}>
             <Inject services={[Day, Week, WorkWeek, Month, Agenda]}/>
         </ScheduleComponent>
     );
