@@ -74,6 +74,8 @@ const DoctorBoard = (props) => {
     title: 'My Board',
     menuId: 'board',
   });
+  const userData = props.location.state
+  
   return (
     <div className={classes.root}>
       <Drawer
@@ -104,7 +106,7 @@ const DoctorBoard = (props) => {
       </Drawer>
       <main className={classes.content}>
         <Typography variant="h4" className={classes.header}>{selectedMenu.title}</Typography>
-        {switchMenu(selectedMenu.menuId, props)}
+        {switchMenu(selectedMenu.menuId, userData)}
       </main>
     </div>
   );
