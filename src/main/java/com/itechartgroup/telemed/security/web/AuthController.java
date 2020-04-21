@@ -1,4 +1,4 @@
-package com.itechartgroup.telemed.security.controller;
+package com.itechartgroup.telemed.security.web;
 
 import com.itechartgroup.telemed.exception.BadRequestException;
 import com.itechartgroup.telemed.exception.ResourceNotFoundException;

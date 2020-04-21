@@ -92,7 +92,7 @@ class Login extends Component {
     this.state = {
       authenticated: false,
       currentUser: null,
-    }
+    };
 
     this.loadCurrentlyLoggedInUser = this.loadCurrentlyLoggedInUser.bind(this);
     this.handleLogout = this.handleLogout.bind(this);

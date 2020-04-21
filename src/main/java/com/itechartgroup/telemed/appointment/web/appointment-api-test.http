@@ -1,0 +1,37 @@
+GET localhost:5000/api/appointment/all
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjZGRlMTIyNS0xN2Q4LTUxOGUtYmExYy1lYTVmN2FmNTIyODEiLCJpYXQiOjE1ODcxMjMzNTksImV4cCI6MTU4Nzk4NzM1OX0.huqO0df81pYnRQoVeKDnjZJO9giiEUGJkLh_08hSMywvFLE5zT8TpeJBR7gcHc7oGmIbdwV2qne5Nl5pcLcH3A
+
+###
+
+POST localhost:5000/api/appointment/date_range
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjZGRlMTIyNS0xN2Q4LTUxOGUtYmExYy1lYTVmN2FmNTIyODEiLCJpYXQiOjE1ODcxMjMzNTksImV4cCI6MTU4Nzk4NzM1OX0.huqO0df81pYnRQoVeKDnjZJO9giiEUGJkLh_08hSMywvFLE5zT8TpeJBR7gcHc7oGmIbdwV2qne5Nl5pcLcH3A
+Content-Type: application/json
+
+{
+  "StartDate": "2020-04-12",
+  "EndDate": "2020-04-15"
+}
+
+###
+
+POST localhost:5000/api/appointment
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjZGRlMTIyNS0xN2Q4LTUxOGUtYmExYy1lYTVmN2FmNTIyODEiLCJpYXQiOjE1ODcxMjMzNTksImV4cCI6MTU4Nzk4NzM1OX0.huqO0df81pYnRQoVeKDnjZJO9giiEUGJkLh_08hSMywvFLE5zT8TpeJBR7gcHc7oGmIbdwV2qne5Nl5pcLcH3A
+
+{
+  "subject": "Test subject #5",
+  "startTimestamp": "2020-04-20T11:30:00.000Z",
+  "endTimestamp": "2020-04-20T12:00:00.000Z",
+  "location": "Online",
+  "description": "Test Appointment",
+  "videoRoom": null,
+  "isAllDay": false,
+  "recurrenceRule": null,
+  "ownerId": null,
+  "participantIds": [
+    "27e2aa19-76a1-248d-b42a-ed5f7da5a11b",
+    "cdde1225-17d8-518e-ba1c-ea5f7af52281"
+  ]
+}
+
+###
