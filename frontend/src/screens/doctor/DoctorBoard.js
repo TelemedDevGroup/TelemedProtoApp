@@ -1,88 +1,115 @@
-import React, { Component } from "react";
-import { Header, Menu, Container, Label, Tab, Icon } from "semantic-ui-react";
-import Calendar from "../../components/Calendar/Calendar.js";
-import DoctorToDo from "./DoctorToDo.js";
-import ChatsGroup from "../../components/Chat/ChatsGroup.js";
-import DoctorCalendars from "../../components/Calendar/DoctorCalendars";
+import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import DoctorToDo from './DoctorToDo'
+import {
+  Drawer,
+  Toolbar,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from '@material-ui/core';
+import Home from '@material-ui/icons/Home';
+import AddLocation from '@material-ui/icons/AddLocation';
+import MailIcon from '@material-ui/icons/Mail';
+import CalendarToday from '@material-ui/icons/CalendarToday';
+import ChatsGroup from '../../components/Chat/ChatsGroup';
+import DoctorCalendars from '../../components/Calendar/DoctorCalendars';
 
-const BoardPanes = [
-  {
-    menuItem: (
-      <Menu.Item key="profile">
-        <Icon size="large" name="user md" />
-        Profile
-      </Menu.Item>
-    ),
-    render: () => <Tab.Pane> Placeholder for Profile component</Tab.Pane>,
+const drawerWidth = 240;
+
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
   },
-  {
-    menuItem: (
-      <Menu.Item key="todo">
-        <Icon size="large" name="clipboard outline" />
-        <Label color="teal">{Math.round(Math.random() * 10)}</Label>
-        Actions
-      </Menu.Item>
-    ),
-    render: () => (
-      <Tab.Pane>
-        <DoctorToDo />
-      </Tab.Pane>
-    ),
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
   },
-  {
-    menuItem: (
-      <Menu.Item key="calendar">
-        <Icon size="large" name="calendar alternate outline" />
-        Calendar
-      </Menu.Item>
-    ),
-    render: (props) => (
-      <Tab.Pane>
-        <DoctorCalendars userData={props}/>
-      </Tab.Pane>
-    ),
+  drawerPaper: {
+    paddingTop: '3rem',
+    width: drawerWidth,
   },
-  {
-    menuItem: (
-      <Menu.Item key="chats" position="right">
-        <Icon size="large" name="wechat" />
-        <Label color="teal">{Math.round(Math.random() * 10)}</Label>
-        Messenger
-      </Menu.Item>
-    ),
-    render: (props) => (
-      <Tab.Pane>
-        <ChatsGroup userData={props}/>
-      </Tab.Pane>
-    ),
+  drawerContainer: {
+    overflow: 'auto',
   },
+  content: {
+    flexGrow: 1,
+    padding: '6rem 0 0 3rem',
+    maxWidth: '70rem',
+  },
+  header: {
+    paddingBottom: "2rem"
+  }
+});
+
+const menuItems = [
+  { title: 'My Board', menuId: 'board', icon: <Home /> },
+  { title: 'My Patients', menuId: 'patients', icon: <AddLocation /> },
+  { title: 'Visits / Calendar', menuId: 'calendar', icon: <CalendarToday /> },
+  { title: 'Conversations', menuId: 'conversation', icon: <MailIcon /> },
+  // {title: 'Analytics / Payments', menuId: "analytics" },
+  // {title: 'Profile', menuId: "profile" },
 ];
 
-class DoctorBoard extends Component {
-  state = { activeItem: "ToDo" };
-
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
-
-  render() {
-    const userData = this.props.location.state.currentUser;
-    //const user = AccountAPI.get( this.props.match.params.userID );
-    //const { activeItem } = this.state
-    return (
-      <Container style={{ marginTop: "5em" }}>
-        <Header as="h3">Welcome to Doctors's Board</Header>
-        <Tab
-          {...userData}
-          panes={BoardPanes}
-          menu={{
-            fluid: true,
-            vertical: true,
-            tabular: true,
-           activeIndex: 2,
-          }}
-        />
-      </Container>
-    );
+const switchMenu = (param, props) => {
+  switch (param) {
+    case 'board':
+      return <DoctorToDo />;
+    case 'patients':
+      return null;
+    case 'calendar':
+      return  <DoctorCalendars userData={props}/>;
+    case 'conversation':
+      return <ChatsGroup userData={props} />;
+    default:
+      return null;
   }
-}
+};
+
+const DoctorBoard = (props) => {
+  const classes = useStyles();
+  const [selectedMenu, setSelectedMenu] = useState({
+    title: 'My Board',
+    menuId: 'board',
+  });
+  const userData = props.location.state
+  
+  return (
+    <div className={classes.root}>
+      <Drawer
+        className={classes.drawer}
+        variant="permanent"
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <Toolbar />
+        <div className={classes.drawerContainer}>
+          <List>
+            {menuItems &&
+              menuItems.map((item) => (
+                <ListItem
+                  button
+                  key={item.menuId}
+                  onClick={() =>
+                    setSelectedMenu({ title: item.title, menuId: item.menuId })
+                  }
+                >
+                  <ListItemIcon>{item.icon && item.icon}</ListItemIcon>
+                  <ListItemText primary={item.title} />
+                </ListItem>
+              ))}
+          </List>
+        </div>
+      </Drawer>
+      <main className={classes.content}>
+        <Typography variant="h4" className={classes.header}>{selectedMenu.title}</Typography>
+        {switchMenu(selectedMenu.menuId, userData)}
+      </main>
+    </div>
+  );
+};
 
 export default DoctorBoard;

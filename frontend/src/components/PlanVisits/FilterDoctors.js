@@ -5,13 +5,14 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles({
   inputsContainer: {
     display: 'flex',
-    width: '100%',
+    width: '80%',
     margin: '1.5rem 0',
+  position: 'relative'
   },
 
   searchButton: {
     position: 'absolute',
-    right: '2.5rem',
+    right: 0,
     background: '#00B5AD',
     color: 'white',
     minWidth: '8rem',
@@ -31,7 +32,7 @@ const FilterDoctors = (props) => {
   const classes = useStyles();
   return (
     <>
-      <Typography variant="h5">Search for a doctor</Typography>
+      <Typography variant="h6">Search for a doctor</Typography>
       <div className={classes.inputsContainer}>
         <TextField
           variant="outlined"

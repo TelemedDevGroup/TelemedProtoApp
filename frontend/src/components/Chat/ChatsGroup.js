@@ -1,4 +1,4 @@
-import {Container, Grid, List, ListItem, ListItemText, Typography} from '@material-ui/core';
+import {Grid, List, ListItem, ListItemText} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import React, {useEffect, useState} from 'react';
 
@@ -13,14 +13,15 @@ const useStyles = makeStyles({
   selected: {
     background: '#00B5AD',
     '&:hover': {
-      background: '#00B5AD'
+      background: '#00B5AD',
     },
   },
 });
 
 const Conversation = ({ participants, onClick, selected, lastMessage }) => {
   const classes = useStyles();
-  const names = participants && participants.map(user => user.username).join(", ")
+  const names =
+    participants && participants.map((user) => user.username).join(', ');
   return (
       <ListItem
           button
@@ -113,8 +114,7 @@ const ChatsGroup = ({userData}) => {
 
   const classes = useStyles();
   return (
-    <Container>
-      <Typography variant="h5">Your conversations</Typography>
+    <div>
       <Grid container>
         <Grid className={classes.chatsList} item xs={4}>
           {!allRooms.length ? (
@@ -145,7 +145,7 @@ const ChatsGroup = ({userData}) => {
           ></ChatContainer>
         </Grid>
       </Grid>
-    </Container>
+    </div>
   );
 };
 

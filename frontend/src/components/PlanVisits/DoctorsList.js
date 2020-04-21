@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import FilterDoctors from './FilterDoctors';
+import { createRoom } from '../../services/ChatRequests';
 
 import {
   Grid,
-  Container,
   Typography,
   Paper,
   Link,
@@ -12,6 +12,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import TEST_ACCOUNTS from '../../mocks/test_users';
 import DoctorSchedule from './DoctorSchedule';
+// import ChatsGroup from '../Chat/ChatsGroup';
 
 const useStyles = makeStyles({
   paper: {
@@ -19,7 +20,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     border: '1px solid lightgray !important',
     wrap: 'nowrap',
-    width: '100%',
+    width: '80%',
     padding: '1rem',
     marginTop: '1.5rem',
   },
@@ -44,6 +45,14 @@ const useStyles = makeStyles({
   },
 });
 
+const sendMessageToDoctor = (doctorId) => {
+  //TODO replace hardcoded
+  doctorId = "27e2aa19-76a1-248d-b42a-ed5f7da5a11b";
+  const requestData = [doctorId.toString()];
+  
+  createRoom(requestData)
+};
+
 const DoctorCard = (props) => {
   const { id, name, location } = props.props;
   const classes = useStyles();
@@ -63,7 +72,12 @@ const DoctorCard = (props) => {
       </Typography>
 
       <Grid container justify="flex-end">
-        <Button className={classes.button}>Send message</Button>
+        <Button
+          className={classes.button}
+          onClick={() => props.openDialogs()}
+        >
+          Send message
+        </Button>
         <Button className={classes.button} onClick={() => props.onClick(id)}>
           Schedule visit
         </Button>
@@ -72,9 +86,13 @@ const DoctorCard = (props) => {
   );
 };
 
-const DoctorsList = () => {
+const DoctorsList = ({props}) => {
   const [doctorsList, setDoctorsList] = useState([]);
-  const [isScheduleShow, setIsShown] = useState({isShow: false, doctorId: null});
+  const [isScheduleShow, setIsShown] = useState({
+    isShow: false,
+    doctorId: null,
+  });
+  
   useEffect(() => {
     const getUsers = TEST_ACCOUNTS.all();
     const getDoctors =
@@ -83,21 +101,25 @@ const DoctorsList = () => {
   }, []);
 
   const showCalendar = (id) => {
-    setIsShown({isShow: true, doctorId: id});
+    setIsShown({ isShow: true, doctorId: id });
   };
   const hideCalendar = () => {
-    setIsShown({isShow: false, doctorId: null});
+    setIsShown({ isShow: false, doctorId: null });
   };
+  const openDialogs = () => null
 
   return (
-    <Container>
+    <div>
       {isScheduleShow.isShow ? (
-        <DoctorSchedule doctorId={isScheduleShow.doctorId} returnBack={hideCalendar}/>
+        <DoctorSchedule
+          doctorId={isScheduleShow.doctorId}
+          returnBack={hideCalendar}
+        />
       ) : (
         <>
           <FilterDoctors />
           <Grid>
-            <Typography variant="h5">Recommended doctors</Typography>
+            <Typography variant="h6">Recommended doctors</Typography>
             <Grid container direction="column" wrap="nowrap">
               {!doctorsList.length ? (
                 <p>No doctors found</p>
@@ -107,6 +129,7 @@ const DoctorsList = () => {
                     key={doctor.id}
                     props={doctor}
                     onClick={showCalendar}
+                    openDialogs={openDialogs}
                   />
                 ))
               )}
@@ -114,7 +137,7 @@ const DoctorsList = () => {
           </Grid>
         </>
       )}
-    </Container>
+    </div>
   );
 };
 

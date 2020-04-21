@@ -36,13 +36,13 @@ function a11yProps(index) {
     };
 }
 
-const DoctorCalendars = (props) => {
+const DoctorCalendars = ({userData}) => {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
+    
     return (
         <div>
             <Tabs value={value} onChange={handleChange}>
@@ -53,7 +53,7 @@ const DoctorCalendars = (props) => {
                 <Calendar/>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <DoctorAvailabilityCalendar currentUserId={props.userData.id}/>
+                <DoctorAvailabilityCalendar currentUserId={userData.currentUser.id}/>
             </TabPanel>
         </div>
     );
