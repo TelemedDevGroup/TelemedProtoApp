@@ -17,6 +17,11 @@ public class AvailabilityMapper {
                 .build();
     }
 
+    public void update(AvailabilitySlot availabilitySlot, AvailabilitySlotDTO dto) {
+        availabilitySlot.setStart(dto.getStart());
+        availabilitySlot.setEnd(dto.getEnd());
+    }
+
     public AvailabilitySlot map(User user, AvailabilitySlotDTO dto) {
         AvailabilitySlot availabilitySlot = new AvailabilitySlot();
         availabilitySlot.setUser(user);

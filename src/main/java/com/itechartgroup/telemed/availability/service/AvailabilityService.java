@@ -7,7 +7,11 @@ import java.util.UUID;
 
 public interface AvailabilityService {
 
-    AvailabilitySlotDTO createAvailabilitySlot(UUID userId, AvailabilitySlotDTO slot);
+    List<AvailabilitySlotDTO> createAvailabilitySlot(UUID userId, List<AvailabilitySlotDTO> slot);
+
+    void updateAvailabilitySlot(UUID userId, AvailabilitySlotDTO slot);
+
+    void deleteAvailabilitySlot(UUID userId, AvailabilitySlotDTO slot);
 
     List<AvailabilitySlotDTO> getAvailabilitySlots(String userId);
 }
