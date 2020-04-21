@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Entity
@@ -29,10 +30,10 @@ public class AvailabilitySlot {
     private User user;
 
     @Column(name = "start_timestamp", nullable = false)
-    private LocalDateTime start;
+    private ZonedDateTime start;
 
     @Column(name = "end_timestamp", nullable = false)
-    private LocalDateTime end;
+    private ZonedDateTime end;
 
     private String recurrenceRule;
 
