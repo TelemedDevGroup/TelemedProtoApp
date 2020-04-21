@@ -35,6 +35,8 @@ public class ChatRoomMapper {
         to.setId(from.getId());
         to.setUpdated(from.getUpdated());
         to.setMessageCount(from.getMessageCount());
+        to.setLastMessage(from.getLastMessage());
+        to.setLastAuthor(from.getLastAuthor());
     }
 
     public ChatRoomDto map(final ChatRoom message) {
@@ -50,6 +52,8 @@ public class ChatRoomMapper {
         to.setUpdated(from.getUpdated());
         to.setId(from.getId());
         to.setMessageCount(from.getMessageCount());
+        to.setLastMessage(from.getLastMessage());
+        to.setLastAuthor(from.getLastAuthor());
         to.setParticipants(participantMapper.mapEntity(from.getParticipants()));
     }
 }

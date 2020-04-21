@@ -13,5 +13,5 @@ import java.util.UUID;
  */
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, UUID> {
 
-    Page<ChatRoom> findByParticipants_UserIdEquals(UUID userId, Pageable pageable);
+    Page<ChatRoom> findByParticipants_UserIdEqualsOrderByUpdatedDesc(UUID userId, Pageable pageable);
 }

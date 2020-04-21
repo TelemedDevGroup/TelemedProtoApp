@@ -1,11 +1,11 @@
-package com.itechartgroup.telemed.appointment.service.impl;
+package com.itechartgroup.telemed.availability.service.impl;
 
-import com.itechartgroup.telemed.appointment.AvailabilityException;
-import com.itechartgroup.telemed.appointment.dto.AvailabilitySlotDTO;
-import com.itechartgroup.telemed.appointment.entity.AvailabilitySlot;
-import com.itechartgroup.telemed.appointment.repository.AvailabilityRepository;
-import com.itechartgroup.telemed.appointment.service.AvailabilityService;
-import com.itechartgroup.telemed.appointment.service.mapper.AvailabilityMapper;
+import com.itechartgroup.telemed.availability.exception.AvailabilityException;
+import com.itechartgroup.telemed.availability.dto.AvailabilitySlotDTO;
+import com.itechartgroup.telemed.availability.entity.AvailabilitySlot;
+import com.itechartgroup.telemed.availability.repository.AvailabilityRepository;
+import com.itechartgroup.telemed.availability.service.AvailabilityService;
+import com.itechartgroup.telemed.availability.service.mapper.AvailabilityMapper;
 import com.itechartgroup.telemed.security.entity.User;
 import com.itechartgroup.telemed.security.repository.UserRepository;
 import lombok.Data;
@@ -23,7 +23,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     private final AvailabilityRepository availabilityRepository;
     private final UserRepository userRepository;
 
-    private AvailabilityMapper availabilityMapper;
+    private final AvailabilityMapper availabilityMapper;
 
     @Override
     public AvailabilitySlotDTO createAvailabilitySlot(UUID userId, AvailabilitySlotDTO dto) {

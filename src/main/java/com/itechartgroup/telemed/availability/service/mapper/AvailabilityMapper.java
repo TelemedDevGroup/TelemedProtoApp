@@ -1,7 +1,7 @@
-package com.itechartgroup.telemed.appointment.service.mapper;
+package com.itechartgroup.telemed.availability.service.mapper;
 
-import com.itechartgroup.telemed.appointment.dto.AvailabilitySlotDTO;
-import com.itechartgroup.telemed.appointment.entity.AvailabilitySlot;
+import com.itechartgroup.telemed.availability.dto.AvailabilitySlotDTO;
+import com.itechartgroup.telemed.availability.entity.AvailabilitySlot;
 import com.itechartgroup.telemed.security.entity.User;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +10,7 @@ public class AvailabilityMapper {
 
     public AvailabilitySlotDTO mapDto(AvailabilitySlot availabilitySlot) {
         return AvailabilitySlotDTO.builder()
+                .id(availabilitySlot.getId().toString())
                 .start(availabilitySlot.getStart())
                 .end(availabilitySlot.getEnd())
                 .recurrenceRule(availabilitySlot.getRecurrenceRule())

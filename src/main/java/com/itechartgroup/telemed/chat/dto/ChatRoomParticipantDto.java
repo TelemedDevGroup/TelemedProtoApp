@@ -1,5 +1,6 @@
 package com.itechartgroup.telemed.chat.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChatRoomParticipantDto {
+    @JsonIgnore
     private UUID chatRoomId;
     private UUID userId;
     private Long unreadCount;
