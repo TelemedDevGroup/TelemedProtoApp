@@ -108,7 +108,7 @@ const ChatsGroup = ({userData}) => {
       type: 'TEXT',
       source: 'USER',
       body: message
-    }).then((response) => console.log('Message sent:' + response.body) /*setSelDialog([...selectedDialog, response])*/);
+    }).then((response) => console.log('Message sent:', response));
   };
 
   const classes = useStyles();
