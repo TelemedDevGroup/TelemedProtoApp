@@ -6,15 +6,17 @@ import {
   makeStyles,
   ListItem,
 } from '@material-ui/core';
-import {
-  ScheduleComponent,
-  WorkWeek,
-  Week,
-  Month,
-  Inject,
-  Agenda,
-  MonthAgenda,
-} from '@syncfusion/ej2-react-schedule';
+// import {
+//   ScheduleComponent,
+//   WorkWeek,
+//   Week,
+//   Month,
+//   Inject,
+//   Agenda,
+//   MonthAgenda,
+// } from '@syncfusion/ej2-react-schedule';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import { getDrAppointments } from '../../services/VisitsRequest';
 
@@ -40,11 +42,21 @@ function DoctorSchedule({ doctorId, returnBack }) {
   const classes = useStyles();
 
   const [doctorSchedule, setSchedule] = useState();
+  const [timeOnPickedDay, setPickedDay] = useState([]);
   useEffect(() => {
-    doctorId = "b1d4ca09-1cdf-2481-ba41-f4daa7dc156f";
-    getDrAppointments(doctorId).then((result) => setSchedule(result));
+    doctorId = 'b1d4ca09-1cdf-2481-ba41-f4daa7dc156f';
+    // getDrAppointments(doctorId).then((result) => setSchedule(result));
   }, []);
-  
+
+  const handleDayClick = (value) => {
+    setPickedDay(mockTimes);
+  };
+
+  const handleTimeClick = (time) => {
+   console.log(time);
+   
+  };
+
   return (
     <>
       <Button
@@ -57,11 +69,12 @@ function DoctorSchedule({ doctorId, returnBack }) {
         Go back
       </Button>
       <Grid container direction="row" spacing={4}>
-        <Grid item xs={9}>
+        <Grid item xs={5}>
           <Typography variant="h5">Pick a date</Typography>
-          <ScheduleComponent currentView="Month">
+          {/* <ScheduleComponent currentView="Month">
             <Inject services={[WorkWeek, Week, Month, Agenda, MonthAgenda]} />
-          </ScheduleComponent>
+          </ScheduleComponent> */}
+          <Calendar onClickDay={(value) => handleDayClick(value)} />
         </Grid>
         <Grid item xs={3}>
           <Typography variant="h5">Pick a time</Typography>
@@ -71,12 +84,15 @@ function DoctorSchedule({ doctorId, returnBack }) {
             wrap="nowrap"
             className={classes.timesContainer}
           >
-            {mockTimes.length &&
-              mockTimes.map((time) => (
-                <ListItem button className={classes.timeCard}>
+            {!timeOnPickedDay.length ? (
+              <p>No times found</p>
+            ) : (
+              timeOnPickedDay.map((time) => (
+                <ListItem button className={classes.timeCard} key={time} onClick={() => handleTimeClick(time)}>
                   {time}
                 </ListItem>
-              ))}
+              ))
+            )}
           </Grid>
         </Grid>
       </Grid>
