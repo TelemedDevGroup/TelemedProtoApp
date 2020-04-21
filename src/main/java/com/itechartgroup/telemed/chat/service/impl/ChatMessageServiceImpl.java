@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
@@ -80,7 +81,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
             container.removeThread(Thread.currentThread(), () -> SUBSCRIBERS.remove(userId));
         }
 
-        return null;
+        return Collections.emptySortedSet();
     }
 
     /**

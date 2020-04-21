@@ -31,6 +31,8 @@ public class ChatRoomDto implements Comparable<ChatRoomDto> {
     private Long messageCount;
     private LocalDateTime created;
     private LocalDateTime updated;
+    private String lastMessage;
+    private UUID lastAuthor;
 
     // calculated properties
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -45,7 +47,7 @@ public class ChatRoomDto implements Comparable<ChatRoomDto> {
     public long getUnreadCount() {
         final UUID userId = Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
                 .map(Authentication::getPrincipal).map(details -> (UserPrincipal) details).map(UserPrincipal::getId)
-                .orElse(new UUID(0,0));
+                .orElse(new UUID(0, 0));
         return participants.stream().filter(participant -> participant.getUserId().equals(userId)).findFirst()
                 .map(ChatRoomParticipantDto::getUnreadCount).orElse(0L);
     }
@@ -62,6 +64,8 @@ public class ChatRoomDto implements Comparable<ChatRoomDto> {
         copy.setMessageCount(getMessageCount());
         copy.setCreated(getCreated());
         copy.setUpdated(getUpdated());
+        copy.setLastMessage(getLastMessage());
+        copy.setLastAuthor(getLastAuthor());
         return copy;
     }
 }
