@@ -1,4 +1,4 @@
-import {API_BASE_URL} from "../constants";
+import {API_BASE_URL, ACCESS_TOKEN} from "../constants";
 import {request} from "./Request";
 
 export function createRoom(partnerId) {
