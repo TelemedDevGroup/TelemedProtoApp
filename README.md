@@ -13,6 +13,9 @@ http://telemed-poc-back-dev.us-west-2.elasticbeanstalk.com/
 
 -----------------------------------------------------------
 
+For the development firstly please import required Java and JavaScript code styles (exported from IntellijIDEA as an .xml file) from the project root - code_style_java.xml and code_style_javascript.xml.
+
+
 ## Backend
 
 ### Back Configuration
