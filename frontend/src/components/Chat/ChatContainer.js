@@ -1,64 +1,68 @@
-import React, {useState} from "react";
-import {Button, Grid, Typography} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
-import VideoCallIcon from "@material-ui/icons/VideoCall";
-import VideoCallModal from "./VideoCallModal";
-import {createVideoRoom} from "../../services/ChatRequests";
-import {TextField} from "@material-ui/core";
+import React, { useState } from 'react';
+import { Button, Grid, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import VideoCallIcon from '@material-ui/icons/VideoCall';
+import VideoCallModal from './VideoCallModal';
+import { createVideoRoom } from '../../services/ChatRequests';
+import { TextField } from '@material-ui/core';
 
 const useStyles = makeStyles({
-  container: {
-    margin: "1rem",
+  container: {   
+    height: '700px',
   },
   message: {
-    border: "1px solid gray",
-    background: "WhiteSmoke",
-    padding: "0.8rem",
-    marginTop: "1rem",
-    borderRadius: "8px",
-    width: "48%",
+    border: '1px solid gray',
+    background: 'WhiteSmoke',
+    padding: '0.8rem',
+    marginTop: '1rem',
+    borderRadius: '8px',
+    width: '48%',
   },
   senderName: {
-    fontSize: "1.2rem",
+    fontSize: '1.2rem',
   },
   partner: {
-    border: "1px solid #00B5AD",
-    background: "#F2FBFB",
-    alignSelf: "flex-end",
+    border: '1px solid #00B5AD',
+    background: '#F2FBFB',
+    alignSelf: 'flex-end',
   },
 
   image: {
-    padding: "1rem 0",
-    width: "100%",
+    padding: '1rem 0',
+    width: '100%',
   },
 
   videoButton: {
-    background: "#00B5AD",
-    color: "white",
-    height: "40px",
-    "&:hover": {
-      background: "#00B5AD",
+    background: '#00B5AD',
+    color: 'white',
+    height: '40px',
+    '&:hover': {
+      background: '#00B5AD',
     },
   },
 
   sendButton: {
-    background: "#00B5AD",
-    color: "white",
-    minWidth: "7rem",
-    height: "3.85rem",
-    borderRadius: "0 4px 4px 0",
-    "&:hover": {
-      background: "#00B5AD",
+    background: '#00B5AD',
+    color: 'white',
+    minWidth: '7rem',
+    height: '3.85rem',
+    borderRadius: '0 4px 4px 0',
+    '&:hover': {
+      background: '#00B5AD',
     },
+  },
+
+  dialogHeader: {
+    padding: '0 0 1rem 2rem',
+    borderBottom: '1px solid lightgray',
   },
 });
 
 const ChatContainer = ({ chatsData, participants, currentUser, onClick }) => {
   let [activeVideoCall, setActiveVideoCall] = useState(false);
-  let [inputData, setInputData] = useState("");
-  let [token, setToken] = useState("");
+  let [inputData, setInputData] = useState('');
+  let [token, setToken] = useState('');
   const classes = useStyles();
-  
 
   const startVideoCall = (token) => {
     setToken(token);
@@ -71,44 +75,57 @@ const ChatContainer = ({ chatsData, participants, currentUser, onClick }) => {
   };
 
   const getNameById = (userId) => {
-    const getUser = participants && participants.find(partner => partner.userId === userId)        
-    return getUser && getUser.username
-  }
+    const getUser =
+      participants && participants.find((partner) => partner.userId === userId);
+    return getUser && getUser.username;
+  };
 
   return (
     <>
       {!chatsData ? (
-        <p>Select conversation</p>
+        <p>No data found</p>
       ) : (
         <Grid
           className={classes.container}
           container
-          style={{
-            height: "700px",
-          }}
         >
-          <Grid container justify="space-between" alignContent="center">
-            <Typography variant="h5">{participants && participants.map(user => user.username).join(", ")}</Typography>
+          <Grid
+            container
+            justify="space-between"
+            alignItems="center"
+            className={classes.dialogHeader}
+          >
+            <Typography variant="h5">
+              {participants &&
+                participants.map((user) => user.username).join(', ')}
+            </Typography>
             <Button
               variant="contained"
               className={classes.videoButton}
               startIcon={<VideoCallIcon>send</VideoCallIcon>}
               onClick={() => {
-                createVideoRoom('0b3a56ce-a7dc-4cff-9588-697db5ff6fe4')
-                    .then(json => startVideoCall(json.token))
+                createVideoRoom(
+                  '0b3a56ce-a7dc-4cff-9588-697db5ff6fe4'
+                ).then((json) => startVideoCall(json.token));
               }}
             >
               Video Call
             </Button>
-            {activeVideoCall && <VideoCallModal handleClose={finishVideoCall} show={activeVideoCall} token={token}/>}
+            {activeVideoCall && (
+              <VideoCallModal
+                handleClose={finishVideoCall}
+                show={activeVideoCall}
+                token={token}
+              />
+            )}
           </Grid>
           <Grid
             container
             direction="column"
             wrap="nowrap"
             style={{
-              height: "80%",
-              overflowY: "auto",
+              height: '80%',
+              overflowY: 'auto',
             }}
           >
             {chatsData &&
@@ -145,9 +162,9 @@ const ChatContainer = ({ chatsData, participants, currentUser, onClick }) => {
               placeholder="Input your message..."
               value={inputData}
               onKeyPress={(event) => {
-                if (event.key === "Enter") {
+                if (event.key === 'Enter') {
                   inputData && onClick(inputData);
-                  setInputData("");
+                  setInputData('');
                 }
               }}
               onChange={(event) => setInputData(event.target.value)}
@@ -156,7 +173,7 @@ const ChatContainer = ({ chatsData, participants, currentUser, onClick }) => {
               className={classes.sendButton}
               onClick={() => {
                 inputData && onClick(inputData);
-                setInputData("");
+                setInputData('');
               }}
             >
               Send

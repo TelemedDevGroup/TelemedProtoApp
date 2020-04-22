@@ -11,11 +11,12 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles({
   zIndex: {
-    position: "absolute",
+    position: "fixed",
     zIndex: 1500
   },
   root: {
     background: '#00B5AD',
+    height: "64px"
   },
   title: {
     flexGrow: 1,

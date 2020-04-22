@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import PatientToDo from './PatientToDo'
+import PatientToDo from './PatientToDo';
 import {
   Drawer,
   Toolbar,
@@ -9,6 +9,8 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
+  Card,
+  Paper,
 } from '@material-ui/core';
 import Home from '@material-ui/icons/Home';
 import AddLocation from '@material-ui/icons/AddLocation';
@@ -23,26 +25,53 @@ const drawerWidth = 240;
 const useStyles = makeStyles({
   root: {
     display: 'flex',
+    width: '100vw',
+    background: '#F7FDFD',    
+    height: "calc(100vh - 19px)"
   },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
   },
   drawerPaper: {
-    paddingTop: '3rem',
+    padding: '2rem 0 0 0',
     width: drawerWidth,
+    border: "none"
   },
   drawerContainer: {
     overflow: 'auto',
   },
+
+  icon: {
+    minWidth: '2.5rem',
+    marginLeft: '1rem',
+  },
+
   content: {
     flexGrow: 1,
     padding: '6rem 0 0 3rem',
-    maxWidth: '70rem',
+    maxWidth: '80rem',
   },
+
+  contentPaper: {
+    borderRadius: '12px',
+    padding: "2rem",
+    minHeight: "50rem",
+    maxHeight: "60rem",
+    overflowY: "auto"
+  },
+
   header: {
-    paddingBottom: "2rem"
-  }
+    paddingBottom: '2rem',
+  },
+
+  listItem: {
+    borderLeft: '4px solid #00B5AD',
+    background: '#CCF0EF',
+    '&:hover': {
+      background: '#CCF0EF',
+    },
+  },
 });
 
 const menuItems = [
@@ -93,13 +122,18 @@ const PatientBoard = (props) => {
             {menuItems &&
               menuItems.map((item) => (
                 <ListItem
+                  className={`${
+                    item.menuId === selectedMenu.menuId && classes.listItem
+                  }`}
                   button
                   key={item.menuId}
                   onClick={() =>
                     setSelectedMenu({ title: item.title, menuId: item.menuId })
                   }
                 >
-                  <ListItemIcon>{item.icon && item.icon}</ListItemIcon>
+                  <ListItemIcon className={classes.icon}>
+                    {item.icon && item.icon}
+                  </ListItemIcon>
                   <ListItemText primary={item.title} />
                 </ListItem>
               ))}
@@ -107,8 +141,12 @@ const PatientBoard = (props) => {
         </div>
       </Drawer>
       <main className={classes.content}>
-        <Typography variant="h4" className={classes.header}>{selectedMenu.title}</Typography>
+        <Typography variant="h4" className={classes.header}>
+          {selectedMenu.title}
+        </Typography>
+        <Paper  elevation={3} className={classes.contentPaper}> 
         {switchMenu(selectedMenu.menuId, props)}
+        </Paper>
       </main>
     </div>
   );

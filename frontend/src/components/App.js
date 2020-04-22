@@ -13,6 +13,22 @@ import '@syncfusion/ej2-navigations/styles/material.css';
 import '@syncfusion/ej2-popups/styles/material.css';
 import '@syncfusion/ej2-react-schedule/styles/material.css';
 
-const App = () => <Routes />;
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
+
+const theme = createMuiTheme({
+  // palette: {
+  //   background: {
+  //     default: '#FCFEFE',
+  //   },
+  // },
+});
+
+const App = () => (
+  <MuiThemeProvider theme={theme}>
+       {/* <CssBaseline /> */}
+    <Routes />
+  </MuiThemeProvider>
+);
 
 export default App;
