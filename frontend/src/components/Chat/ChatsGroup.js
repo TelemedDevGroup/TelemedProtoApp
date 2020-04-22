@@ -13,6 +13,7 @@ import {
   getAllRooms,
   getRoom,
   poll,
+  readRoom,
   sendMessageRoom,
 } from '../../services/ChatRequests';
 import ChatContainer from './ChatContainer.js';
@@ -133,6 +134,20 @@ const ChatsGroup = ({ userData }) => {
     });
   };
 
+  const markRoomAsRead = (roomId) => {
+    const room = readRoom(roomId);
+    const newRoomState = [];
+    pollingState.rooms.forEach(item => { // copy old rooms and push new room data instead of old one
+      if (item.id === room.id) {
+        newRoomState.push(room);
+      } else {
+        newRoomState.push(item);
+      }
+    });
+    pollingState.rooms = newRoomState;
+    setAllRooms(newRoomState);
+  }
+
   const sendMessage = (message) => {
     sendMessageRoom({
       room: selRoomId.id,
@@ -178,6 +193,7 @@ const ChatsGroup = ({ userData }) => {
               currentUser={userId}
               chatsData={selectedDialog}
               onClick={sendMessage}
+              markRoomAsRead={markRoomAsRead}
             ></ChatContainer>
           )}
         </Grid>

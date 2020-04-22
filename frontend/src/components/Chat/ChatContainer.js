@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
@@ -7,7 +7,7 @@ import { createVideoRoom } from '../../services/ChatRequests';
 import { TextField } from '@material-ui/core';
 
 const useStyles = makeStyles({
-  container: {   
+  container: {
     height: '700px',
   },
   message: {
@@ -58,11 +58,13 @@ const useStyles = makeStyles({
   },
 });
 
-const ChatContainer = ({ chatsData, participants, currentUser, onClick }) => {
+const ChatContainer = ({ chatsData, participants, currentUser, onClick, markRoomAsRead }) => {
   let [activeVideoCall, setActiveVideoCall] = useState(false);
   let [inputData, setInputData] = useState('');
   let [token, setToken] = useState('');
   const classes = useStyles();
+
+  let dialogContainer;
 
   const startVideoCall = (token) => {
     setToken(token);
@@ -79,6 +81,15 @@ const ChatContainer = ({ chatsData, participants, currentUser, onClick }) => {
       participants && participants.find((partner) => partner.userId === userId);
     return getUser && getUser.username;
   };
+
+  const scrollToBottom = () => {
+    dialogContainer && dialogContainer.scrollTo(0, dialogContainer.scrollHeight);
+    chatsData && chatsData.length && markRoomAsRead(chatsData[chatsData.length -1].room);
+  }
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatsData]);
 
   return (
     <>
@@ -127,6 +138,7 @@ const ChatContainer = ({ chatsData, participants, currentUser, onClick }) => {
               height: '80%',
               overflowY: 'auto',
             }}
+            ref={dialogContainer}
           >
             {chatsData &&
               chatsData.map((message, index) => (
