@@ -15,6 +15,7 @@ import { createElement } from '@syncfusion/ej2-base';
 import { MultiSelect } from '@syncfusion/ej2-dropdowns';
 
 import {ACCESS_TOKEN, API_BASE_URL} from '../../constants';
+import {vh} from "react-native-expo-viewport-units";
 
 class Calendar extends React.Component {
 
@@ -76,6 +77,7 @@ class Calendar extends React.Component {
   render() {
     return (
       <ScheduleComponent
+        height={vh(80)}
         eventSettings={{ dataSource: this.appointmentDataManager,
         fields: {
           id: 'appointment_id',

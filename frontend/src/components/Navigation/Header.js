@@ -1,47 +1,54 @@
-import React, {Component} from 'react';
-import { Header as HeaderText, Segment, Menu, Dropdown, Container, Image } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import {
+  makeStyles,
+  AppBar,
+  Toolbar,
+  Typography,
+  Grid,
+  Avatar,
+} from '@material-ui/core';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
-class Header extends Component {
-    render() {
+const useStyles = makeStyles({
+  zIndex: {
+    position: "absolute",
+    zIndex: 1500
+  },
+  root: {
+    background: '#00B5AD',
+  },
+  title: {
+    flexGrow: 1,
+  },
+  userName: {
+    marginLeft: '1em',
+  },
+  logo: {
+    background: 'white',
+    marginRight: '1em',
+  },
+});
 
-      return (
+const Header = (props) => {
+  const { name } = props.authorisedUser;
+  const classes = useStyles();
+  return (
+    <AppBar position="static" className={classes.zIndex}>
+      <Toolbar className={classes.root}>
+        <Avatar className={classes.logo} src="/telemed-logo.png" />
+        <Typography variant="h6" className={classes.title}>
+          Telemedicine App
+        </Typography>
         <div>
-          <Menu fixed='top' >
-            <Container>
-              <Menu.Item header>
-                <Image size='mini' src='/telemed-logo.png' style={{ marginRight: '1.5em' }} />
-                Telemedicine App
-              </Menu.Item>
-              <Menu.Item > <Link to='/'>Home</Link> </Menu.Item>
-
-              <Dropdown item simple text='Help'>
-                <Dropdown.Menu>
-                  <Dropdown.Item><a className='text' href="https://www.itechart.com/our-works/">iTechArt</a></Dropdown.Item>
-                  <Dropdown.Divider />
-                  <Dropdown.Header>Reused components</Dropdown.Header>
-                  <Dropdown.Item>
-                    <i className='dropdown icon' />
-                    <span className='text'>Components</span>
-                    <Dropdown.Menu>
-                      <Dropdown.Item><a href="https://ej2.syncfusion.com/react/documentation/schedule/getting-started/">React Calendar component</a></Dropdown.Item>
-                      <Dropdown.Item><a href="https://github.com/nguymin4/react-videocall">React videocall component</a></Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Container>
-            <Segment vertical floated='left'>
-              <HeaderText as='h3' >
-                <Image size='small' circular src='https://img.icons8.com/plasticine/100/000000/user.png' />
-                {this.props.authorisedUser.name}
-              </HeaderText>
-            </Segment>
-          </Menu>
+          <Grid color="inherit" container alignItems="center">
+            <AccountCircle />
+            <Typography variant="h6" className={classes.userName}>
+              {name}
+            </Typography>
+          </Grid>
         </div>
-      )
-    }
-
-}
-
-export default Header
+      </Toolbar>
+    </AppBar>
+  );
+};
+export default Header;

@@ -10,4 +10,6 @@ public interface ChatConstants {
     long POLLING_SLEEP_STEP = 10L;
     long UNREAD_INC_SIZE = 1L;
     long UNREAD_NO_MESSAGES = 0L;
+    int MESSAGE_PREVIEW_MAX_SIZE = 150;
+    String MESSAGE_PREVIEW_POSTFIX = "...";
 }
