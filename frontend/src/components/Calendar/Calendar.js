@@ -24,8 +24,8 @@ class Calendar extends React.Component {
 
     this.appointmentDataManager = new DataManager({
       url: API_BASE_URL + '/api/appointment/date_range',
-      crudUrl: API_BASE_URL + '/api/appointment',
       adaptor: new UrlAdaptor,
+      crudUrl: API_BASE_URL + '/api/appointment',
       headers: [
         {'Authorization': 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)}
       ]
