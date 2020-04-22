@@ -29,19 +29,19 @@ public class AppointmentController {
     private AppointmentServiceImpl appointmentService;
 
     @PostMapping("/all")
-    public ResponseEntity<Collection<Appointment>> getAllAppointments(
+    public ResponseEntity<Collection<AppointmentDTO>> getAllAppointments(
             @CurrentUser final UserPrincipal userPrincipal) {
 
-        Collection<Appointment> appointments = appointmentService.getAll(userPrincipal.getId());
+        Collection<AppointmentDTO> appointments = appointmentService.getAll(userPrincipal.getId());
         return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
 
     @PostMapping("/date_range")
-    public ResponseEntity<Collection<Appointment>> getAppointmentsByDateRange(
+    public ResponseEntity<Collection<AppointmentDTO>> getAppointmentsByDateRange(
             @CurrentUser UserPrincipal userPrincipal,
             @RequestBody AppointmentReadParamsDTO readParams) {
 
-        Collection<Appointment> appointments = appointmentService
+        Collection<AppointmentDTO> appointments = appointmentService
                 .getByDateRange(userPrincipal.getId(), readParams);
 
         return new ResponseEntity<>(appointments, HttpStatus.OK);

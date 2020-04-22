@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import java.util.UUID;
 
 @Configuration
-@EnableJpaAuditing(auditorAwareRef="auditorProvider")
+@EnableJpaAuditing(auditorAwareRef="auditorProvider", dateTimeProviderRef = "dateTimeProvider")
 @EnableTransactionManagement
 public class PersistenceConfig {
 

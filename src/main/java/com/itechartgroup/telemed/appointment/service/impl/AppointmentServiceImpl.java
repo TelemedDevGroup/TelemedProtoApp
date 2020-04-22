@@ -13,6 +13,7 @@ import com.itechartgroup.telemed.security.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,6 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Data
 @Service
@@ -32,18 +34,25 @@ public class AppointmentServiceImpl implements AppointmentService {
     private AssignUserToAppointmentRepository userToAppointmentRepository;
 
     @Override
-    public Collection<Appointment> getAll(UUID userId) {
-        return appointmentRepository.findByParticipants(userId);
+    @Transactional(readOnly = true)
+    public Collection<AppointmentDTO> getAll(UUID userId) {
+        return appointmentRepository.findByParticipants(userId)
+                .map(appointmentMapper::mapDto)
+                .collect(Collectors.toSet());
     }
 
     @Override
-    public Collection<Appointment> getByDateRange(UUID userId, AppointmentReadParamsDTO readParams) {
-        return appointmentRepository.getByDateRange(userId, readParams.getStartDate(), readParams.getEndDate());
+    @Transactional(readOnly = true)
+    public Collection<AppointmentDTO> getByDateRange(UUID userId, AppointmentReadParamsDTO readParams) {
+        return appointmentRepository.getByDateRange(userId, readParams.getStartDate(), readParams.getEndDate())
+                .map(appointmentMapper::mapDto)
+                .collect(Collectors.toSet());
     }
 
     @Override
     public AppointmentDTO saveAppointment(UUID ownerId, AppointmentDTO dto) {
         Set<UUID> participantIds = dto.getParticipantIds();
+        participantIds.add(ownerId);
         Appointment entity = appointmentMapper.map(dto);
         appointmentRepository.save(entity);
 

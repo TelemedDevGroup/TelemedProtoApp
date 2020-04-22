@@ -7,8 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.ZonedDateTime;
-import java.util.Collection;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
@@ -17,7 +17,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
             "SELECT a.* FROM appointment a " +
             "JOIN assign_user_to_appointment au ON a.appointment_id = au.appointment_id " +
             "WHERE au.user_id = :userId", nativeQuery = true)
-    Collection<Appointment> findByParticipants(@Param("userId") UUID uuid);
+    Stream<Appointment> findByParticipants(@Param("userId") UUID uuid);
 
     @Query(value =
             "SELECT a.* FROM appointment a " +
@@ -25,7 +25,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
             "WHERE au.user_id = :userId AND " +
             "a.start_timestamp >= :startDate AND " +
             "a.end_timestamp <= :endDate", nativeQuery = true)
-    Collection<Appointment> getByDateRange(
+    Stream<Appointment> getByDateRange(
             @Param("userId") UUID uuid,
             @Param("startDate") ZonedDateTime startDate,
             @Param("endDate") ZonedDateTime endDate);
