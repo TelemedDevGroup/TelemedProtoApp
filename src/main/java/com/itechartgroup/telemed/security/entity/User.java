@@ -1,14 +1,12 @@
 package com.itechartgroup.telemed.security.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.itechartgroup.telemed.utils.UUIDConverter;
 import com.itechartgroup.telemed.security.oauth2.AuthProvider;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -36,7 +34,6 @@ public class User {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
-    @Convert(converter = UUIDConverter.class)
     @Column(name = "user_id")
     private UUID id;
 

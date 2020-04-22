@@ -1,14 +1,20 @@
 package com.itechartgroup.telemed.appointment.entity;
 
 import com.itechartgroup.telemed.security.entity.User;
-import com.itechartgroup.telemed.utils.UUIDConverter;
+import com.itechartgroup.telemed.video.entity.VideoRoom;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,14 +22,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
+import javax.persistence.Transient;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Table(name = "appointment")
+@EntityListeners(AuditingEntityListener.class)
 @Data
+@NoArgsConstructor
 public class Appointment {
 
     @Id
@@ -32,39 +41,28 @@ public class Appointment {
     @Column(name = "appointment_id")
     private UUID id;
 
-    @Column(nullable = false)
     private String subject;
-
-    @Column(name = "start_timestamp", nullable = false)
-    private LocalDateTime startTimestamp;
-
-    @Column(name = "end_timestamp", nullable = false)
-    private LocalDateTime endTimestamp;
-
+    private ZonedDateTime startTimestamp;
+    private ZonedDateTime endTimestamp;
     private String location;
-
     private String description;
-
-    @Column(name = "video_room_id")
     private UUID videoRoomId;
-
-    @Column(name = "is_all_day")
     private boolean isAllDay;
-
-    @Column(name = "recurrence_rule")
     private String recurrenceRule;
 
-    @Column(name = "owner_id", nullable = false)
+    @Column(nullable = false, updatable = false)
+    @CreatedDate
+    private ZonedDateTime creationTimestamp;
+
+    @Column(nullable = false, updatable = false)
+    @CreatedBy
     private UUID ownerId;
 
-    @Column(name = "creation_timestamp", nullable = false)
-    private LocalDateTime creationTimestamp;
-
-    @Column(name = "last_updated_by", nullable = false)
+    @LastModifiedBy
     private UUID lastUpdatedBy;
 
-    @Column(name = "last_update_timestamp", nullable = false)
-    private LocalDateTime lastUpdateTimestamp;
+    @LastModifiedDate
+    private ZonedDateTime lastUpdateTimestamp;
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -75,4 +73,7 @@ public class Appointment {
             joinColumns = { @JoinColumn(name = "appointment_id") },
             inverseJoinColumns = { @JoinColumn(name = "user_id") })
     private Set<User> participants = new HashSet<>();
+
+    @Transient
+    private VideoRoom videoRoom;
 }

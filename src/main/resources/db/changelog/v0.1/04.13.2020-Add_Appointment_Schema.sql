@@ -12,11 +12,13 @@ CREATE TABLE appointment (
   recurrence_rule VARCHAR(512),
   owner_id BINARY(16) NOT NULL,
   creation_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  last_update_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  last_updated_by BINARY(16) NOT NULL,
+  last_update_timestamp DATETIME,
+  last_updated_by BINARY(16),
   CONSTRAINT appointment_pk
     PRIMARY KEY (appointment_id),
-  FOREIGN KEY (video_room_id) REFERENCES video_room(id)
+  FOREIGN KEY (video_room_id) REFERENCES video_room(id),
+  FOREIGN KEY (owner_id) REFERENCES `user`(user_id),
+  FOREIGN KEY (last_updated_by) REFERENCES `user`(user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE assign_user_to_appointment (
