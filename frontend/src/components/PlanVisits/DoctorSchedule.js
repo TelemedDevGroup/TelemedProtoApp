@@ -9,31 +9,63 @@ import {
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import ArrowBack from '@material-ui/icons/ArrowBack';
-import { getDrAppointments } from '../../services/VisitsRequest';
+import {
+  getDrAppointments,
+  createAppointment,
+} from '../../services/VisitsRequest';
 
 const useStyles = makeStyles({
   timesContainer: {
+    width: '16rem',
     paddingTop: '1rem',
-    height: '90%',
+    minHeight: '20rem',
+    maxHeight: '20rem',
     overflowY: 'auto',
   },
 
   timeCard: {
-    width: '80%',
-    padding: '1rem',
-    marginBottom: '1rem',
+    width: '14rem',
+    padding: '0.8rem',
+    marginBottom: '0.8rem',
     border: '1px solid gray',
-    borderRadius: '8px',
+    borderRadius: '4px',
+  },
+
+  button: {
+    width: '14rem',
+    height: '3rem',
+    marginTop: '1rem',
+    background: '#00B5AD',
+    color: 'white',
+    '&:hover': {
+      background: '#00B5AD',
+      color: 'white',
+    },
+    '&:disabled': {
+      background: 'lightgray',
+      color: 'white',
+    },
   },
 });
 
-const mockTimes = ['10:00', '11:30', '12:00', '14:00', '15:00', '16:00', '17:00','18:00'];
+const times = [
+  '10:00',
+  '11:30',
+  '12:00',
+  '14:00',
+  '15:00',
+  '16:00',
+  '17:00',
+  '18:00',
+];
 
-function DoctorSchedule({ doctorId, returnBack }) {
+function DoctorSchedule({ doctorId, returnBack, userId }) {
   const classes = useStyles();
 
+  const [showTime, setShowTime] = useState(false);
   const [doctorSchedule, setSchedule] = useState([]);
   const [timeOnPickedDay, setPickedDay] = useState();
+  const [appointment, setAppointment] = useState(null);
   useEffect(() => {
     getDrAppointments(doctorId).then((result) =>
       setSchedule(
@@ -42,16 +74,31 @@ function DoctorSchedule({ doctorId, returnBack }) {
     );
   }, []);
 
-  const handleDayClick = (value) => {    
+  const handleDayClick = (value) => {
     setPickedDay(value);
+    setShowTime(true);
   };
 
   const handleTimeClick = (time) => {
-    const parseTime = time.split(":")
-    const pickedTime = timeOnPickedDay
-    pickedTime.setHours(parseTime[0])
-    pickedTime.setMinutes(parseTime[1])
-    console.log(new Date(pickedTime));
+    const parseTime = time.split(':');
+    const startTime = timeOnPickedDay;
+    const endTime = timeOnPickedDay;
+    startTime.setHours(parseTime[0]);
+    startTime.setMinutes(parseTime[1]);
+    endTime.setHours(+parseTime[0] + 1);
+    endTime.setMinutes(parseTime[1]);    
+
+    setAppointment({
+      subject: "test",
+      participantIds: [userId, doctorId],
+      startTimestamp: startTime.toISOString(),
+      endTimestamp: endTime.toISOString()
+    }
+    );
+  };
+
+  const handleCreateAppointment = () => {
+    appointment && createAppointment(appointment);
   };
 
   return (
@@ -65,15 +112,14 @@ function DoctorSchedule({ doctorId, returnBack }) {
       >
         Go back
       </Button>
-      <Grid container direction="row" spacing={4}>
+      <Grid container direction="row" spacing={2}>
         <Grid item xs={5}>
           <Typography variant="h5">Pick a date</Typography>
           <Calendar
             onClickDay={(value) => handleDayClick(value)}
-            // defaultValue={doctorSchedule.length && doctorSchedule}
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <Typography variant="h5">Pick a time</Typography>
           <Grid
             container
@@ -81,10 +127,10 @@ function DoctorSchedule({ doctorId, returnBack }) {
             wrap="nowrap"
             className={classes.timesContainer}
           >
-            {!mockTimes.length ? (
-              <p>No times found</p>
+            {!showTime ? (
+              <p>Select a day</p>
             ) : (
-              mockTimes.map((time) => (
+              times.map((time) => (
                 <ListItem
                   button
                   className={classes.timeCard}
@@ -96,6 +142,15 @@ function DoctorSchedule({ doctorId, returnBack }) {
               ))
             )}
           </Grid>
+          {showTime && (
+            <Button
+              className={classes.button}
+              disabled={!appointment}
+              onClick={() => handleCreateAppointment()}
+            >
+              Submit
+            </Button>
+          )}
         </Grid>
       </Grid>
     </>

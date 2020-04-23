@@ -46,3 +46,18 @@ export function getDrAppointments(doctorId) {
     method: "GET",
   });
 }
+
+export function createAppointment(appointmentData) {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+
+
+  console.log(appointmentData);
+  
+  return request({
+    url: API_BASE_URL + "/api/appointment",
+    method: "POST",
+    body: JSON.stringify(appointmentData)
+  });
+}
