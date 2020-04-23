@@ -272,6 +272,7 @@ class LoginForm extends Component {
           id="email"
           label="Email Address"
           name="email"
+          color="secondary"
           value={this.state.email}
           onChange={this.handleInputChange}
         />
@@ -280,6 +281,7 @@ class LoginForm extends Component {
           margin="normal"
           required
           fullWidth
+          color="secondary"
           name="password"
           label="Password"
           type="password"

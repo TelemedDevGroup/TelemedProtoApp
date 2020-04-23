@@ -38,16 +38,22 @@ const FilterDoctors = (props) => {
           variant="outlined"
           label="Name"
           className={classes.inputField}
+          value="*********"
+          color="secondary"
         ></TextField>
         <TextField
           variant="outlined"
           label="Specialization"
           className={classes.inputField}
+          value="*********"
+          color="secondary"
         ></TextField>
         <TextField
           variant="outlined"
           label="Prof level"
           className={classes.inputField}
+          value="*********"
+          color="secondary"
         ></TextField>
         <Button className={classes.searchButton}>Search</Button>
       </div>

@@ -1,22 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Typography,
   Grid,
   Button,
   makeStyles,
   ListItem,
+  TextField,
 } from '@material-ui/core';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import ArrowBack from '@material-ui/icons/ArrowBack';
-import {
-  getDrAppointments,
-  createAppointment,
-} from '../../services/VisitsRequest';
+import { createAppointment } from '../../services/VisitsRequest';
 
 const useStyles = makeStyles({
   timesContainer: {
-    width: '16rem',
+    width: '15rem',
     paddingTop: '1rem',
     minHeight: '20rem',
     maxHeight: '20rem',
@@ -32,7 +30,7 @@ const useStyles = makeStyles({
   },
 
   button: {
-    width: '14rem',
+    width: '100%',
     height: '3rem',
     marginTop: '1rem',
     background: '#00B5AD',
@@ -45,6 +43,18 @@ const useStyles = makeStyles({
       background: 'lightgray',
       color: 'white',
     },
+  },
+  selectedTime: {
+    background: '#00B5AD',
+    color: 'white',
+    border: '1px solid #00B5AD',
+    '&:hover': {
+      background: '#00B5AD',
+      color: 'white',
+    },
+  },
+  textField: {
+    marginTop: '0.5rem',
   },
 });
 
@@ -63,16 +73,10 @@ function DoctorSchedule({ doctorId, returnBack, userId }) {
   const classes = useStyles();
 
   const [showTime, setShowTime] = useState(false);
-  const [doctorSchedule, setSchedule] = useState([]);
   const [timeOnPickedDay, setPickedDay] = useState();
+  const [selectedTime, setSelTime] = useState(null);
+  const [subject, setSubject] = useState('');
   const [appointment, setAppointment] = useState(null);
-  useEffect(() => {
-    getDrAppointments(doctorId).then((result) =>
-      setSchedule(
-        result.map((time) => [new Date(time.StartTime), new Date(time.EndTime)])
-      )
-    );
-  }, []);
 
   const handleDayClick = (value) => {
     setPickedDay(value);
@@ -80,21 +84,29 @@ function DoctorSchedule({ doctorId, returnBack, userId }) {
   };
 
   const handleTimeClick = (time) => {
+    setSelTime(time);
     const parseTime = time.split(':');
     const startTime = timeOnPickedDay;
     const endTime = timeOnPickedDay;
     startTime.setHours(parseTime[0]);
     startTime.setMinutes(parseTime[1]);
     endTime.setHours(+parseTime[0] + 1);
-    endTime.setMinutes(parseTime[1]);    
+    endTime.setMinutes(parseTime[1]);
 
     setAppointment({
-      subject: "test",
-      participantIds: [userId, doctorId],
-      startTimestamp: startTime.toISOString(),
-      endTimestamp: endTime.toISOString()
-    }
-    );
+      StartDate: startTime.toISOString(),
+      EndDate: endTime.toISOString(),
+      added: [
+        {
+          subject: subject,
+          participantIds: [userId, doctorId],
+          startTimestamp: startTime.toISOString(),
+          endTimestamp: endTime.toISOString(),
+        },
+      ],
+      changed: [],
+      deleted: [],
+    });
   };
 
   const handleCreateAppointment = () => {
@@ -114,13 +126,11 @@ function DoctorSchedule({ doctorId, returnBack, userId }) {
       </Button>
       <Grid container direction="row" spacing={2}>
         <Grid item xs={5}>
-          <Typography variant="h5">Pick a date</Typography>
-          <Calendar
-            onClickDay={(value) => handleDayClick(value)}
-          />
+          <Typography variant="h5">1. Pick a day</Typography>
+          <Calendar onClickDay={(value) => handleDayClick(value)} />
         </Grid>
-        <Grid item xs={2}>
-          <Typography variant="h5">Pick a time</Typography>
+        <Grid item xs={3}>
+          <Typography variant="h5">2. Pick a time</Typography>
           <Grid
             container
             direction="column"
@@ -133,7 +143,8 @@ function DoctorSchedule({ doctorId, returnBack, userId }) {
               times.map((time) => (
                 <ListItem
                   button
-                  className={classes.timeCard}
+                  className={`${selectedTime === time && classes.selectedTime} 
+                    ${classes.timeCard}`}
                   key={time}
                   onClick={() => handleTimeClick(time)}
                 >
@@ -142,15 +153,27 @@ function DoctorSchedule({ doctorId, returnBack, userId }) {
               ))
             )}
           </Grid>
-          {showTime && (
-            <Button
-              className={classes.button}
-              disabled={!appointment}
-              onClick={() => handleCreateAppointment()}
-            >
-              Submit
-            </Button>
-          )}
+        </Grid>
+        <Grid item xs={3}>
+          <Typography variant="h5">3. Add a subject</Typography>
+          <TextField
+            fullWidth
+            variant="outlined"
+            placeholder="Subject"
+            required
+            color="secondary"
+            value={subject}
+            onChange={(event) => setSubject(event.target.value)}
+            className={classes.textField}
+          />
+          <Button
+            className={classes.button}
+            disabled={!appointment || !subject}
+            fullWidth
+            onClick={() => handleCreateAppointment()}
+          >
+            Submit
+          </Button>
         </Grid>
       </Grid>
     </>

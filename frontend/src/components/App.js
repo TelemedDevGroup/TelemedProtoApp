@@ -17,16 +17,16 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
 
 const theme = createMuiTheme({
-  // palette: {
-  //   background: {
-  //     default: '#FCFEFE',
-  //   },
-  // },
+  palette: {
+    secondary: {
+      main: '#00B5AD',
+    },
+  },
 });
 
 const App = () => (
   <MuiThemeProvider theme={theme}>
-       {/* <CssBaseline /> */}
+    <CssBaseline />
     <Routes />
   </MuiThemeProvider>
 );
