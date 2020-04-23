@@ -2,17 +2,10 @@ import React, { useState, useEffect } from 'react';
 import FilterDoctors from './FilterDoctors';
 import { createRoom } from '../../services/ChatRequests';
 
-import {
-  Grid,
-  Typography,
-  Paper,
-  Link,
-  Button,
-} from '@material-ui/core';
+import { Grid, Typography, Paper, Link, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import TEST_ACCOUNTS from '../../mocks/test_users';
 import DoctorSchedule from './DoctorSchedule';
-// import ChatsGroup from '../Chat/ChatsGroup';
+import { getDoctorsList } from '../../services/VisitsRequest';
 
 const useStyles = makeStyles({
   paper: {
@@ -45,26 +38,22 @@ const useStyles = makeStyles({
   },
 });
 
-const sendMessageToDoctor = (doctorId) => {
-  //TODO replace hardcoded
-  doctorId = "27e2aa19-76a1-248d-b42a-ed5f7da5a11b";
-  const requestData = [doctorId.toString()];
-  
-  createRoom(requestData)
-};
+// const sendMessageToDoctor = (doctorId) => {
+//   const requestData = [doctorId];
+
+//   createRoom(requestData);
+// };
 
 const DoctorCard = (props) => {
-  const { id, name, location } = props.props;
+  const { id, name } = props.props;
   const classes = useStyles();
 
   return (
     <Paper className={classes.paper}>
-      <Typography variant="h6">
-        {name}, <span className={classes.location}>{location}</span>
-      </Typography>
-      <Link variant="button" className={classes.doctorInfo}>
+      <Typography variant="h6">{name}</Typography>
+      {/* <Link variant="button" className={classes.doctorInfo}>
         View profile
-      </Link>
+      </Link> */}
 
       <Typography>
         Doctors, also known as Physicians, are licensed health professionals who
@@ -72,12 +61,9 @@ const DoctorCard = (props) => {
       </Typography>
 
       <Grid container justify="flex-end">
-        <Button
-          className={classes.button}
-          onClick={() => props.openDialogs()}
-        >
+        {/* <Button className={classes.button} onClick={() => props.openDialogs()}>
           Send message
-        </Button>
+        </Button> */}
         <Button className={classes.button} onClick={() => props.onClick(id)}>
           Schedule visit
         </Button>
@@ -86,18 +72,15 @@ const DoctorCard = (props) => {
   );
 };
 
-const DoctorsList = ({props}) => {
+const DoctorsList = (props) => {
   const [doctorsList, setDoctorsList] = useState([]);
   const [isScheduleShow, setIsShown] = useState({
     isShow: false,
     doctorId: null,
   });
-  
+
   useEffect(() => {
-    const getUsers = TEST_ACCOUNTS.all();
-    const getDoctors =
-      getUsers && getUsers.filter((user) => user.user_type === 'Doctor');
-    getDoctors && setDoctorsList(getDoctors);
+    getDoctorsList().then((response) => setDoctorsList(response));
   }, []);
 
   const showCalendar = (id) => {
@@ -106,14 +89,16 @@ const DoctorsList = ({props}) => {
   const hideCalendar = () => {
     setIsShown({ isShow: false, doctorId: null });
   };
-  const openDialogs = () => null
-
+  const openDialogs = () => null;
+  
+  const userId = props.props.location.state.currentUser.id
   return (
     <div>
       {isScheduleShow.isShow ? (
         <DoctorSchedule
           doctorId={isScheduleShow.doctorId}
           returnBack={hideCalendar}
+          userId={userId}
         />
       ) : (
         <>

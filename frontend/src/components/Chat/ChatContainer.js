@@ -171,6 +171,7 @@ const ChatContainer = ({ chatsData, participants, currentUser, onClick, markRoom
               fullWidth
               id="message_input"
               variant="outlined"
+              color="secondary"
               placeholder="Input your message..."
               value={inputData}
               onKeyPress={(event) => {
