@@ -36,3 +36,4 @@ build/
 !.elasticbeanstalk/*.global.yml
 
 /frontend/.env.development
+/src/main/resources/application-local.yml

@@ -90,8 +90,12 @@ const DoctorAvailabilityCalendar = ({currentUserId}) => {
     }, []);
 
     return (
-        <ScheduleComponent height={vh(80)} ref={scheduleObj} eventSettings={{dataSource: data}}
-                           actionBegin={actionBegin} created={onCreated}>
+        <ScheduleComponent height={vh(50)}
+                           ref={scheduleObj}
+                           eventSettings={{dataSource: data, fields: {subject: {default: 'Availability'}}}}
+                           actionBegin={actionBegin}
+                           created={onCreated}
+        >
             <Inject services={[Day, Week, WorkWeek, Month, Agenda]}/>
         </ScheduleComponent>
     );
