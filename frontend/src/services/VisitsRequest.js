@@ -25,6 +25,17 @@ const request = (options) => {
   );
 };
 
+export function getDoctorsList() {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    return Promise.reject("No access token set.");
+  }
+
+  return request({
+    url: API_BASE_URL + "/api/user/doctors",
+    method: "GET",
+  });
+}
+
 export function getDrAppointments(doctorId) {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     return Promise.reject("No access token set.");

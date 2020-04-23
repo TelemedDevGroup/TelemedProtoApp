@@ -6,15 +6,6 @@ import {
   makeStyles,
   ListItem,
 } from '@material-ui/core';
-// import {
-//   ScheduleComponent,
-//   WorkWeek,
-//   Week,
-//   Month,
-//   Inject,
-//   Agenda,
-//   MonthAgenda,
-// } from '@syncfusion/ej2-react-schedule';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import ArrowBack from '@material-ui/icons/ArrowBack';
@@ -36,25 +27,31 @@ const useStyles = makeStyles({
   },
 });
 
-const mockTimes = ['09:00', '10:00', '11:30', '12:00', '14:00', '16:00'];
+const mockTimes = ['10:00', '11:30', '12:00', '14:00', '15:00', '16:00', '17:00','18:00'];
 
 function DoctorSchedule({ doctorId, returnBack }) {
   const classes = useStyles();
 
-  const [doctorSchedule, setSchedule] = useState();
-  const [timeOnPickedDay, setPickedDay] = useState([]);
+  const [doctorSchedule, setSchedule] = useState([]);
+  const [timeOnPickedDay, setPickedDay] = useState();
   useEffect(() => {
-    doctorId = 'b1d4ca09-1cdf-2481-ba41-f4daa7dc156f';
-    // getDrAppointments(doctorId).then((result) => setSchedule(result));
+    getDrAppointments(doctorId).then((result) =>
+      setSchedule(
+        result.map((time) => [new Date(time.StartTime), new Date(time.EndTime)])
+      )
+    );
   }, []);
 
-  const handleDayClick = (value) => {
-    setPickedDay(mockTimes);
+  const handleDayClick = (value) => {    
+    setPickedDay(value);
   };
 
   const handleTimeClick = (time) => {
-   console.log(time);
-   
+    const parseTime = time.split(":")
+    const pickedTime = timeOnPickedDay
+    pickedTime.setHours(parseTime[0])
+    pickedTime.setMinutes(parseTime[1])
+    console.log(new Date(pickedTime));
   };
 
   return (
@@ -71,10 +68,10 @@ function DoctorSchedule({ doctorId, returnBack }) {
       <Grid container direction="row" spacing={4}>
         <Grid item xs={5}>
           <Typography variant="h5">Pick a date</Typography>
-          {/* <ScheduleComponent currentView="Month">
-            <Inject services={[WorkWeek, Week, Month, Agenda, MonthAgenda]} />
-          </ScheduleComponent> */}
-          <Calendar onClickDay={(value) => handleDayClick(value)} />
+          <Calendar
+            onClickDay={(value) => handleDayClick(value)}
+            // defaultValue={doctorSchedule.length && doctorSchedule}
+          />
         </Grid>
         <Grid item xs={3}>
           <Typography variant="h5">Pick a time</Typography>
@@ -84,11 +81,16 @@ function DoctorSchedule({ doctorId, returnBack }) {
             wrap="nowrap"
             className={classes.timesContainer}
           >
-            {!timeOnPickedDay.length ? (
+            {!mockTimes.length ? (
               <p>No times found</p>
             ) : (
-              timeOnPickedDay.map((time) => (
-                <ListItem button className={classes.timeCard} key={time} onClick={() => handleTimeClick(time)}>
+              mockTimes.map((time) => (
+                <ListItem
+                  button
+                  className={classes.timeCard}
+                  key={time}
+                  onClick={() => handleTimeClick(time)}
+                >
                   {time}
                 </ListItem>
               ))
