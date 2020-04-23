@@ -76,7 +76,7 @@ function DoctorSchedule({ doctorId, returnBack, userId }) {
   const [timeOnPickedDay, setPickedDay] = useState();
   const [selectedTime, setSelTime] = useState(null);
   const [subject, setSubject] = useState('');
-  const [appointment, setAppointment] = useState(null);
+  const [timeRange, setTimeRange] = useState([]);
 
   const handleDayClick = (value) => {
     setPickedDay(value);
@@ -92,25 +92,28 @@ function DoctorSchedule({ doctorId, returnBack, userId }) {
     startTime.setMinutes(parseTime[1]);
     endTime.setHours(+parseTime[0] + 1);
     endTime.setMinutes(parseTime[1]);
+    setTimeRange([startTime.toISOString(), endTime.toISOString()]);
+  };
 
-    setAppointment({
-      StartDate: startTime.toISOString(),
-      EndDate: endTime.toISOString(),
+  const handleCreateAppointment = () => {
+    createAppointment({
+      StartDate: timeRange[0],
+      EndDate: timeRange[1],
       added: [
         {
           subject: subject,
           participantIds: [userId, doctorId],
-          startTimestamp: startTime.toISOString(),
-          endTimestamp: endTime.toISOString(),
+          startTimestamp: timeRange[0],
+          endTimestamp: timeRange[1],
         },
       ],
       changed: [],
       deleted: [],
+    }).then((res) => {
+      setSubject('');
+      setSelTime(null);
+      alert('Event created!');
     });
-  };
-
-  const handleCreateAppointment = () => {
-    appointment && createAppointment(appointment);
   };
 
   return (
@@ -168,7 +171,7 @@ function DoctorSchedule({ doctorId, returnBack, userId }) {
           />
           <Button
             className={classes.button}
-            disabled={!appointment || !subject}
+            disabled={!selectedTime || !subject}
             fullWidth
             onClick={() => handleCreateAppointment()}
           >
