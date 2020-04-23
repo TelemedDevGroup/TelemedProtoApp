@@ -33,6 +33,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public Collection<UserDTO> getAvailableUsers(UUID userId) {
-        return userRepository.findByIdNot(userId).map(userMapper::mapDto).collect(Collectors.toSet());
+        return userRepository.findAllBy().map(userMapper::mapDto).collect(Collectors.toSet());
     }
 }

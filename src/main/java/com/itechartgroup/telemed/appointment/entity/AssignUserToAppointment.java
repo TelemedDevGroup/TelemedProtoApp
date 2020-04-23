@@ -1,7 +1,9 @@
 package com.itechartgroup.telemed.appointment.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -17,6 +19,8 @@ import java.util.UUID;
 @Table(name = "assign_user_to_appointment")
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AssignUserToAppointment {
 
     @Id
