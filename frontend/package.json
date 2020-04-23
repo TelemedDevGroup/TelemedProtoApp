@@ -8,8 +8,10 @@
   "dependencies": {
     "@material-ui/core": "^4.9.9",
     "@material-ui/icons": "^4.9.1",
-    "@syncfusion/ej2-react-schedule": "^17.4.55",
+    "@syncfusion/ej2-react-schedule": "^18.1.45",
     "@syncfusion/ej2-data": "^18.1.43",
+    "@syncfusion/ej2-base": "^18.1.44",
+    "@syncfusion/ej2-dropdowns": "^18.1.45",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",

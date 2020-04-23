@@ -71,7 +71,7 @@ public class AppointmentController {
 
     private ResponseEntity<AppointmentDTO> processUpdateAppointment(final UserPrincipal currentUser, List<AppointmentDTO> lst) {
         AppointmentDTO dto = lst.get(0);
-        return new ResponseEntity<>(appointmentService.saveAppointment(currentUser.getId(), dto), HttpStatus.OK);
+        return new ResponseEntity<>(appointmentService.updateAppointment(currentUser.getId(), dto), HttpStatus.OK);
     }
 
     private ResponseEntity<AppointmentDTO> processDeleteAppointment(List<AppointmentDTO> lst) {
