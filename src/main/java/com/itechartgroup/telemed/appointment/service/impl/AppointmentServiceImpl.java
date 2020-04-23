@@ -50,8 +50,28 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public AppointmentDTO updateAppointment(UUID ownerId, AppointmentDTO dto) {
+        Set<UUID> participantIds = dto.getParticipantIds();
+        if (participantIds == null) {
+            participantIds = new HashSet<>(1);
+        }
+        participantIds.add(ownerId);
+        UUID appointmentId = dto.getId();
+        Appointment entity = appointmentMapper.map(dto);
+        appointmentRepository.deleteById(appointmentId);
+        appointmentRepository.save(entity);
+
+        userToAppointmentRepository.removeAllByAppointmentId(appointmentId);
+        saveAppointmentParticipants(ownerId, entity, participantIds);
+        return appointmentMapper.mapDto(entity);
+    }
+
+    @Override
     public AppointmentDTO saveAppointment(UUID ownerId, AppointmentDTO dto) {
         Set<UUID> participantIds = dto.getParticipantIds();
+        if (participantIds == null) {
+            participantIds = new HashSet<>(1);
+        }
         participantIds.add(ownerId);
         Appointment entity = appointmentMapper.map(dto);
         appointmentRepository.save(entity);
@@ -81,10 +101,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    @Transactional
     public AppointmentDTO deleteAppointment(AppointmentDTO dto) {
         Set<UUID> participantIds = dto.getParticipantIds();
         UUID appointmentId = dto.getId();
-        userToAppointmentRepository.removeParticipants(participantIds, appointmentId);
+        userToAppointmentRepository.removeParticipants(appointmentId, participantIds);
         appointmentRepository.deleteById(dto.getId());
         return dto;
     }

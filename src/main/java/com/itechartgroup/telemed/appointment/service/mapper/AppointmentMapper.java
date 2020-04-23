@@ -22,6 +22,7 @@ public class AppointmentMapper {
     public AppointmentDTO mapDto(Appointment appointment) {
 
         AppointmentDTO dto = AppointmentDTO.builder()
+                .id(appointment.getId())
                 .subject(appointment.getSubject())
                 .startTimestamp(appointment.getStartTimestamp())
                 .endTimestamp(appointment.getEndTimestamp())
