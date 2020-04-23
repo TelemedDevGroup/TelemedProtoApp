@@ -59,13 +59,15 @@ class Calendar extends React.Component {
 
         console.log(args);
 
+        // TODO: validation is required - tot null, no appointments of the user at specified time
         let multiSelect = new MultiSelect ({
           dataSource: this.userDataManager,
           fields: this.userFields,
           sortOrder: 'Ascending',
           value: args.data.participantIds,
           floatLabelType: 'Always',
-          placeholder:'Select Participants'
+          placeholder:'Select Participants',
+          mode: 'Default'
         });
 
         multiSelect.appendTo(inputEle);
@@ -80,13 +82,13 @@ class Calendar extends React.Component {
         height={vh(70)}
         eventSettings={{ dataSource: this.appointmentDataManager,
         fields: {
-          id: 'appointment_id',
-          subject: { name: 'subject' },
+          id: 'id',
+          subject: { name: 'subject', validation: {required: true} },
           isAllDay: { name: 'isAllDay' },
           location: { name: 'location' },
           description: { name: 'description' },
-          startTime: { name: 'startTimestamp' },
-          endTime: { name: 'endTimestamp' },
+          startTime: { name: 'startTimestamp', validation: {required: true} },
+          endTime: { name: 'endTimestamp', validation: {required: true} },
           participants: {name: 'participants'},
           participantIds: {name: 'participantIds'}
         }}}

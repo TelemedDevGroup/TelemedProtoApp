@@ -29,4 +29,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     Stream<User> getAvailableDoctors(@Param("userId") UUID userId);
 
     Stream<User> findByIdNot(@Param("userId") UUID userId);
+
+    Stream<User> findAllBy();
 }

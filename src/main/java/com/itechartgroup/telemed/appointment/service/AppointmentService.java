@@ -12,6 +12,8 @@ public interface AppointmentService {
 
     Collection<AppointmentDTO> getByDateRange(UUID userId, AppointmentReadParamsDTO readParams);
 
+    AppointmentDTO updateAppointment(UUID userId, AppointmentDTO appointment);
+
     AppointmentDTO saveAppointment(UUID userId, AppointmentDTO appointment);
 
     AppointmentDTO deleteAppointment(AppointmentDTO appointment);
