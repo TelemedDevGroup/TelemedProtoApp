@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { Button, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
@@ -64,7 +64,7 @@ const ChatContainer = ({ chatsData, participants, currentUser, onClick, markRoom
   let [token, setToken] = useState('');
   const classes = useStyles();
 
-  let dialogContainer;
+  let dialogContainer = useRef(null);
 
   const startVideoCall = (token) => {
     setToken(token);
@@ -83,7 +83,7 @@ const ChatContainer = ({ chatsData, participants, currentUser, onClick, markRoom
   };
 
   const scrollToBottom = () => {
-    dialogContainer && dialogContainer.scrollTo(0, dialogContainer.scrollHeight);
+    dialogContainer.current && dialogContainer.current.scrollTo(0, dialogContainer.current.scrollHeight);
     chatsData && chatsData.length && markRoomAsRead(chatsData[chatsData.length -1].room);
   }
 
