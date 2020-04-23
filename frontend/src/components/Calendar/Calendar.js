@@ -79,7 +79,7 @@ class Calendar extends React.Component {
   render() {
     return (
       <ScheduleComponent
-        height='100%'
+        height={vh(50)}
         eventSettings={{ dataSource: this.appointmentDataManager,
         fields: {
           id: 'id',

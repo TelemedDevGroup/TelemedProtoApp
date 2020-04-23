@@ -90,7 +90,7 @@ const DoctorAvailabilityCalendar = ({currentUserId}) => {
     }, []);
 
     return (
-        <ScheduleComponent height='100%'
+        <ScheduleComponent height={vh(50)}
                            ref={scheduleObj}
                            eventSettings={{dataSource: data, fields: {subject: {default: 'Availability'}}}}
                            actionBegin={actionBegin}
