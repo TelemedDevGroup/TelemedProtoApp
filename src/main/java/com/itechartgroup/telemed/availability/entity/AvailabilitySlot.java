@@ -28,6 +28,8 @@ public class AvailabilitySlot {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private String subject;
+
     @Column(name = "start_timestamp", nullable = false)
     private ZonedDateTime start;
 

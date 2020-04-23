@@ -13,10 +13,13 @@ import java.time.ZonedDateTime;
 public class AvailabilitySlotDTO {
 
     private final String id;
+    @JsonProperty("Subject")
+    private final String subject;
     @JsonProperty("StartTime")
     private final ZonedDateTime start;
     @JsonProperty("EndTime")
     private final ZonedDateTime end;
+    @JsonProperty("RecurrenceRule")
     private final String recurrenceRule;
 
 }

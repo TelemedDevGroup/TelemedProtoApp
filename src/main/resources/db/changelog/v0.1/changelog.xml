@@ -16,5 +16,6 @@
     <include file="db/changelog/v0.1/04.14.2020-Chat_Test_Data.sql"/>
     <include file="db/changelog/v0.1/04.15.2020-Add_Appointment_Test_Data.sql"/>
     <include file="db/changelog/v0.1/04.20.2020-Add_Availability_Test_Data.sql"/>
+    <include file="db/changelog/v0.1/04.23.2020-Add_Availability_Slot_Subject.sql"/>
 
 </databaseChangeLog>
