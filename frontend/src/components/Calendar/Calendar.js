@@ -42,10 +42,7 @@ class Calendar extends React.Component {
   }
 
   onPopupOpen(args) {
-    if (args.type === 'QuickInfo') {
-        args.cancel = true;
-    }
-    else if (args.type === 'Editor') {
+    if (args.type === 'Editor') {
       if (!args.element.querySelector('.custom-field-row')) {
         let row = createElement('div', { className: 'custom-field-row' });
         let formElement = args.element.querySelector('.e-schedule-form');
