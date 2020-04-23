@@ -42,6 +42,13 @@ export function getRoom(roomId) {
   });
 }
 
+export function readRoom(roomId) {
+  return request({
+    url: API_BASE_URL + `/api/chat/room/${roomId}`,
+    method: 'POST'
+  });
+}
+
 export function sendMessageRoom(messageData) {
   return request({
     url: API_BASE_URL + "/api/chat/message",
