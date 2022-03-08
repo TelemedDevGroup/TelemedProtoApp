@@ -18,7 +18,7 @@
 		<java.version>8</java.version>
 		<twilio.version>7.48.0</twilio.version>
 		<jjwt.version>0.5.1</jjwt.version>
-		<liquibase.version>3.8.8</liquibase.version>
+		<liquibase.version>4.8.0</liquibase.version>
 	</properties>
 
 	<dependencies>
